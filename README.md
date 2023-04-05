@@ -4,7 +4,7 @@ This is the description of our amazing project. He does amazing things and will 
 
 # Installation
 
-1. To install this project, simply clone the repository with the command `git clone` + SSH.
+1. To install this project, simply clone the repository with the command `git clone` + `SSH`.
 2. We create two terminals: First: For the root folder.
    Second: For client folder.
 3. Run the command `npm install` in each terminal.
@@ -17,10 +17,16 @@ click...click...click...
 
 # Team and implemented functionality by each member
 
-1. # Oleksenko Oleksiy
-   Implemented functionality:
-   1.
-2. # Maksim Lazarenko
-   Implemented functionality:
-   1.
-3. .....
+# 1. Oleksenko Oleksiy
+
+Implemented functionality:
+
+1.
+
+# 2. Maksim Lazarenko
+
+Implemented functionality:
+
+1.
+
+# 3. .....
