@@ -1,0 +1,38 @@
+.marquee {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  background-color: #616161;
+}
+
+.marquee_line_R {
+  display: flex;
+  animation: marqueeRight 40s linear infinite;
+}
+
+.marquee_line_L {
+  display: flex;
+  animation: marqueeLeft 40s linear infinite;
+}
+.marquee_content {
+  width: 300px;
+  margin-left: 500px;
+}
+
+@keyframes marqueeLeft {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes marqueeRight {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}

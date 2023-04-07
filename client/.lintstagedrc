@@ -1,1 +1,4 @@
-{ "*.js": ["prettier --write", "eslint --color"] }
+{
+  "*.js": ["prettier --write", "eslint --color"],
+  "*.jsx": ["prettier --write", "eslint --color"]
+}

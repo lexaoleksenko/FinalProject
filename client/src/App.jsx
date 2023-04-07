@@ -1,19 +1,20 @@
-// import React from 'react';
-// import Container from "@mui/material/Container";
+import React from 'react';
+// import Container from '@mui/material/Container';
 // import { Routes, Route } from "react-router-dom";
-// import { Routes, Route } from "react-router-dom";
+import Navbar from './components/Smart/Navbar/Navbar';
+import MainSlider from './components/Smart/MainSlider/MainSlider';
+import Marquee from './components/Simple/Marquee/Marquee';
 
-// function App() {
-//   return (
-//     <>
-//       <Header />
-//       <Container maxWidth="lg">
-//         <Routes>
-//           <Route path="/" element={}/>
-//         </Routes>
-//       </Container>
-//     </>
-//   );
-// }
+function App() {
+  return (
+    <>
+      <Navbar />
+      <Marquee />
+      <MainSlider />
+      <Marquee stream="right" />
+      {/* <Container maxWidth="lg"></Container> */}
+    </>
+  );
+}
 
-// export default App;
+export default App;

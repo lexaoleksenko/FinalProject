@@ -1,0 +1,27 @@
+.slick_slider {
+  position: relative;
+  display: block;
+  background-color: #f7f7f7;
+
+  .slick_slide {
+    display: none;
+    float: left;
+    width: 80%;
+    min-height: 1px;
+    outline: none;
+    position: relative;
+    margin-left: 0px;
+    margin-right: 0px;
+
+    > img {
+      margin-left: auto;
+      margin-right: auto;
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  .slick_active {
+    display: block;
+  }
+}
