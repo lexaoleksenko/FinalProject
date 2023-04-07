@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import ButtonNav from '../../UI/Buttons/ButtonNav/ButtonNav';
 
 import style from './NavLinks.module.scss';
 
@@ -7,16 +8,16 @@ function NavLinks() {
   return (
     <div className={style.root}>
       <NavLink to="/" className={style.link}>
-        Home
+        <ButtonNav label="Home" />
       </NavLink>
       <NavLink to="/" className={style.link}>
-        All goods
+        <ButtonNav label="All goods" />
       </NavLink>
       <NavLink to="/" className={style.link}>
-        About Us
+        <ButtonNav label="About us" />
       </NavLink>
       <NavLink to="/" className={style.link}>
-        Contact
+        <ButtonNav label="Contact" />
       </NavLink>
     </div>
   );

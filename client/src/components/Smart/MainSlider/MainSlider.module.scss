@@ -2,6 +2,7 @@
   position: relative;
   display: block;
   background-color: #f7f7f7;
+  max-width: 100%;
 
   .slick_slide {
     display: none;
@@ -20,8 +21,47 @@
       width: 100%;
     }
   }
+}
 
-  .slick_active {
-    display: block;
+.slick-dots {
+  display: block;
+  text-align: center;
+  margin-bottom: 20px;
+  padding: 0;
+  list-style: none;
+
+  [class='slick-active'] button {
+    background-color: #00000080;
+    transition: 1s;
   }
+}
+
+.slick-dots li {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin: 0 5px;
+  padding: 0;
+}
+
+.slick-dots button {
+  border: 0px;
+  background-color: #00000020;
+  text-indent: -9999px;
+  width: 100%;
+  height: 100%;
+  border-radius: 100px;
+  cursor: pointer;
+}
+
+.slick-dots button:hover {
+  border: 0px;
+  background-color: #00000080;
+  transition: 0.4s;
+}
+
+.slick-dots button:active {
+  background-color: #000000;
+  transition: 0.2s;
 }

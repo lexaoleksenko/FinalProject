@@ -3,9 +3,10 @@ import { AppBar, Toolbar, Typography } from '@mui/material';
 
 import style from './Navbar.module.scss';
 
-import Logo from '../../Simple/Logo/Logo';
+import Logo from '../../UI/Logo/Logo';
 import NavLinks from '../../Simple/NavLinks/NavLinks';
 import NavIcon from '../../Simple/NavIcon/NavIcon';
+import InputNav from '../../Ordinary/InputNav/InputNav';
 
 function Navbar() {
   return (
@@ -15,7 +16,8 @@ function Navbar() {
           <Logo />
         </Typography>
         <NavLinks />
-        <NavIcon />
+        <InputNav />
+        <NavIcon favCount={12} cartCount={8} nameAvatar="Artur Tech" />
       </Toolbar>
     </AppBar>
   );

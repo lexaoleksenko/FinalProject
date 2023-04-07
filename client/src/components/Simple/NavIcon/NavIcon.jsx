@@ -6,37 +6,50 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import IconButton from '@mui/material/IconButton';
 import { Badge } from '@mui/material';
 
+import AvatarUser from '../../UI/Avatar/AvatapUser';
+
 import style from './NavIcon.module.scss';
 
-function NavIcon({ cartCount, favCount }) {
+function NavIcon({ cartCount, favCount, nameAvatar, avatarSrc }) {
   return (
     <div className={style.root}>
-      <NavLink className={style.link}>
-        <IconButton>
-          <Badge badgeContent={cartCount} className={style.badge}>
-            <ShoppingCartIcon className={style.icon} />
-          </Badge>
-        </IconButton>
-      </NavLink>
-      <NavLink className={style.link}>
-        <IconButton>
-          <Badge badgeContent={favCount} className={style.badge}>
-            <FavoriteIcon className={style.icon} />
-          </Badge>
-        </IconButton>
-      </NavLink>
+      <div className={style.containerIcon}>
+        <NavLink className={style.link}>
+          <IconButton>
+            <Badge badgeContent={cartCount} className={style.badge}>
+              <ShoppingCartIcon className={style.icon} />
+            </Badge>
+          </IconButton>
+        </NavLink>
+        <NavLink className={style.link}>
+          <IconButton>
+            <Badge badgeContent={favCount} className={style.badge}>
+              <FavoriteIcon className={style.icon} />
+            </Badge>
+          </IconButton>
+        </NavLink>
+      </div>
+      <div className={style.containerAvatar}>
+        <NavLink className={style.link}>
+          <AvatarUser nameAvatar={nameAvatar} avatarSrc={avatarSrc} />
+        </NavLink>
+      </div>
     </div>
   );
 }
 
 NavIcon.defaultProps = {
+  avatarSrc: '#',
   cartCount: 666,
   favCount: 999,
+  nameAvatar: 'Jhon Dou',
 };
 
 NavIcon.propTypes = {
+  avatarSrc: PropTypes.string,
   cartCount: PropTypes.number,
   favCount: PropTypes.number,
+  nameAvatar: PropTypes.string,
 };
 
 export default NavIcon;

@@ -6,17 +6,20 @@ import 'slick-carousel/slick/slick-theme.css';
 import style from './MainSlider.module.scss';
 
 function MainSlider() {
+  const dotsDisabled = true;
+
   return (
     <Slider
-      dots="true"
+      dots={dotsDisabled}
       infinite="true"
       speed={1000}
       slidesToShow={2}
       slidesToScroll={1}
       autoplay="true"
       autoplaySpeed={5000}
-      arrows="true"
+      arrows={false}
       className={style.slick_slider}
+      dotsClass={style['slick-dots']}
     >
       <div className={style.slick_slide}>
         <img src="/iphon1.jpg" alt="2" />
