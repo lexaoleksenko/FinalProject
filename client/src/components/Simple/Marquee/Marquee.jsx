@@ -12,24 +12,24 @@ function Marquee({ content, stream }) {
         }
       >
         <div className={style.marquee_content}>
-          {content}
-          {content}
-          {content}
+          <span>{content}</span>
+          <span>{content}</span>
+          <span>{content}</span>
         </div>
         <div className={style.marquee_content}>
-          {content}
-          {content}
-          {content}
+          <span>{content}</span>
+          <span>{content}</span>
+          <span>{content}</span>
         </div>
         <div className={style.marquee_content}>
-          {content}
-          {content}
-          {content}
+          <span>{content}</span>
+          <span>{content}</span>
+          <span>{content}</span>
         </div>
         <div className={style.marquee_content}>
-          {content}
-          {content}
-          {content}
+          <span>{content}</span>
+          <span>{content}</span>
+          <span>{content}</span>
         </div>
       </div>
     </div>

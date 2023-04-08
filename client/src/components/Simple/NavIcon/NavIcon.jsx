@@ -10,7 +10,7 @@ import AvatarUser from '../../UI/Avatar/AvatapUser';
 
 import style from './NavIcon.module.scss';
 
-function NavIcon({ cartCount, favCount, nameAvatar, avatarSrc }) {
+function NavIcon({ cartCount, favCount, nameAvatar, avatarSrc, isAuth }) {
   return (
     <div className={style.root}>
       <div className={style.containerIcon}>
@@ -30,8 +30,12 @@ function NavIcon({ cartCount, favCount, nameAvatar, avatarSrc }) {
         </NavLink>
       </div>
       <div className={style.containerAvatar}>
-        <NavLink className={style.link}>
-          <AvatarUser nameAvatar={nameAvatar} avatarSrc={avatarSrc} />
+        <NavLink to={isAuth ? '/' : '/'} className={style.link}>
+          <AvatarUser
+            nameAvatar={nameAvatar}
+            avatarSrc={avatarSrc}
+            isAuth={isAuth}
+          />
         </NavLink>
       </div>
     </div>
@@ -43,6 +47,7 @@ NavIcon.defaultProps = {
   cartCount: 666,
   favCount: 999,
   nameAvatar: 'Jhon Dou',
+  isAuth: false,
 };
 
 NavIcon.propTypes = {
@@ -50,6 +55,7 @@ NavIcon.propTypes = {
   cartCount: PropTypes.number,
   favCount: PropTypes.number,
   nameAvatar: PropTypes.string,
+  isAuth: PropTypes.bool,
 };
 
 export default NavIcon;

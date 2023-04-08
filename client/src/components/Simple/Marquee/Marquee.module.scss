@@ -20,9 +20,12 @@
   width: 500px;
   margin-left: 500px;
   font-family: 'Montserrat', sans-serif;
-  font-weight: 300;
+  font-weight: 800;
   color: #ffffff;
   text-transform: uppercase;
+  span {
+    margin-right: 10px;
+  }
 }
 
 @keyframes marqueeLeft {

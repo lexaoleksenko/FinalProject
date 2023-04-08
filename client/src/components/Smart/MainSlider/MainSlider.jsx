@@ -1,4 +1,4 @@
-import React from 'react';
+import { React } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -18,26 +18,27 @@ function MainSlider() {
       autoplay="true"
       autoplaySpeed={5000}
       arrows={false}
+      // beforeChange={beforeSlideChange}
       className={style.slick_slider}
       dotsClass={style['slick-dots']}
     >
       <div className={style.slick_slide}>
-        <img src="/iphon1.jpg" alt="2" />
+        <img src="/Slide1.jpg" alt="2" />
       </div>
       <div className={style.slick_slide}>
-        <img src="/iphon2.jpg" alt="2" />
+        <img src="/Slide2.jpg" alt="2" />
       </div>
       <div className={style.slick_slide}>
-        <img src="/iphon3.jpg" alt="2" />
+        <img src="/Slide3.jpg" alt="2" />
       </div>
       <div className={style.slick_slide}>
-        <img src="/iphon4.jpg" alt="2" />
+        <img src="/Slide4.jpg" alt="2" />
       </div>
       <div className={style.slick_slide}>
-        <img src="/iphon5.jpg" alt="2" />
+        <img src="/Slide5.jpg" alt="2" />
       </div>
       <div className={style.slick_slide}>
-        <img src="/iphon6.jpg" alt="2" />
+        <img src="/Slide6.jpg" alt="2" />
       </div>
     </Slider>
   );

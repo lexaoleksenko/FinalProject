@@ -17,7 +17,12 @@ function Navbar() {
         </Typography>
         <NavLinks />
         <InputNav />
-        <NavIcon favCount={12} cartCount={8} nameAvatar="Artur Tech" />
+        <NavIcon
+          favCount={12}
+          cartCount={8}
+          nameAvatar="Artur Tech"
+          isAuth={false}
+        />
       </Toolbar>
     </AppBar>
   );
