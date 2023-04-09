@@ -9,5 +9,4 @@
 //   newConfig.headers.Authorization = window.localStorage.getItem('token');
 //   return newConfig;
 // });
-
 // export default instance;
