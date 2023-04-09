@@ -3,8 +3,6 @@ import { Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import CloseIcon from '@mui/icons-material/Close';
 
-import styles from './ButtonCancel.module.scss';
-
 function ButtonCancel({ onClick, style }) {
   return (
     <Button
@@ -12,7 +10,6 @@ function ButtonCancel({ onClick, style }) {
       color="buttonCancel"
       onClick={onClick}
       disabled={false}
-      className={styles.buttonCancel}
       style={{
         minWidth: 30,
         borderRadius: 2,

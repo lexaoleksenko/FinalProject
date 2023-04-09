@@ -1,0 +1,54 @@
+.specialOfferSec {
+  min-width: 100%;
+  height: 500px;
+  background-color: #000000;
+  overflow: hidden;
+  text-align: center;
+}
+h2 {
+  color: #ffffff;
+  font-family: 'montserrat', sans-serif;
+  font-weight: 300;
+  font-size: 25px;
+  margin-top: 5px;
+  margin-bottom: 0px;
+}
+
+h3 {
+  color: #ffffff;
+  font-family: 'montserrat', sans-serif;
+  font-weight: 300;
+  font-size: 35px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  span {
+    font-weight: 500;
+  }
+}
+
+.specialBcgr {
+  width: 100%;
+  height: 320px;
+  background-image: url('../../../../public/specialBcgr.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-top: 10px;
+}
+
+.visibleSpecialBcgr {
+  animation: crawl 2s linear;
+}
+
+@keyframes crawl {
+  0% {
+    transform: translateY(100%) scale(2);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+.link {
+  text-decoration: none;
+}

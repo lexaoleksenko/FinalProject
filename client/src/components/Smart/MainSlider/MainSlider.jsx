@@ -12,13 +12,12 @@ function MainSlider() {
     <Slider
       dots={dotsDisabled}
       infinite="true"
-      speed={1000}
+      speed={2000}
       slidesToShow={2}
       slidesToScroll={1}
       autoplay="true"
       autoplaySpeed={5000}
       arrows={false}
-      // beforeChange={beforeSlideChange}
       className={style.slick_slider}
       dotsClass={style['slick-dots']}
     >

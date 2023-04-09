@@ -1,0 +1,46 @@
+.root {
+  height: 200px;
+  background-color: #000000;
+  margin-bottom: 0px;
+  display: flex;
+}
+
+.logo {
+  width: 150px;
+  height: 150px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.txt {
+  width: 1000px;
+  margin: auto;
+  color: #ffffff;
+  font-family: 'montserrat', sans-serif;
+  font-weight: 100;
+  font-size: 20px;
+  p {
+    span {
+      font-weight: 300;
+    }
+  }
+}
+.icons {
+  margin-left: auto;
+  margin-right: 30px;
+
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.address {
+  font-family: 'montserrat', sans-serif;
+  color: #ffffff;
+  margin-right: 20px;
+  margin-top: auto;
+  margin-bottom: auto;
+  p {
+    margin-bottom: 0px;
+    margin-top: 5px;
+  }
+}

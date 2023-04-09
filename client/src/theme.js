@@ -42,7 +42,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: 'Roboto',
+    fontFamily: 'montserrat',
     h1: {
       fontSize: '45px',
       fontWeight: 700,

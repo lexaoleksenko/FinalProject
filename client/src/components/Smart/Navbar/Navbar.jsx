@@ -6,7 +6,7 @@ import style from './Navbar.module.scss';
 import Logo from '../../UI/Logo/Logo';
 import NavLinks from '../../Simple/NavLinks/NavLinks';
 import NavIcon from '../../Simple/NavIcon/NavIcon';
-import InputNav from '../../Ordinary/InputNav/InputNav';
+import InputNav from '../../UI/InputWhite/InputWhite';
 
 function Navbar() {
   return (
