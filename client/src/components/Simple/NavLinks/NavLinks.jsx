@@ -10,7 +10,7 @@ function NavLinks() {
       <NavLink to="/" className={style.link}>
         <ButtonNav label="Home" />
       </NavLink>
-      <NavLink to="/" className={style.link}>
+      <NavLink to="/card-list" className={style.link}>
         <ButtonNav label="All goods" />
       </NavLink>
       <NavLink to="/" className={style.link}>
