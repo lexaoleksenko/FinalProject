@@ -10,6 +10,8 @@ import CheckoutPage from './pages/Checkout/CheckoutPage';
 import ItemCardPage from './pages/ItemCardPage/ItemCardPage';
 import ItemsListPage from './pages/ItemsListPage/ItemsListPage';
 import CartPage from './pages/Cart/CartPage';
+import LogInPage from './pages/LogInPage/LogInPage';
+import SigInPage from './pages/SigInPage/SigInPage';
 
 function App() {
   return (
@@ -26,6 +28,10 @@ function App() {
           <Route path="/cart" element={<CartPage />} />
         </Routes>
       </Container>
+      <Routes>
+        <Route path="/login" element={<LogInPage />} />
+        <Route path="/sigin" element={<SigInPage />} />
+      </Routes>
       <Footer />
     </>
   );

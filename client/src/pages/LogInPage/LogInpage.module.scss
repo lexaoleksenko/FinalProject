@@ -1,0 +1,43 @@
+.logInBcgr {
+  background-image: url(../../.././public/logInBcgr.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 12% 0px;
+}
+
+.logInPage {
+  font-family: 'montserrat', sans-serif;
+  width: 400px;
+  padding: 30px;
+  border: 1px solid #dedede;
+  margin: 0px auto;
+  text-align: center;
+
+  a {
+    text-decoration: none;
+    color: #000000;
+  }
+
+  form {
+    padding-top: 20px;
+
+    button {
+      margin-bottom: 40px;
+    }
+  }
+}
+
+.field {
+  margin-bottom: 30px !important;
+
+  p {
+    margin-bottom: -23px !important;
+  }
+}
+
+.title {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 30px;
+}

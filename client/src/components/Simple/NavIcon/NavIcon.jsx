@@ -30,7 +30,7 @@ function NavIcon({ cartCount, favCount, nameAvatar, avatarSrc, isAuth }) {
         </NavLink>
       </div>
       <div className={style.containerAvatar}>
-        <NavLink to={isAuth ? '/' : '/'} className={style.link}>
+        <NavLink to={isAuth ? '/' : '/login'} className={style.link}>
           <AvatarUser
             nameAvatar={nameAvatar}
             avatarSrc={avatarSrc}
