@@ -1,12 +1,11 @@
 import { React, useState } from 'react';
 import { Grid } from '@mui/material';
 
-import style from './ItemsList.module.scss';
+import style from './WishlistPage.module.scss';
 import ListCard from '../../components/Simple/ListCard/ListCard';
-import CardSlider from '../../components/Smart/CardSlider/CardSlider';
 import ListCardSkeleton from '../../components/Simple/ListCard/ListCardSkeleton';
 
-function ItemsListPage() {
+function WishlistPage() {
   const [isLoading] = useState(false);
 
   if (isLoading) {
@@ -21,13 +20,17 @@ function ItemsListPage() {
 
   return (
     <>
-      <CardSlider />
-      <h2 className={style.title}>
-        All categories
-        <span>{'>'}Apple</span>
-        <span>{'>'}128GB</span>
-        <span>{'>'}Black</span>
-      </h2>
+      <div className={style.title}>
+        <h2>Your Wishlist In MobiStore</h2>
+        <p>
+          We all have some desires, this is your wish list in MobiStore. What is
+          it for? You can share your wish list with others, for example in the
+          form of a clue what you want for your birthday. Or note what you
+          liked, so as not to fill your head with unnecessary trifles. And if
+          you know what you need this product later, save it here so you do not
+          have to look it up later.
+        </p>
+      </div>
       <Grid container spacing={4} marginTop={0} marginBottom={5}>
         {Array.from({ length: 9 }).map((_, index) => (
           <ListCard key={index} />
@@ -37,4 +40,4 @@ function ItemsListPage() {
   );
 }
 
-export default ItemsListPage;
+export default WishlistPage;

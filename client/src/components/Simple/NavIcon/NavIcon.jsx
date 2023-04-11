@@ -21,7 +21,7 @@ function NavIcon({ cartCount, favCount, nameAvatar, avatarSrc, isAuth }) {
             </Badge>
           </IconButton>
         </NavLink>
-        <NavLink className={style.link}>
+        <NavLink to="/wishlist" className={style.link}>
           <IconButton>
             <Badge badgeContent={favCount} className={style.badge}>
               <FavoriteIcon className={style.icon} />
