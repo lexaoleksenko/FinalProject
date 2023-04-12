@@ -19,6 +19,9 @@ function NavLinks() {
       <NavLink to="/" className={style.link}>
         <ButtonNav label="Contact" />
       </NavLink>
+      <NavLink to="/checkout" className={style.link}>
+        <ButtonNav label="CHECKOUT" />
+      </NavLink>
     </div>
   );
 }
