@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Container } from '@mui/material';
 
@@ -13,9 +13,21 @@ import WishlistPage from './pages/WishlistPage/WishlistPage';
 import CartPage from './pages/Cart/CartPage';
 import LogInPage from './pages/LogInPage/LogInPage';
 import SigInPage from './pages/SigInPage/SigInPage';
+import LoadingPage from './pages/LoadingPage/LoadingPage';
 
 function App() {
-  return (
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+    return () => clearTimeout(timer); // очищаем таймер при размонтировании компонента
+  }, []);
+
+  return loading ? (
+    <LoadingPage />
+  ) : (
     <>
       <Navbar />
       <Routes>

@@ -20,28 +20,30 @@ function ListCard({ name, currentPrice, imageUrls, _id, lg, md, sm }) {
     <Grid item xs={12} sm={sm} md={md} lg={lg}>
       {' '}
       <Stack spacing={4}>
-        <Card className={style.card}>
-          <CardMedia
-            className={style.cardMedia}
-            component="img"
-            image={imageUrls}
-            alt={name}
-          />
-          <CardContent className={style.cardContent}>
-            <div className={style.typography}>
-              <Typography variant="p">{name}</Typography>
-              <Typography variant="p">{currentPrice}</Typography>
-            </div>
-            <div className={style.cardIcon}>
-              <NavLink to={_id}>
-                <ButtonDark label="BUY NOW" />
-              </NavLink>
-              <button className={style.cardFavButton} type="button">
-                <FavoriteIcon />
-              </button>
-            </div>
-          </CardContent>
-        </Card>
+        <NavLink to="/card" className={style.mainLink}>
+          <Card className={style.card}>
+            <CardMedia
+              className={style.cardMedia}
+              component="img"
+              image={imageUrls}
+              alt={name}
+            />
+            <CardContent className={style.cardContent}>
+              <div className={style.typography}>
+                <Typography variant="p">{name}</Typography>
+                <Typography variant="p">{currentPrice}</Typography>
+              </div>
+              <div className={style.cardIcon}>
+                <NavLink to={_id}>
+                  <ButtonDark label="BUY NOW" />
+                </NavLink>
+                <button className={style.cardFavButton} type="button">
+                  <FavoriteIcon />
+                </button>
+              </div>
+            </CardContent>
+          </Card>
+        </NavLink>
       </Stack>
     </Grid>
   );

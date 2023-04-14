@@ -1,15 +1,39 @@
-import React from 'react';
+import { React, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import { useForm } from 'react-hook-form';
-import { Navigate, NavLink } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 
-import styles from './LogInpage.module.scss';
+import { useDispatch } from 'react-redux';
+import { fetchUserToken } from '../../redux/slices/auth';
+
+import style from './LogInpage.module.scss';
 
 function LogInPage() {
-  const isAuth = false;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [passError, setPassError] = useState([]);
+
+  const onSubmit = async values => {
+    const data = await dispatch(fetchUserToken(values));
+    if (!data.payload) {
+      return setPassError(
+        'Oooops,something went wrong, please try again later.',
+      );
+    }
+
+    if (data.payload && data.payload.name === 'AxiosError') {
+      return setPassError('Invalid Login, Email or Password');
+    }
+
+    if (data.payload) {
+      navigate('/');
+      return window.localStorage.setItem('token', data.payload);
+    }
+  };
 
   const {
     register,
@@ -17,45 +41,42 @@ function LogInPage() {
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      email: '',
-      password: '',
+      loginOrEmail: 'test@test.ua',
+      password: '1234567',
     },
     mode: 'onChange',
   });
 
-  if (isAuth) {
-    return <Navigate to="/" />;
-  }
-
-  console.log(isAuth);
-
   return (
-    <div className={styles.logInBcgr}>
-      <Paper className={styles.logInPage}>
+    <div className={style.logInBcgr}>
+      <Paper className={style.logInPage}>
         <Typography
-          className={styles.title}
+          className={style.title}
           style={{ marginBottom: 30 }}
           variant="p"
         >
           Account login
         </Typography>
-        <form onSubmit={handleSubmit()}>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
-            className={styles.field}
+            className={style.field}
             label="E-Mail"
             error={Boolean(errors.email?.message)}
             helperText={errors.email?.message}
-            {...register('email', { required: 'Enter your email' })}
+            {...register('loginOrEmail', { required: 'Enter your email' })}
             fullWidth
           />
           <TextField
-            className={styles.field}
+            className={style.field}
             label="Password"
             fullWidth
             error={Boolean(errors.email?.message)}
             helperText={errors.password?.message}
             {...register('password', { required: 'Enter your password' })}
           />
+          <div className={style.errors}>
+            <p>{passError}</p>
+          </div>
           <Button
             type="submit"
             size="large"
