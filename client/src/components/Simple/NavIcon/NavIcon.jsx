@@ -1,26 +1,77 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import IconButton from '@mui/material/IconButton';
-import { Badge } from '@mui/material';
+import { Badge, Box, Button, Drawer, Typography } from '@mui/material';
 
 import AvatarUser from '../../UI/Avatar/AvatapUser';
 
 import style from './NavIcon.module.scss';
+import ShoppingCart from '../../ShoppingCart';
 
 function NavIcon({ cartCount, favCount, nameAvatar, avatarSrc, isAuth }) {
+  const [state, setState] = useState({
+    right: false,
+  });
+
+  const toggleDrawer = (anchor, open) => event => {
+    if (
+      event.type === 'keydown' &&
+      (event.key === 'Tab' || event.key === 'Shift')
+    ) {
+      return;
+    }
+    setState({ ...state, [anchor]: open });
+  };
+
+  const list = anchor => (
+    <>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Button
+          variant="text"
+          sx={{
+            backgroundColor: '#A9A9A9',
+            width: 60,
+          }}
+          onClick={toggleDrawer(anchor, false)}
+        >
+          X
+        </Button>
+      </Box>
+      <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+        <Typography sx={{ fontSize: 32, color: 'black' }}>
+          Shopping Cart
+        </Typography>
+      </Box>
+      <Box
+        sx={{ width: 650 }}
+        role="presentation"
+        onKeyDown={toggleDrawer(anchor, false)}
+      >
+        <ShoppingCart />
+      </Box>
+    </>
+  );
+
   return (
     <div className={style.root}>
       <div className={style.containerIcon}>
-        <NavLink className={style.link}>
-          <IconButton>
-            <Badge badgeContent={cartCount} className={style.badge}>
-              <ShoppingCartIcon className={style.icon} />
-            </Badge>
-          </IconButton>
-        </NavLink>
+        <IconButton>
+          <Badge badgeContent={cartCount} className={style.badge}>
+            <ShoppingCartIcon onClick={toggleDrawer('right', true)} />
+          </Badge>
+        </IconButton>
+        <Drawer
+          anchor="right"
+          open={state.right}
+          onClose={toggleDrawer('right', false)}
+        >
+          {list('right')}
+        </Drawer>
+
+        {/* </NavLink> */}
         <NavLink className={style.link}>
           <IconButton>
             <Badge badgeContent={favCount} className={style.badge}>

@@ -1,8 +1,6 @@
 import React from 'react';
 
 // import { Container } from '@mui/material';
-import style from './Home.module.scss';
-
 import MainSlider from '../../components/Smart/MainSlider/MainSlider';
 import Marquee from '../../components/Simple/Marquee/Marquee';
 import MobiStoreInfo from '../../components/Simple/MobiStoreInfoSection/MobiStoreInfo';
@@ -10,6 +8,7 @@ import SpecialOfferSec from '../../components/Simple/SpecialOfferSection/Special
 import AccessoriesInfo from '../../components/Simple/AccessoriesInfoSection/AccessoriesInfo';
 import VideoSec from '../../components/Simple/videoSection/VideoSec';
 import TradeInSec from '../../components/Simple/TradeInSection/TradeInSec';
+import style from './Home.module.scss';
 
 function HomePage() {
   return (

@@ -3,6 +3,9 @@
   margin-left: 20px;
   display: flex;
 }
+.containerIcon{
+  position: relative;
+}
 
 .link {
   margin-right: 10px;
@@ -16,7 +19,28 @@
   height: 35px;
   color: #ffffff;
 }
+.iconCart{
+  cursor: pointer;
+  transition: color, transform 500ms ease;
 
+}
+.iconCart:hover,
+.iconCart.active
+{
+color: red;
+transform: scale(1.5);
+}
+.shop-cart{
+  position: absolute;
+  top: 30px;
+  right: 0;
+  width: 450px;
+  min-height: 100px;
+  background: red;
+  -webkit-box-shadow: 4px 5px 15px -7px #606060;
+  box-shadow:4px 5px 15px -7px #606060;
+  z-index: index 1000;
+}
 .badge {
   color: white;
 }

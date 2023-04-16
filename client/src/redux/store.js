@@ -1,5 +1,9 @@
-// import { configureStore } from '@reduxjs/toolkit';
+import { configureStore } from '@reduxjs/toolkit';
+import shoppingCartReducer from '../reducers/shopping-cart';
 
-// export const store = configureStore({
-//   reducer: {},
-// });
+/* eslint-disable import/prefer-default-export */
+export const store = configureStore({
+  reducer: {
+    cart: shoppingCartReducer,
+  },
+});
