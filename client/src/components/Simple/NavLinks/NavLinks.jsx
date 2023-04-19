@@ -6,7 +6,7 @@ import style from './NavLinks.module.scss';
 
 function NavLinks() {
   return (
-    <div className={style.root}>
+    <div className={style.Юрендroot}>
       <NavLink to="/" className={style.link}>
         <ButtonNav label="Home" />
       </NavLink>
