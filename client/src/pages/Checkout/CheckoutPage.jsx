@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Tab, Typography } from '@mui/material';
+import { Button, Stack, Tab, Typography } from '@mui/material';
 // eslint-disable-next-line import/no-extraneous-dependencies
 // eslint-disable-next-line import/no-unresolved,import/no-extraneous-dependencies
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import FormContacts from '../../components/Simple/FormCheckoutPage/FormContacts';
 import style from './CheckoutPage.module.scss';
+import ProductOrderInfo from '../../components/Simple/ProductOderInfo/ProductOrderInfo';
 
 export default function CheckoutPage() {
   const [value, setValue] = useState('1');
@@ -27,7 +28,25 @@ export default function CheckoutPage() {
         <FormContacts />
       </TabPanel>
       <TabPanel value="2">Delivery &#38; Payment</TabPanel>
-      <TabPanel value="3">Order Review</TabPanel>
+      <TabPanel value="3">
+        <ProductOrderInfo />
+        <Stack style={{ padding: '30px 10px' }} direction="column" spacing={3}>
+          <Button
+            style={{ maxWidth: '450px', margin: '10px auto' }}
+            size="large"
+            variant="contained"
+          >
+            Confirm order
+          </Button>
+          <Button
+            style={{ maxWidth: '450px', margin: '10px auto' }}
+            size="large"
+            variant="outlined"
+          >
+            Back to Cart
+          </Button>
+        </Stack>
+      </TabPanel>
     </TabContext>
   );
 }
