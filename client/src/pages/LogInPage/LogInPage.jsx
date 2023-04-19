@@ -61,8 +61,8 @@ function LogInPage() {
           <TextField
             className={style.field}
             label="E-Mail"
-            error={Boolean(errors.email?.message)}
-            helperText={errors.email?.message}
+            error={Boolean(errors.loginOrEmail?.message)}
+            helperText={errors.loginOrEmail?.message}
             {...register('loginOrEmail', { required: 'Enter your email' })}
             fullWidth
           />
@@ -70,11 +70,15 @@ function LogInPage() {
             className={style.field}
             label="Password"
             fullWidth
-            error={Boolean(errors.email?.message)}
+            error={Boolean(errors.password?.message)}
             helperText={errors.password?.message}
             {...register('password', { required: 'Enter your password' })}
           />
-          <div className={style.errors}>
+          <div
+            className={
+              passError.length === 0 ? style.errors_none : style.errors
+            }
+          >
             <p>{passError}</p>
           </div>
           <Button
@@ -89,7 +93,7 @@ function LogInPage() {
         </form>
         <NavLink to="/sigin">
           <Button type="button" size="small" variant="contained">
-            Sig In
+            Sig UP
           </Button>
         </NavLink>
       </Paper>

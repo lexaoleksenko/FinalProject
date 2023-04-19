@@ -77,8 +77,8 @@ function SigInPage() {
             <Avatar sx={{ width: 100, height: 100 }} />
           </div>
           <TextField
-            error={Boolean(errors.fullName?.message)}
-            helperText={errors.fullName?.message}
+            error={Boolean(errors.firstName?.message)}
+            helperText={errors.firstName?.message}
             {...register('firstName', { required: 'Enter First Name' })}
             type="name"
             className={style.field}
@@ -86,8 +86,8 @@ function SigInPage() {
             fullWidth
           />
           <TextField
-            error={Boolean(errors.fullName?.message)}
-            helperText={errors.fullName?.message}
+            error={Boolean(errors.lastName?.message)}
+            helperText={errors.lastName?.message}
             {...register('lastName', { required: 'Enter Last Name' })}
             type="name"
             className={style.field}
@@ -95,8 +95,8 @@ function SigInPage() {
             fullWidth
           />
           <TextField
-            error={Boolean(errors.fullName?.message)}
-            helperText={errors.fullName?.message}
+            error={Boolean(errors.login?.message)}
+            helperText={errors.login?.message}
             {...register('login', { required: 'Enter Login' })}
             type="login"
             className={style.field}
@@ -116,12 +116,16 @@ function SigInPage() {
             error={Boolean(errors.password?.message)}
             helperText={errors.password?.message}
             type="password"
-            {...register('password', { required: 'Enter password!' })}
+            {...register('password', { required: 'Enter password' })}
             className={style.field}
             label="Password"
             fullWidth
           />
-          <div className={style.errors}>
+          <div
+            className={
+              passError.length === 0 ? style.errors_none : style.errors
+            }
+          >
             <p>{passError}</p>
           </div>
           <Button
@@ -131,7 +135,7 @@ function SigInPage() {
             variant="contained"
             fullWidth
           >
-            SiG IN
+            SiG UP
           </Button>
         </form>
       </Paper>
