@@ -1,0 +1,43 @@
+
+.items{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid gray;
+  margin-bottom: 60px;
+}
+
+.info{
+  display: flex;
+  padding: 20px;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.text {
+  color: #000000;
+  font-weight: bold;
+  padding: 10px;
+  margin: 0;
+}
+
+.img {
+  max-width: 200px;
+  max-height: 200px
+}
+
+.img > img {
+  max-width: 100%;
+  max-height: 100%
+}
+
+.amount{
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
