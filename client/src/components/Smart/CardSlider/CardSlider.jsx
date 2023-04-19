@@ -2,7 +2,7 @@ import { React } from 'react';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import ListCard from '../../Simple/ListCard/ListCard';
+import ListCard from '../ListCard/ListCard';
 
 import style from './CardSlider.module.scss';
 

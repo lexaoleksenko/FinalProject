@@ -1,5 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 import {
   Card,
   CardContent,
@@ -9,23 +11,35 @@ import {
   Stack,
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import PropTypes from 'prop-types';
+
+import { useDispatch } from 'react-redux';
+import { fetchCardProduct } from '../../../redux/slices/getCardProduct';
 
 import ButtonDark from '../../UI/Buttons/ButtonDark/ButtonDark';
 
 import style from './ListCard.module.scss';
 
-function ListCard({ name, currentPrice, imageUrls, _id, lg, md, sm }) {
+function ListCard({ name, currentPrice, imageUrl, _id, itemNo, lg, md, sm }) {
+  const dispatch = useDispatch();
+
+  const handleDispatch = () => {
+    dispatch(fetchCardProduct(itemNo));
+  };
+
   return (
     <Grid item xs={12} sm={sm} md={md} lg={lg}>
       {' '}
       <Stack spacing={4}>
-        <NavLink to="/card" className={style.mainLink}>
+        <NavLink
+          to="/product"
+          onClick={handleDispatch}
+          className={style.mainLink}
+        >
           <Card className={style.card}>
             <CardMedia
               className={style.cardMedia}
               component="img"
-              image={imageUrls}
+              image={imageUrl}
               alt={name}
             />
             <CardContent className={style.cardContent}>
@@ -52,7 +66,8 @@ function ListCard({ name, currentPrice, imageUrls, _id, lg, md, sm }) {
 ListCard.defaultProps = {
   name: 'iPhone 14 Pro Max',
   currentPrice: '1000$',
-  imageUrls: './logo2.png',
+  imageUrl: './logo2.png',
+  itemNo: '00000',
   _id: '/',
   lg: 4,
   md: 4,
@@ -62,7 +77,8 @@ ListCard.defaultProps = {
 ListCard.propTypes = {
   name: PropTypes.string,
   currentPrice: PropTypes.string,
-  imageUrls: PropTypes.string,
+  imageUrl: PropTypes.string,
+  itemNo: PropTypes.string,
   _id: PropTypes.string,
   lg: PropTypes.number,
   md: PropTypes.number,

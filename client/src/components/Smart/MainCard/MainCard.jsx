@@ -4,28 +4,23 @@ import { Card, CardContent, Typography } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PropTypes from 'prop-types';
 
-import MainCardSlider from '../../Smart/MainCardSlider/MainCardSlider';
+import MainCardSlider from '../MainCardSlider/MainCardSlider';
 import ButtonDark from '../../UI/Buttons/ButtonDark/ButtonDark';
 
 import style from './MainCard.module.scss';
 
-function MainCard({ name, currentPrice }) {
+function MainCard({ name, currentPrice, description, color, imageUrls }) {
   return (
     <Card className={style.card}>
-      <MainCardSlider />
+      <MainCardSlider imageUrls={imageUrls} />
       <CardContent className={style.cardContent}>
         <div className={style.typography}>
           <Typography variant="p">{name}</Typography>
           <Typography variant="p">{currentPrice}</Typography>
         </div>
         <div className={style.cardDescrip}>
-          <Typography variant="p">Color: Black</Typography>
-          <Typography variant="p">
-            {' '}
-            Экран (61, OLED (Super Retina XDR), 2532x1170) / Apple A15 Bionic /
-            двойная основная камера: 12 Мп + 12 Мп, фронтальная камера: 12 Мп /
-            128 ГБ встроенной памяти / 3G / LTE / 5G / GPS / Nano-SIM / iOS 16
-          </Typography>
+          <Typography variant="p">Color: {color}</Typography>
+          <Typography variant="p">{description}</Typography>
         </div>
         <div className={style.cardIcon}>
           <NavLink>
@@ -52,11 +47,16 @@ function MainCard({ name, currentPrice }) {
 MainCard.defaultProps = {
   name: 'iPhone 14 Pro Max',
   currentPrice: '1000$',
+  description: 'Here is some cool product description',
+  color: 'Here is some cool color',
 };
 
 MainCard.propTypes = {
   name: PropTypes.string,
   currentPrice: PropTypes.string,
+  description: PropTypes.string,
+  color: PropTypes.string,
+  imageUrls: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default MainCard;

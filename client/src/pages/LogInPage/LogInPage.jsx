@@ -91,7 +91,7 @@ function LogInPage() {
             Log In
           </Button>
         </form>
-        <NavLink to="/sigin">
+        <NavLink to="/sigup">
           <Button type="button" size="small" variant="contained">
             Sig UP
           </Button>

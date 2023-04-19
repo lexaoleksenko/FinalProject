@@ -35,8 +35,8 @@ function App() {
       </Routes>
       <Container maxWidth="lg">
         <Routes>
-          <Route path="/card-list" element={<ItemsListPage />} />
-          <Route path="/card" element={<ItemCardPage />} />
+          <Route path="/products" element={<ItemsListPage />} />
+          <Route path="/product" element={<ItemCardPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/wishlist" element={<WishlistPage />} />
@@ -44,7 +44,7 @@ function App() {
       </Container>
       <Routes>
         <Route path="/login" element={<LogInPage />} />
-        <Route path="/sigin" element={<SigInPage />} />
+        <Route path="/sigup" element={<SigInPage />} />
       </Routes>
       <Footer />
     </>

@@ -2,8 +2,8 @@ import { React, useState } from 'react';
 import { Grid } from '@mui/material';
 
 import style from './WishlistPage.module.scss';
-import ListCard from '../../components/Simple/ListCard/ListCard';
-import ListCardSkeleton from '../../components/Simple/ListCard/ListCardSkeleton';
+import ListCard from '../../components/Smart/ListCard/ListCard';
+import ListCardSkeleton from '../../components/Smart/ListCard/ListCardSkeleton';
 
 function WishlistPage() {
   const [isLoading] = useState(false);
