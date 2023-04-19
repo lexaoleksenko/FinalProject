@@ -27,8 +27,8 @@ function NavIcon({ cartCount, favCount, nameAvatar, avatarSrc, isAuth }) {
   };
 
   const list = anchor => (
-    <>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+    <Box sx={{ maxWidth: 500 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end'}}>
         <Button
           variant="text"
           sx={{
@@ -41,18 +41,18 @@ function NavIcon({ cartCount, favCount, nameAvatar, avatarSrc, isAuth }) {
         </Button>
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-        <Typography sx={{ fontSize: 32, color: 'black' }}>
+        <Typography sx={{ fontSize: 32, color: 'black'}}>
           Shopping Cart
         </Typography>
       </Box>
       <Box
-        sx={{ width: 650 }}
+        sx={{ width: 450 }}
         role="presentation"
         onKeyDown={toggleDrawer(anchor, false)}
       >
         <ShoppingCart />
       </Box>
-    </>
+    </Box>
   );
 
   return (

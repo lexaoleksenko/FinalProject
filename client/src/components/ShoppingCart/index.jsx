@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import CartItem from '../CartItem';
 
-// import './shoppingcart.sccs';
+
 
 const cartData = [
   {
@@ -11,24 +11,28 @@ const cartData = [
     name: 'iPhone 11',
     price: 150,
     count: 2,
+    img: "https://cdn.tehnoezh.ua/0/0/0/1/1/4/4/0/6/000114406_545_545.jpeg"
   },
   {
     id: 2,
     name: 'iPhone 12',
     price: 200,
     count: 1,
+    img: 'https://cdn.tehnoezh.ua/0/0/0/1/1/4/4/0/6/000114406_545_545.jpeg',
   },
   {
     id: 3,
     name: 'iPhone 13',
     price: 250,
     count: 3,
+    img: 'https://cdn.tehnoezh.ua/0/0/0/1/1/4/4/0/6/000114406_545_545.jpeg',
   },
   {
     id: 4,
     name: 'iPhone 14',
     price: 300,
     count: 4,
+    img: 'https://cdn.tehnoezh.ua/0/0/0/1/1/4/4/0/6/000114406_545_545.jpeg',
   },
 ];
 
