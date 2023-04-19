@@ -1,0 +1,146 @@
+import { React, useState } from 'react';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import Paper from '@mui/material/Paper';
+import Button from '@mui/material/Button';
+import Avatar from '@mui/material/Avatar';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+
+import { useDispatch } from 'react-redux';
+import { fetchUserData } from '../../redux/slices/registr';
+
+import style from './SigInPage.module.scss';
+
+function SigInPage() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [passError, setPassError] = useState([]);
+
+  const onSubmit = async values => {
+    const data = await dispatch(fetchUserData(values));
+
+    if (!data.payload) {
+      return setPassError(
+        'Oooops,something went wrong, please try again later.',
+      );
+    }
+
+    if (data.payload && data.payload.name === 'AxiosError') {
+      if (data.payload.response && data.payload.response.data.password) {
+        setPassError(data.payload.response.data.password);
+      }
+      if (data.payload.response && data.payload.response.data.firstName) {
+        setPassError(data.payload.response.data.firstName);
+      }
+      if (data.payload.response && data.payload.response.data.lastName) {
+        setPassError(data.payload.response.data.lastName);
+      }
+      if (data.payload.response && data.payload.response.data.message) {
+        setPassError(data.payload.response.data.message);
+      }
+      if (data.payload.response && data.payload.response.data.login) {
+        setPassError(data.payload.response.data.login);
+      }
+      return;
+    }
+
+    if (data.payload) {
+      navigate('/login');
+    }
+  };
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm({
+    defaultValues: {
+      login: '',
+      lastName: '',
+      firstName: '',
+      email: '',
+      password: '',
+    },
+    mode: 'onChange',
+  });
+
+  return (
+    <div className={style.sigInBcgr}>
+      <Paper className={style.sigInPage}>
+        <Typography className={style.title} variant="h5">
+          Create an account
+        </Typography>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className={style.avatar}>
+            <Avatar sx={{ width: 100, height: 100 }} />
+          </div>
+          <TextField
+            error={Boolean(errors.firstName?.message)}
+            helperText={errors.firstName?.message}
+            {...register('firstName', { required: 'Enter First Name' })}
+            type="name"
+            className={style.field}
+            label="First Name"
+            fullWidth
+          />
+          <TextField
+            error={Boolean(errors.lastName?.message)}
+            helperText={errors.lastName?.message}
+            {...register('lastName', { required: 'Enter Last Name' })}
+            type="name"
+            className={style.field}
+            label="Last Name"
+            fullWidth
+          />
+          <TextField
+            error={Boolean(errors.login?.message)}
+            helperText={errors.login?.message}
+            {...register('login', { required: 'Enter Login' })}
+            type="login"
+            className={style.field}
+            label="Login"
+            fullWidth
+          />
+          <TextField
+            error={Boolean(errors.email?.message)}
+            helperText={errors.email?.message}
+            type="email"
+            {...register('email', { required: 'Enter e-mail' })}
+            className={style.field}
+            label="E-Mail"
+            fullWidth
+          />
+          <TextField
+            error={Boolean(errors.password?.message)}
+            helperText={errors.password?.message}
+            type="password"
+            {...register('password', { required: 'Enter password' })}
+            className={style.field}
+            label="Password"
+            fullWidth
+          />
+          <div
+            className={
+              passError.length === 0 ? style.errors_none : style.errors
+            }
+          >
+            <p>{passError}</p>
+          </div>
+          <Button
+            disabled={!isValid}
+            type="submit"
+            size="large"
+            variant="contained"
+            fullWidth
+          >
+            SiG UP
+          </Button>
+        </form>
+      </Paper>
+    </div>
+  );
+}
+
+export default SigInPage;
