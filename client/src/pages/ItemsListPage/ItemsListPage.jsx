@@ -10,6 +10,7 @@ import {
 import style from './ItemsList.module.scss';
 import ListCard from '../../components/Smart/ListCard/ListCard';
 import ListCardSkeleton from '../../components/Smart/ListCard/ListCardSkeleton';
+import SimpleAccordion from '../../components/Simple/ProductAccordion/ProductAccordion';
 
 function ItemsListPage() {
   const dispatch = useDispatch();
@@ -40,6 +41,9 @@ function ItemsListPage() {
   if (prodArr && status === 'loaded') {
     return (
       <>
+        <div className={style.accordion}>
+          <SimpleAccordion />
+        </div>
         <h2 className={style.title}>
           All categories
           <span>{'>'}Apple</span>
