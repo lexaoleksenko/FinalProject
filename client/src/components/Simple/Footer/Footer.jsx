@@ -25,10 +25,22 @@ function Footer() {
         </p>
       </div>
       <div className={style.icons}>
-        <InstagramIcon color="secondary" style={{ fontSize: 50 }} />
-        <TelegramIcon color="secondary" style={{ fontSize: 50 }} />
-        <YouTubeIcon color="secondary" style={{ fontSize: 50 }} />
-        <EmailIcon color="secondary" style={{ fontSize: 50 }} />
+        <InstagramIcon
+          color="secondary"
+          style={{ fontSize: 50, marginRight: 25 }}
+        />
+        <TelegramIcon
+          color="secondary"
+          style={{ fontSize: 50, marginRight: 25 }}
+        />
+        <YouTubeIcon
+          color="secondary"
+          style={{ fontSize: 50, marginRight: 25 }}
+        />
+        <EmailIcon
+          color="secondary"
+          style={{ fontSize: 50, marginRight: 25 }}
+        />
       </div>
       <div className={style.address}>
         <p>Kyiv, Ukraine</p>

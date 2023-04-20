@@ -8,7 +8,7 @@ const {
   loginCustomer,
   getCustomer,
   editCustomerInfo,
-  updatePassword
+  updatePassword,
 } = require("../controllers/customers");
 
 // @route   POST /customers
@@ -27,7 +27,7 @@ router.post("/login", loginCustomer);
 router.get(
   "/customer",
   passport.authenticate("jwt", { session: false }),
-  getCustomer
+  getCustomer,
 );
 
 // @route   PUT /customers
@@ -36,7 +36,7 @@ router.get(
 router.put(
   "/",
   passport.authenticate("jwt", { session: false }),
-  editCustomerInfo
+  editCustomerInfo,
 );
 
 // @route   POST /customers/profile/update-password
@@ -45,7 +45,7 @@ router.put(
 router.put(
   "/password",
   passport.authenticate("jwt", { session: false }),
-  updatePassword
+  updatePassword,
 );
 
 module.exports = router;
