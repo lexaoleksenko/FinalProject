@@ -45,7 +45,7 @@ function ListCard({ name, currentPrice, imageUrl, _id, itemNo, lg, md, sm }) {
             <CardContent className={style.cardContent}>
               <div className={style.typography}>
                 <Typography variant="p">{name}</Typography>
-                <Typography variant="p">{currentPrice}</Typography>
+                <Typography variant="p">{currentPrice}$</Typography>
               </div>
               <div className={style.cardIcon}>
                 <NavLink to={_id}>

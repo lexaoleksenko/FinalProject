@@ -30,36 +30,51 @@ function ItemsListPage() {
 
   if (status === 'loading') {
     return (
-      <Grid container spacing={4} marginTop={0} marginBottom={2}>
-        {Array.from({ length: 12 }).map((_, index) => (
-          <ListCardSkeleton key={index} />
-        ))}
-      </Grid>
-    );
-  }
-
-  if (prodArr && status === 'loaded') {
-    return (
       <>
-        <div className={style.accordion}>
-          <SimpleAccordion />
-        </div>
         <h2 className={style.title}>
           All categories
           <span>{'>'}Apple</span>
           <span>{'>'}128GB</span>
           <span>{'>'}Black</span>
         </h2>
-        <Grid container spacing={4} marginTop={0} marginBottom={5}>
-          {prodArr.map((product, index) => (
-            <ListCard
-              key={index}
-              imageUrl={product.imageUrls[0]}
-              name={product.name}
-              currentPrice={product.currentPrice}
-              itemNo={product.itemNo}
-            />
-          ))}
+        <Grid display="flex">
+          <Grid marginRight={1} marginTop={1}>
+            <SimpleAccordion />
+          </Grid>
+          <Grid container spacing={1} marginTop={0} marginBottom={5}>
+            {Array.from({ length: 12 }).map((_, index) => (
+              <ListCardSkeleton key={index} />
+            ))}
+          </Grid>
+        </Grid>
+      </>
+    );
+  }
+
+  if (prodArr && status === 'loaded') {
+    return (
+      <>
+        <h2 className={style.title}>
+          All categories
+          <span>{'>'}Apple</span>
+          <span>{'>'}128GB</span>
+          <span>{'>'}Black</span>
+        </h2>
+        <Grid display="flex">
+          <Grid marginRight={1} marginTop={1}>
+            <SimpleAccordion />
+          </Grid>
+          <Grid container spacing={1} marginTop={0} marginBottom={5}>
+            {prodArr.map((product, index) => (
+              <ListCard
+                key={index}
+                imageUrl={product.imageUrls[0]}
+                name={product.name}
+                currentPrice={product.currentPrice}
+                itemNo={product.itemNo}
+              />
+            ))}
+          </Grid>
         </Grid>
       </>
     );

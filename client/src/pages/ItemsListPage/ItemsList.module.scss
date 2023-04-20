@@ -17,8 +17,11 @@
   }
 }
 
-.accordion {
-  position: fixed;
-  left: 360px;
-  top: 280px;
+.content {
+  display: flex;
+
+  .accordion {
+    margin-right: 8px;
+    margin-top: 8px;
+  }
 }

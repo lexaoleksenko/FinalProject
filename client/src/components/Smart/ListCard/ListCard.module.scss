@@ -4,7 +4,7 @@
 
 .card {
   .cardMedia {
-    height: 400px;
+    height: 300px;
   }
 
   .cardContent {
@@ -15,6 +15,8 @@
       font-family: 'montserrat', sans-serif;
       span {
         font-weight: 600;
+        font-size: 13px;
+        text-transform: uppercase;
       }
     }
 
@@ -22,7 +24,6 @@
       margin-left: auto;
       margin-right: 0px;
       margin-bottom: 3px;
-      width: 70px;
     }
 
     .typography span:first-child {
@@ -76,7 +77,7 @@
 
 .cardSkeleton {
   padding: 15px;
-  height: 520px;
+  height: 440px;
   background-color: #ffffff;
 
   .cardContentSkeleton {
