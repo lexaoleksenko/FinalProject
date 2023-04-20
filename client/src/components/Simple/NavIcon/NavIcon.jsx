@@ -17,6 +17,7 @@ function NavIcon({
   avatarSrc,
   isAuth,
   onClickLogOut,
+  onClickOpenDrawer,
 }) {
   return (
     <div className={style.root}>
@@ -24,7 +25,10 @@ function NavIcon({
         <NavLink className={style.link}>
           <IconButton>
             <Badge badgeContent={cartCount} className={style.badge}>
-              <ShoppingCartIcon className={style.icon} />
+              <ShoppingCartIcon
+                className={style.icon}
+                onClick={onClickOpenDrawer}
+              />
             </Badge>
           </IconButton>
         </NavLink>
@@ -65,6 +69,7 @@ NavIcon.propTypes = {
   nameAvatar: PropTypes.string,
   isAuth: PropTypes.bool,
   onClickLogOut: PropTypes.func.isRequired,
+  onClickOpenDrawer: PropTypes.func.isRequired,
 };
 
 export default NavIcon;

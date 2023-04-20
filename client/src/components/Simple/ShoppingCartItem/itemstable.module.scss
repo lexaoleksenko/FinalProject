@@ -1,0 +1,46 @@
+.button{
+  height:30px
+}
+
+.item{
+  padding:0 10px;
+  margin:2px;
+  max-height:20px
+}
+
+.buttons{
+  padding-left:10px;
+  display:flex;
+  justify-content:space-evenly
+}
+
+.location,.delete{
+  display:flex;
+  padding-bottom:10px
+}
+
+.delete{
+  padding-left:50px;
+  justify-content:flex-end
+}
+
+.info{
+  padding:0 0 10px 10px
+}
+
+.name {
+  padding-bottom:30px
+}
+.image>img{
+  min-width:100px;
+  min-height:160px
+}
+
+.items{
+  display:flex;
+  align-items:center
+}
+.position{
+  display:flex;
+  flex-direction:column
+}
