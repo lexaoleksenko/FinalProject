@@ -24,7 +24,11 @@ function SimpleAccordion() {
       </AccordionSummary>
       <AccordionDetails>
         <div>
-          <Accordion className={style.accordion}>
+          <Accordion
+            className={style.accordion}
+            expanded={expanded === 0}
+            onChange={handleChange(0)}
+          >
             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
               <Typography>Phones</Typography>
             </AccordionSummary>
@@ -79,11 +83,7 @@ function SimpleAccordion() {
                     <PriceSlider />
                   </AccordionDetails>
                 </Accordion>
-                <Accordion
-                  className={style.accordion}
-                  expanded={expanded === 0}
-                  onChange={handleChange(0)}
-                >
+                <Accordion className={style.accordion}>
                   <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography>Phone memory capacity</Typography>
                   </AccordionSummary>
@@ -91,11 +91,7 @@ function SimpleAccordion() {
                     <NonLinearSlider />
                   </AccordionDetails>
                 </Accordion>
-                <Accordion
-                  className={style.accordion}
-                  expanded={expanded === 0}
-                  onChange={handleChange(0)}
-                >
+                <Accordion className={style.accordion}>
                   <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography>Display</Typography>
                   </AccordionSummary>
@@ -128,11 +124,7 @@ function SimpleAccordion() {
                     </div>
                   </AccordionDetails>
                 </Accordion>
-                <Accordion
-                  className={style.accordion}
-                  expanded={expanded === 0}
-                  onChange={handleChange(0)}
-                >
+                <Accordion className={style.accordion}>
                   <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Typography>Color</Typography>
                   </AccordionSummary>
