@@ -16,7 +16,7 @@ function MainCard({ name, currentPrice, description, color, imageUrls }) {
       <CardContent className={style.cardContent}>
         <div className={style.typography}>
           <Typography variant="p">{name}</Typography>
-          <Typography variant="p">{currentPrice}</Typography>
+          <Typography variant="p">{currentPrice}$</Typography>
         </div>
         <div className={style.cardDescrip}>
           <Typography variant="p">Color: {color}</Typography>
