@@ -36,7 +36,7 @@ function App() {
       <Container maxWidth="lg">
         <Routes>
           <Route path="/products" element={<ItemsListPage />} />
-          <Route path="/product" element={<ItemCardPage />} />
+          <Route path="/product/:itemNo" element={<ItemCardPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/wishlist" element={<WishlistPage />} />
