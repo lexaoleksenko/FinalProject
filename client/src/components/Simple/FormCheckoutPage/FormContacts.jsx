@@ -51,7 +51,7 @@ function FormContacts() {
           </Grid>
         </Form>
       </Formik>
-      <Stack style={{ padding: '30px 10px' }} direction="column" spacing={3}>
+      <Stack style={{ padding: '200px 20px' }} direction="column" spacing={3}>
         <Button
           style={{ maxWidth: '450px', margin: '10px auto' }}
           size="large"

@@ -5,7 +5,7 @@ import { Button, Stack, Tab, Typography } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import FormContacts from '../../components/Simple/FormCheckoutPage/FormContacts';
 import style from './CheckoutPage.module.scss';
-import ProductOrderInfo from '../../components/Simple/ProductOderInfo/ProductOrderInfo';
+import ProductOrderInfo from '../../components/Simple/ProductOrderInfo/ProductOrderInfo';
 
 export default function CheckoutPage() {
   const [value, setValue] = useState('1');
@@ -21,16 +21,16 @@ export default function CheckoutPage() {
         <Tab className={style.item} label="Delivery & Payment" value="2" />
         <Tab className={style.item} label="Order Review" value="3" />
       </TabList>
-      <TabPanel value="1">
+      <TabPanel style={{ padding: '100px 20px 660px' }} value="1">
         <Typography className={style.title} variant="h5">
           Main Information
         </Typography>
         <FormContacts />
       </TabPanel>
       <TabPanel value="2">Delivery &#38; Payment</TabPanel>
-      <TabPanel value="3">
+      <TabPanel style={{ padding: '100px 20px 660px' }} value="3">
         <ProductOrderInfo />
-        <Stack style={{ padding: '30px 10px' }} direction="column" spacing={3}>
+        <Stack style={{ padding: '200px 20px' }} direction="column" spacing={3}>
           <Button
             style={{ maxWidth: '450px', margin: '10px auto' }}
             size="large"
