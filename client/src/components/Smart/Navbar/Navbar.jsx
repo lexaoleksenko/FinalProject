@@ -1,5 +1,11 @@
 import { React, useEffect, useState } from 'react';
-import { AppBar, Toolbar, Typography, Drawer } from '@mui/material';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Drawer,
+  useMediaQuery,
+} from '@mui/material';
 import { useLocation } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -44,27 +50,52 @@ function Navbar() {
     dispatch(toggleDrawer(false));
   };
 
+  const isMobile = useMediaQuery('(max-width:1300px)');
+
   return (
-    <AppBar position="static" className={style.root}>
-      <Toolbar>
-        <Typography variant="h6" className={style}>
-          <Logo />
-        </Typography>
-        <NavLinks />
-        <InputNav />
-        <NavIcon
-          favCount={12}
-          cartCount={8}
-          nameAvatar="Artur Tech"
-          isAuth={isAuth}
-          onClickLogOut={handleLogOut}
-          onClickOpenDrawer={handleDrawerOpen}
-        />
-        <Drawer anchor="right" open={stateDraw} onClose={handleDrawerClose}>
-          <CartList onClickClose={handleDrawerClose} />
-        </Drawer>
-      </Toolbar>
-    </AppBar>
+    <div>
+      {!isMobile ? (
+        <AppBar position="static" className={style.root}>
+          <Toolbar>
+            <Typography variant="h6" className={style}>
+              <Logo />
+            </Typography>
+            <NavLinks />
+            <InputNav />
+            <NavIcon
+              favCount={12}
+              cartCount={8}
+              nameAvatar="Artur Tech"
+              isAuth={isAuth}
+              onClickLogOut={handleLogOut}
+              onClickOpenDrawer={handleDrawerOpen}
+            />
+            <Drawer anchor="right" open={stateDraw} onClose={handleDrawerClose}>
+              <CartList onClickClose={handleDrawerClose} />
+            </Drawer>
+          </Toolbar>
+        </AppBar>
+      ) : (
+        <AppBar position="static" className={style.root}>
+          <Toolbar>
+            <Typography variant="h6" className={style}>
+              <Logo />
+            </Typography>
+            <NavLinks
+              favCount={12}
+              cartCount={8}
+              nameAvatar="Artur Tech"
+              isAuth={isAuth}
+              onClickLogOut={handleLogOut}
+              onClickOpenDrawer={handleDrawerOpen}
+            />
+            <Drawer anchor="right" open={stateDraw} onClose={handleDrawerClose}>
+              <CartList onClickClose={handleDrawerClose} />
+            </Drawer>
+          </Toolbar>
+        </AppBar>
+      )}
+    </div>
   );
 }
 
