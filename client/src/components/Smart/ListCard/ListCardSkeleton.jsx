@@ -12,7 +12,7 @@ function ListCardSkeleton() {
         <Skeleton
           variant="rectangular"
           width="100%"
-          height={400}
+          height={300}
           style={{ marginTop: 5, marginBottom: 5 }}
         />
         <div className={style.cardContentSkeleton}>
