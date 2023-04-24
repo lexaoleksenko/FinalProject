@@ -1,4 +1,5 @@
-import { React, useState, useEffect } from 'react';
+import * as React from 'react';
+import { useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
 
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,10 +12,12 @@ import style from './ItemsList.module.scss';
 import ListCard from '../../components/Smart/ListCard/ListCard';
 import ListCardSkeleton from '../../components/Smart/ListCard/ListCardSkeleton';
 import SimpleAccordion from '../../components/Simple/ProductAccordion/ProductAccordion';
+import PaginationRounded from '../../components/Simple/Pagination/Pagination';
 
 function ItemsListPage() {
   const dispatch = useDispatch();
-  const [prodArr, setProdArr] = useState();
+  const [prodArr, setProdArr] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     dispatch(fetchAllProducts());
@@ -27,6 +30,18 @@ function ItemsListPage() {
       setProdArr(products[0]);
     }
   }, [status, products]);
+
+  // Logic for displaying current products
+  const indexOfLastProduct = currentPage * 9;
+  const indexOfFirstProduct = indexOfLastProduct - 9;
+  const currentProducts = prodArr.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct,
+  );
+
+  const paginate = pageNumber => {
+    setCurrentPage(pageNumber);
+  };
 
   if (status === 'loading') {
     return (
@@ -65,7 +80,7 @@ function ItemsListPage() {
             <SimpleAccordion />
           </Grid>
           <Grid container spacing={1} marginTop={0} marginBottom={5}>
-            {prodArr.map((product, index) => (
+            {currentProducts.map((product, index) => (
               <ListCard
                 key={index}
                 imageUrl={product.imageUrls[0]}
@@ -74,6 +89,12 @@ function ItemsListPage() {
                 itemNo={product.itemNo}
               />
             ))}
+            <PaginationRounded
+              productsPerPage={9}
+              totalProducts={prodArr.length}
+              paginate={paginate}
+              currentPage={currentPage}
+            />
           </Grid>
         </Grid>
       </>
