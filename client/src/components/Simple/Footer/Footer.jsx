@@ -37,10 +37,7 @@ function Footer() {
           color="secondary"
           style={{ fontSize: 50, marginRight: 25 }}
         />
-        <EmailIcon
-          color="secondary"
-          style={{ fontSize: 50, marginRight: 25 }}
-        />
+        <EmailIcon color="secondary" style={{ fontSize: 50 }} />
       </div>
       <div className={style.address}>
         <p>Kyiv, Ukraine</p>

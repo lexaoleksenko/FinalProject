@@ -47,6 +47,61 @@
   }
 }
 
+@media (max-width: 1300px) {
+  .mobiStoreInfo {
+    .leftSide {
+      background-image: none;
+      background-color: #ffffff;
+    }
+
+    .rightSide {
+      background-image: none;
+      background-color: #ffffff;
+    }
+
+    .info {
+      background-image: url('../../../../public/mainBcgr1300.jpg');
+      display: flex;
+      align-items: center;
+    }
+
+    .infoTxt {
+      margin-top: -200px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .mobiStoreInfo {
+    height: 700px;
+    .leftSide {
+      display: none;
+    }
+
+    .rightSide {
+      display: none;
+    }
+
+    .info {
+      background-image: url('../../../../public/mainBcgr768.jpg');
+      display: flex;
+      align-items: center;
+    }
+
+    .infoTxt {
+      margin-top: -200px;
+
+      & h2 {
+        font-size: 15px;
+        margin-left: 0px;
+      }
+      & p {
+        font-size: 10px;
+      }
+    }
+  }
+}
+
 .visibleInfo {
   animation: slideInfoUp 3s ease-out;
 }
