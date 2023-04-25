@@ -68,7 +68,7 @@ function ItemsListPage() {
 
   if (prodArr && status === 'loaded') {
     return (
-      <>
+      <div className={style.root}>
         <h2 className={style.title}>
           All categories
           <span>{'>'}Apple</span>
@@ -89,15 +89,15 @@ function ItemsListPage() {
                 itemNo={product.itemNo}
               />
             ))}
-            <PaginationRounded
-              productsPerPage={9}
-              totalProducts={prodArr.length}
-              paginate={paginate}
-              currentPage={currentPage}
-            />
           </Grid>
         </Grid>
-      </>
+        <PaginationRounded
+          productsPerPage={9}
+          totalProducts={prodArr.length}
+          paginate={paginate}
+          currentPage={currentPage}
+        />
+      </div>
     );
   }
 }

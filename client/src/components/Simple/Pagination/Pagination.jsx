@@ -18,6 +18,7 @@ function PaginationRounded(props) {
         page={currentPage}
         onChange={handleChange}
         shape="rounded"
+        style={{ marginLeft: 'auto', marginRight: 'auto', marginBottom: 20 }}
       />
     </Stack>
   );
