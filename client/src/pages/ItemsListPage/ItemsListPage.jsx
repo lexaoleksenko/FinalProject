@@ -82,6 +82,7 @@ function ItemsListPage() {
           <Grid container spacing={1} marginTop={0} marginBottom={5}>
             {currentProducts.map((product, index) => (
               <ListCard
+                product={product}
                 key={index}
                 imageUrl={product.imageUrls[0]}
                 name={product.name}

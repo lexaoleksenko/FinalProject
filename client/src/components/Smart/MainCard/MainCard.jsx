@@ -3,10 +3,9 @@ import { NavLink } from 'react-router-dom';
 import { Card, CardContent, Typography } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PropTypes from 'prop-types';
-
 import MainCardSlider from '../MainCardSlider/MainCardSlider';
+// eslint-disable-next-line import/no-named-as-default,import/no-named-as-default-member
 import ButtonDark from '../../UI/Buttons/ButtonDark/ButtonDark';
-
 import style from './MainCard.module.scss';
 
 function MainCard({ name, currentPrice, description, color, imageUrls }) {

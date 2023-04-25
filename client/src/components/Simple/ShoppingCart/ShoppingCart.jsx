@@ -1,105 +1,73 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-
-import { Box, Button, Typography } from '@mui/material';
+import Box from '@mui/material/Box';
+import { stateCartProd } from '../../../redux/slices/shopping-cart';
 import ShoppingCartItem from '../ShoppingCartItem/ShoppingCartItem';
-
-const cartData = [
-  {
-    id: 1,
-    name: 'iPhone 11',
-    price: 150,
-    count: 2,
-    img: 'https://cdn.tehnoezh.ua/0/0/0/1/1/4/4/0/6/000114406_545_545.jpeg',
-  },
-  {
-    id: 2,
-    name: 'iPhone 12',
-    price: 200,
-    count: 1,
-    img: 'https://cdn.tehnoezh.ua/0/0/0/1/1/4/4/0/6/000114406_545_545.jpeg',
-  },
-  {
-    id: 3,
-    name: 'iPhone 13',
-    price: 250,
-    count: 3,
-    img: 'https://cdn.tehnoezh.ua/0/0/0/1/1/4/4/0/6/000114406_545_545.jpeg',
-  },
-  {
-    id: 4,
-    name: 'iPhone 14',
-    price: 300,
-    count: 4,
-    img: 'https://cdn.tehnoezh.ua/0/0/0/1/1/4/4/0/6/000114406_545_545.jpeg',
-  },
-];
+import FooterShoppingCart from '../FooterShoppingCart/FooterShoppingCart';
+import ButtonDark from '../../UI/Buttons/ButtonDark/ButtonDark';
+// eslint-disable-next-line import/no-named-as-default,import/no-named-as-default-member
+import EmptyCart from '../EmptyCart/EmptyCart';
 
 function ShoppingCart() {
-  const [items, setItems] = useState(cartData);
-
+  const products = useSelector(stateCartProd);
+  const [items, setItems] = useState(products);
+  const dispatch = useDispatch();
   const result = items.reduce(
     (previousValue, currentItem) =>
-      previousValue + currentItem.count * currentItem.price,
+      previousValue + currentItem.quantity * currentItem.currentPrice,
     0,
   );
 
-  const Footer = (
-    <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
-      <Typography sx={{ fontSize: 20, color: 'black' }}>
-        Total amount: {result}$
-      </Typography>
-      <NavLink to="/checkout">
-        <Button variant="contained">Checkout</Button>
-      </NavLink>
-    </Box>
-  );
-
-  const EmptyTemplate = <div className="empty-text">Cart is empty</div>;
-
-  const handleRemoveItem = id => {
-    setItems(items.filter(item => item.id !== id));
+  const handleRemoveItem = itemNo => {
+    setItems(items.filter(item => item.itemNo !== itemNo));
   };
-
-  const handleIncreaseCount = id => {
+  const handleIncreaseCount = itemNo => {
     setItems(
       items.map(item => {
-        if (item.id === id) {
-          return { ...item, count: item.count + 1 };
+        if (item.itemNo === itemNo) {
+          return { ...item, quantity: item.quantity + 1 };
         }
         return item;
       }),
     );
   };
 
-  const handleDecreaseCount = (id, count) => {
+  const handleDecreaseCount = (itemNo, count) => {
     if (count < 2) {
-      handleRemoveItem(id);
-    } else {
-      setItems(
-        items.map(item => {
-          if (item.id === id) {
-            return { ...item, count: item.count - 1 };
-          }
-          return item;
-        }),
-      );
+      return;
     }
+    setItems(
+      items.map(item => {
+        if (item.itemNo === itemNo) {
+          return { ...item, quantity: item.quantity - 1 };
+        }
+        return item;
+      }),
+    );
   };
 
   return (
+    // eslint-disable-next-line react/jsx-no-useless-fragment
     <>
       {items.length ? (
-        <ShoppingCartItem
-          items={items}
-          remove={handleRemoveItem}
-          increase={handleIncreaseCount}
-          decrease={handleDecreaseCount}
-        />
+        <>
+          <ShoppingCartItem
+            items={items}
+            remove={handleRemoveItem}
+            increase={handleIncreaseCount}
+            decrease={handleDecreaseCount}
+          />
+          <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+            <FooterShoppingCart amount={result} />
+            <NavLink to="/checkout">
+              <ButtonDark label="CHECKOUT" />
+            </NavLink>
+          </Box>
+        </>
       ) : (
-        EmptyTemplate
+        <EmptyCart />
       )}
-      {items.length && Footer}
     </>
   );
 }

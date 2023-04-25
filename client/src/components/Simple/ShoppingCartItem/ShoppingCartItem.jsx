@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Close } from '@mui/icons-material';
 import { Box, Button, Typography, Divider } from '@mui/material';
-
 import styled from 'styled-components';
 import style from './itemstable.module.scss';
 
@@ -37,7 +36,7 @@ export const Wrapper = styled.div`
 `;
 
 const itemPropType = PropTypes.shape({
-  id: PropTypes.number.isRequired,
+  _id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   price: PropTypes.number.isRequired,
   img: PropTypes.string.isRequired,
@@ -52,16 +51,13 @@ function ShoppingCartItem({ items, remove, increase, decrease }) {
       {items?.map(item => (
         <div className={style.items}>
           <div className={style.image}>
-            <img
-              src="https://payalnya.com.ua/images/detailed/11/apple-iphone-13-pro-max.primaryproductimage.code-MDAwMDAwMDAwMDAwMDIyNzU2.format-hardware-configurator-l.png"
-              alt="img"
-            />
+            <img src={item.imageUrls[0]} alt="img" />
           </div>
           <div className={style.position}>
             <div>
-              <Box className={style.info} key={item.id}>
+              <Box className={style.info} key={item.itemNo}>
                 <Typography className={style.name}>{item.name}</Typography>
-                <Typography>Price: ${item.price}</Typography>
+                <Typography>Price: ${item.currentPrice}</Typography>
               </Box>
             </div>
             <div>
@@ -71,22 +67,26 @@ function ShoppingCartItem({ items, remove, increase, decrease }) {
                     <Button
                       className={style.button}
                       sx={{ backgroundColor: '#A9A9A9', fontSize: 25 }}
-                      onClick={() => decrease(item.id, item.count)}
+                      onClick={() => decrease(item.itemNo, item.quantity)}
+                      disabled={item.quantity < 2}
                     >
                       -
                     </Button>
-                    <p className={style.item}>{item.count}</p>
+                    <p className={style.item}>{item.quantity}</p>
                     <Button
                       className={style.button}
                       sx={{ backgroundColor: '#A9A9A9', fontSize: 25 }}
-                      onClick={() => increase(item.id)}
+                      onClick={() => increase(item.itemNo)}
                     >
                       +
                     </Button>
                   </Box>
                 </div>
                 <div className={style.delete}>
-                  <Button sx={{ fontSize: 15 }} onClick={() => remove(item.id)}>
+                  <Button
+                    sx={{ fontSize: 15 }}
+                    onClick={() => remove(item.itemNo)}
+                  >
                     <Close />
                   </Button>
                 </div>
