@@ -60,3 +60,45 @@
     text-decoration: none;
   }
 }
+
+@media (max-width: 1300px) {
+  .AccessoriesInfo {
+    min-height: 600px;
+    background-image: url('../../../../public/accessoriesBcgr1300.jpg');
+    margin-bottom: 0;
+
+    h2 {
+      font-size: 25px;
+      span {
+        font-weight: 500;
+      }
+    }
+
+    .logo {
+      width: 150px;
+      height: 150px;
+      margin-top: 10px;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .AccessoriesInfo {
+    min-height: 600px;
+    background-image: url('../../../../public/accessoriesBcgr768.jpg');
+    margin-bottom: 0;
+
+    h2 {
+      font-size: 25px;
+      span {
+        font-weight: 500;
+      }
+    }
+
+    .logo {
+      width: 150px;
+      height: 150px;
+      margin-top: 30px;
+    }
+  }
+}

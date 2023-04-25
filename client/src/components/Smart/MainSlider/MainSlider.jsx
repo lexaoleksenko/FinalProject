@@ -1,5 +1,6 @@
 import { React } from 'react';
 import Slider from 'react-slick';
+import { useMediaQuery } from '@mui/material';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
@@ -8,12 +9,14 @@ import style from './MainSlider.module.scss';
 function MainSlider() {
   const dotsDisabled = true;
 
+  const isMobile = useMediaQuery('(max-width:1300px)');
+
   return (
     <Slider
       dots={dotsDisabled}
       infinite="true"
       speed={2000}
-      slidesToShow={2}
+      slidesToShow={!isMobile ? 2 : 1}
       slidesToScroll={1}
       autoplay="true"
       autoplaySpeed={5000}

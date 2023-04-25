@@ -5,6 +5,8 @@
   display: flex;
   background-color: #ffffff;
   overflow: hidden;
+  display: flex;
+  align-items: center;
 
   .leftSide {
     width: 360px;
@@ -28,7 +30,6 @@
   }
 
   .infoTxt {
-    margin-top: 110px;
     h2 {
       text-align: center;
       color: #000000;
@@ -37,6 +38,45 @@
     span {
       font-style: italic;
       font-weight: bold;
+    }
+  }
+}
+
+@media (max-width: 1300px) {
+  .tradeInSec {
+    .leftSide {
+      background-image: url('../../../../public/TradeIn_L1300.jpg');
+    }
+
+    .rightSide {
+      background-image: url('../../../../public/TradeIn_R1300.jpg');
+    }
+
+    .infoTxt {
+      h2 {
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .tradeInSec {
+    height: 167px;
+    .leftSide {
+      background-image: url('../../../../public/TradeIn_L768.jpg');
+      height: 167px;
+    }
+
+    .rightSide {
+      background-image: url('../../../../public/TradeIn_R768.jpg');
+      height: 167px;
+    }
+
+    .infoTxt {
+      h2 {
+        font-size: 13px;
+      }
     }
   }
 }
