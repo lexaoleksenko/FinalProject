@@ -4,7 +4,11 @@ import { useLocation } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../../redux/slices/auth';
-import { toggleDrawer, stateDrawer } from '../../../redux/slices/shopping-cart';
+import {
+  toggleDrawer,
+  stateDrawer,
+  stateCartProd,
+} from '../../../redux/slices/shopping-cart';
 
 import style from './Navbar.module.scss';
 
@@ -19,6 +23,7 @@ function Navbar() {
   const dispatch = useDispatch();
   const [isAuth, setIsAuth] = useState(false);
   const stateDraw = useSelector(stateDrawer);
+  const cartProducts = useSelector(stateCartProd);
 
   const handleLogOut = () => {
     window.localStorage.removeItem('token');
@@ -54,7 +59,7 @@ function Navbar() {
         <InputNav />
         <NavIcon
           favCount={12}
-          cartCount={8}
+          cartCount={cartProducts.length}
           nameAvatar="Artur Tech"
           isAuth={isAuth}
           onClickLogOut={handleLogOut}
