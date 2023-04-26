@@ -1,8 +1,10 @@
 .root {
   height: 200px;
   background-color: #000000;
-  margin-bottom: 0px;
   display: flex;
+  position: relative;
+  margin-top: auto;
+  margin-bottom: 0px;
 }
 
 .logo {
