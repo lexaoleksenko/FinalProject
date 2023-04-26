@@ -1,4 +1,6 @@
-import React from 'react';
+import { React, useRef, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useLocation } from 'react-router-dom';
 
 // import { Container } from '@mui/material';
 import style from './Home.module.scss';
@@ -11,7 +13,19 @@ import AccessoriesInfo from '../../components/Simple/AccessoriesInfoSection/Acce
 import VideoSec from '../../components/Simple/videoSection/VideoSec';
 import TradeInSec from '../../components/Simple/TradeInSection/TradeInSec';
 
-function HomePage() {
+function HomePage({ aboutUs }) {
+  const infoRef = useRef(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (aboutUs) {
+      infoRef.current.scrollIntoView({
+        block: 'center',
+        inline: 'center',
+      });
+    }
+  }, [location.pathname]);
+
   return (
     <div className={style.homePage}>
       <Marquee content="Sell-out!!!" />
@@ -21,9 +35,19 @@ function HomePage() {
       <VideoSec />
       <AccessoriesInfo />
       <SpecialOfferSec />
-      <MobiStoreInfo />
+      <div ref={infoRef}>
+        <MobiStoreInfo />
+      </div>
     </div>
   );
 }
+
+HomePage.defaultProps = {
+  aboutUs: false,
+};
+
+HomePage.propTypes = {
+  aboutUs: PropTypes.bool,
+};
 
 export default HomePage;

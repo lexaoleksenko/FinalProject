@@ -32,6 +32,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/about-us" element={<HomePage aboutUs="true" />} />
       </Routes>
       <Container maxWidth="lg">
         <Routes>

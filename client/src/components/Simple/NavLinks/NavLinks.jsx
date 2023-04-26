@@ -40,7 +40,7 @@ function NavLinks({
           <NavLink to="/products" className={style.link}>
             <ButtonNav label="All goods" />
           </NavLink>
-          <NavLink to="/" className={style.link}>
+          <NavLink to="/about-us">
             <ButtonNav label="About us" />
           </NavLink>
           <NavLink to="/" className={style.link}>
