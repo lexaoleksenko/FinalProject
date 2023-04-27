@@ -16,21 +16,26 @@ export default function CheckoutPage() {
 
   return (
     <TabContext value={value}>
-      <TabList className={style.list} onChange={handleTabs} variant="fullWidth">
+      <TabList
+        className={style.list}
+        onChange={handleTabs}
+        variant="fullWidth"
+        centered
+      >
         <Tab className={style.item} label="Contacts" value="1" />
         <Tab className={style.item} label="Delivery & Payment" value="2" />
         <Tab className={style.item} label="Order Review" value="3" />
       </TabList>
-      <TabPanel style={{ padding: '100px 20px 660px' }} value="1">
+      <TabPanel style={{ padding: '50px 20px' }} value="1">
         <Typography className={style.title} variant="h5">
           Main Information
         </Typography>
         <FormContacts />
       </TabPanel>
       <TabPanel value="2">Delivery &#38; Payment</TabPanel>
-      <TabPanel style={{ padding: '100px 20px 660px' }} value="3">
+      <TabPanel style={{ padding: '50px 20px' }} value="3">
         <ProductOrderInfo />
-        <Stack style={{ padding: '200px 20px' }} direction="column" spacing={3}>
+        <Stack style={{ padding: '50px 20px' }} direction="column" spacing={3}>
           <Button
             style={{ maxWidth: '450px', margin: '10px auto' }}
             size="large"

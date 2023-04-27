@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
-
 import {
   Card,
   CardContent,
@@ -11,18 +10,17 @@ import {
   Stack,
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-
 import { useDispatch, useSelector } from 'react-redux';
 import ButtonDark from '../../UI/Buttons/ButtonDark/ButtonDark';
-
 import style from './ListCard.module.scss';
 import {
-  addProducts,
-  // fetchCartProduct,
-  stateCartProd,
-  toggleDrawer,
-  // toggleDrawer,
+  setSelectedProducts,
+  stateSelectedProducts,
 } from '../../../redux/slices/shopping-cart';
+import {
+  setSelectedProductsFav,
+  stateSelectedProductsFav,
+} from '../../../redux/slices/wishList';
 
 function ListCard({
   product,
@@ -35,15 +33,27 @@ function ListCard({
   sm,
 }) {
   const dispatch = useDispatch();
-  const products = useSelector(stateCartProd);
-
-  useEffect(() => {
-    localStorage.setItem('products', JSON.stringify(products));
-  }, [products]);
-
+  const selectedProducts = useSelector(stateSelectedProducts);
+  const selectedProductsFav = useSelector(stateSelectedProductsFav);
   const handleBuyNow = (e, params) => {
     e.stopPropagation();
-    dispatch(addProducts(params));
+
+    const isExist = selectedProducts.find(
+      item => item.itemNo === params.itemNo,
+    );
+    if (isExist) return;
+
+    const data = selectedProducts.concat(params);
+    dispatch(setSelectedProducts(data));
+  };
+  const handleAddToFav = params => {
+    const isExist = selectedProductsFav.find(
+      item => item.itemNo === params.itemNo,
+    );
+    if (isExist) return;
+
+    const data = selectedProductsFav.concat(params);
+    dispatch(setSelectedProductsFav(data));
   };
   return (
     <Grid item xs={12} sm={sm} md={md} lg={lg}>
@@ -64,11 +74,16 @@ function ListCard({
               </div>
               <div className={style.cardIcon}>
                 <NavLink onClick={e => handleBuyNow(e, product)}>
-                  <ButtonDark label="BUY NOW" />
+                  <ButtonDark
+                    label="BUY NOW"
+                    disabled={selectedProducts.includes(product.itemNo)}
+                  />
                 </NavLink>
-                <button className={style.cardFavButton} type="button">
-                  <FavoriteIcon />
-                </button>
+                <NavLink onClick={() => handleAddToFav(product)}>
+                  <button className={style.cardFavButton} type="button">
+                    <FavoriteIcon />
+                  </button>
+                </NavLink>
               </div>
             </CardContent>
           </Card>

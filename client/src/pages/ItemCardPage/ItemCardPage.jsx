@@ -12,23 +12,19 @@ import MainCardSkeleton from '../../components/Smart/MainCard/MainCardSkeleton';
 import CardHelpInfo from '../../components/UI/CardHelpInfo/CardHelpInfo';
 import style from './ItemCardPage.module.scss';
 
-function ItemCardPage(handleAddToCart) {
+function ItemCardPage() {
   const dispatch = useDispatch();
-  const [currentProd, setCurrentProd] = useState();
   const { status, product } = useSelector(cardProductState);
   const match = useMatch('/product/:itemNo');
-  const { itemNo } = match.params;
-  useEffect(() => {
-    dispatch(fetchCardProduct(itemNo));
+
+  useEffect(async () => {
+    dispatch(fetchCardProduct(match.params.itemNo));
   }, []);
 
-  useEffect(() => {
-    if (status === 'loaded') {
-      setCurrentProd(product[0]);
-      console.log('status === loaded product>>>>', product);
-      console.log('status === loaded currentProd>>>>', currentProd);
-    }
-  }, [status, product]);
+  if (status === 'error') {
+    // TODO: error view
+    return null;
+  }
 
   if (status === 'loading') {
     return (
@@ -38,17 +34,11 @@ function ItemCardPage(handleAddToCart) {
       </div>
     );
   }
-  if (currentProd && status === 'loaded') {
+
+  if (status === 'loaded') {
     return (
       <div className={style.mainCardContainer}>
-        <MainCard
-          onClick={handleAddToCart}
-          name={currentProd.name}
-          currentPrice={currentProd.currentPrice}
-          description={currentProd.description}
-          color={currentProd.color}
-          imageUrls={currentProd.imageUrls}
-        />
+        <MainCard product={product} />
         <CardHelpInfo />
       </div>
     );
