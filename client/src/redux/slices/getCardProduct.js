@@ -3,10 +3,9 @@ import axios from 'axios';
 
 export const fetchCardProduct = createAsyncThunk(
   'getCardProduct/fetchCardProduct',
-  async params => {
+  async id => {
     try {
-      const { data } = await axios.get(`/api/products/${params}`);
-      console.log('CardProduct>>>>>', data);
+      const { data } = await axios.get(`/api/products/${id}`);
       return data;
     } catch (error) {
       console.warn(error);
@@ -35,7 +34,7 @@ export const getCardProduct = createSlice({
       const newState = {
         ...state,
         status: 'loaded',
-        product: [action.payload],
+        product: action.payload,
       };
       return newState;
     },

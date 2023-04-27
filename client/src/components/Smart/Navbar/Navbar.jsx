@@ -10,7 +10,11 @@ import { useLocation } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../../redux/slices/auth';
-import { toggleDrawer, stateDrawer } from '../../../redux/slices/shopping-cart';
+import {
+  toggleDrawer,
+  stateDrawer,
+  stateSelectedProducts,
+} from '../../../redux/slices/shopping-cart';
 
 import style from './Navbar.module.scss';
 
@@ -19,12 +23,15 @@ import NavLinks from '../../Simple/NavLinks/NavLinks';
 import NavIcon from '../../Simple/NavIcon/NavIcon';
 import InputNav from '../../UI/InputWhite/InputWhite';
 import CartList from '../CartList/CartList';
+import { stateSelectedProductsFav } from '../../../redux/slices/wishList';
 
 function Navbar() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [isAuth, setIsAuth] = useState(false);
   const stateDraw = useSelector(stateDrawer);
+  const cartProducts = useSelector(stateSelectedProducts);
+  const favProducts = useSelector(stateSelectedProductsFav);
 
   const handleLogOut = () => {
     window.localStorage.removeItem('token');
@@ -63,8 +70,8 @@ function Navbar() {
             <NavLinks />
             <InputNav />
             <NavIcon
-              favCount={12}
-              cartCount={8}
+              favCount={favProducts.length}
+              cartCount={cartProducts.length}
               nameAvatar="Artur Tech"
               isAuth={isAuth}
               onClickLogOut={handleLogOut}
@@ -82,8 +89,8 @@ function Navbar() {
               <Logo />
             </Typography>
             <NavLinks
-              favCount={12}
-              cartCount={8}
+              favCount={favProducts.length}
+              cartCount={cartProducts.length}
               nameAvatar="Artur Tech"
               isAuth={isAuth}
               onClickLogOut={handleLogOut}
