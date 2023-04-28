@@ -1,6 +1,7 @@
 .specialOfferSec {
+  padding-top: 60px;
   min-width: 100%;
-  height: 500px;
+  height: 620px;
   background-color: #000000;
   overflow: hidden;
   text-align: center;
@@ -34,6 +35,28 @@ h3 {
   background-repeat: no-repeat;
   background-size: cover;
   margin-top: 10px;
+  padding-bottom: 60px;
+}
+
+@media (max-width: 1300px) {
+  h3 {
+    font-size: 25px;
+  }
+
+  .specialBcgr {
+    background-image: url('../../../../public/specialBcgr1300.jpg');
+  }
+}
+
+@media (max-width: 768px) {
+  .specialOfferSec {
+    height: 500px;
+  }
+  .specialBcgr {
+    width: 100%;
+    height: 220px;
+    background-image: url('../../../../public/specialBcgr768.jpg');
+  }
 }
 
 .visibleSpecialBcgr {

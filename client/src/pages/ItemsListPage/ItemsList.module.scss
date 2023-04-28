@@ -1,0 +1,20 @@
+.root {
+  .title {
+    color: #000000;
+    font-weight: 600;
+    margin-top: 60px;
+    text-transform: uppercase;
+    span {
+      color: #686868;
+      font-weight: 300;
+      font-size: 15px;
+      text-transform: none;
+      text-decoration: underline;
+      margin-right: 5px;
+    }
+
+    & span:first-child {
+      margin-left: 20px;
+    }
+  }
+}

@@ -10,18 +10,29 @@ import AvatarUser from '../../UI/Avatar/AvatapUser';
 
 import style from './NavIcon.module.scss';
 
-function NavIcon({ cartCount, favCount, nameAvatar, avatarSrc, isAuth }) {
+function NavIcon({
+  cartCount,
+  favCount,
+  nameAvatar,
+  avatarSrc,
+  isAuth,
+  onClickLogOut,
+  onClickOpenDrawer,
+}) {
   return (
     <div className={style.root}>
       <div className={style.containerIcon}>
         <NavLink className={style.link}>
           <IconButton>
             <Badge badgeContent={cartCount} className={style.badge}>
-              <ShoppingCartIcon className={style.icon} />
+              <ShoppingCartIcon
+                className={style.icon}
+                onClick={onClickOpenDrawer}
+              />
             </Badge>
           </IconButton>
         </NavLink>
-        <NavLink className={style.link}>
+        <NavLink to="/wishlist" className={style.link}>
           <IconButton>
             <Badge badgeContent={favCount} className={style.badge}>
               <FavoriteIcon className={style.icon} />
@@ -30,11 +41,12 @@ function NavIcon({ cartCount, favCount, nameAvatar, avatarSrc, isAuth }) {
         </NavLink>
       </div>
       <div className={style.containerAvatar}>
-        <NavLink to={isAuth ? '/' : '/'} className={style.link}>
+        <NavLink to={isAuth ? '/' : '/login'} className={style.link}>
           <AvatarUser
             nameAvatar={nameAvatar}
             avatarSrc={avatarSrc}
             isAuth={isAuth}
+            onClickLogOut={onClickLogOut}
           />
         </NavLink>
       </div>
@@ -56,6 +68,8 @@ NavIcon.propTypes = {
   favCount: PropTypes.number,
   nameAvatar: PropTypes.string,
   isAuth: PropTypes.bool,
+  onClickLogOut: PropTypes.func.isRequired,
+  onClickOpenDrawer: PropTypes.func.isRequired,
 };
 
 export default NavIcon;

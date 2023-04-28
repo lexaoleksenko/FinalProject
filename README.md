@@ -20,14 +20,39 @@ click...click...click...
 
 # 1. Oleksenko Oleksiy
 
-Implemented functionality:
+-Implemented Website layout:
+  1. `Home Page` (Responsiveness, and all components)
+  2. `Items List Page` (Responsiveness, and all components except `Accordion`)
+  3. `Item Card Page` (Responsiveness, and all components)
+  4. `Loading Page` (Responsiveness, and all components)
+  5. `LogIn Page` (Responsiveness, and all components)
+  6. `SigUp Page` (Responsiveness, and all components)
+  7. `Navbar` (Responsiveness, and all components except `ShoppingCart`)
+  8. `Footer` (Responsiveness, and all components)
 
-1.
+-Implemented Website functionality:
+  1. Registration Logic
+  2. Authorization Logic
+  3. Logic for getting all products
+  4. Logic for getting one item
+  5. Logic for pagination
+  6. Logic for filtration
+
+-Organizational tasks:
+  1. Project structure
+  2. Set up standardization
+  3. Git Merge
+  4. Trello task managment
 
 # 2. Maksim Lazarenko
 
-Implemented functionality:
+-Implemented Website layout:
+  1.
 
-1.
+-Implemented Website functionality:
+  1.
+
+-Organizational tasks:
+  1.
 
 # 3. .....

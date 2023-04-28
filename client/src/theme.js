@@ -46,17 +46,14 @@ const theme = createTheme({
     h1: {
       fontSize: '45px',
       fontWeight: 700,
-      lineHeight: '55px',
     },
     h2: {
       fontSize: '40px',
       fontWeight: 400,
-      lineHeight: 45,
     },
     p: {
       fontSize: '20px',
       fontWeight: 400,
-      lineHeight: 23,
     },
   },
 });
