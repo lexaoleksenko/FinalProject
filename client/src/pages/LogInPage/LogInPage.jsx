@@ -49,7 +49,7 @@ function LogInPage() {
 
   return (
     <div className={style.logInBcgr}>
-      <Paper className={style.logInPage}>
+      <Paper className={style.logInPage} elevation={0}>
         <Typography
           className={style.title}
           style={{ marginBottom: 30 }}

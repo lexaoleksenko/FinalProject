@@ -46,7 +46,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/about-us" element={<HomePage aboutUs="true" />} />
+        <Route path="/about-us" element={<HomePage aboutUs />} />
       </Routes>
       <Container maxWidth="lg">
         <Routes>

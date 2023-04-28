@@ -64,7 +64,7 @@ function Navbar() {
       {!isMobile ? (
         <AppBar position="static" className={style.root}>
           <Toolbar>
-            <Typography variant="h6" className={style}>
+            <Typography variant="h6">
               <Logo />
             </Typography>
             <NavLinks />

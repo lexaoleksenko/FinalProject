@@ -68,7 +68,7 @@ function SigInPage() {
 
   return (
     <div className={style.sigInBcgr}>
-      <Paper className={style.sigInPage}>
+      <Paper className={style.sigInPage} elevation={0}>
         <Typography className={style.title} variant="h5">
           Create an account
         </Typography>

@@ -111,6 +111,8 @@ function NavLinks({
 }
 
 NavLinks.defaultProps = {
+  onClickLogOut: null,
+  onClickOpenDrawer: null,
   cartCount: 666,
   favCount: 999,
   nameAvatar: 'Jhon Dou',
@@ -122,8 +124,8 @@ NavLinks.propTypes = {
   favCount: PropTypes.number,
   nameAvatar: PropTypes.string,
   isAuth: PropTypes.bool,
-  onClickLogOut: PropTypes.func.isRequired,
-  onClickOpenDrawer: PropTypes.func.isRequired,
+  onClickLogOut: PropTypes.func,
+  onClickOpenDrawer: PropTypes.func,
 };
 
 export default NavLinks;

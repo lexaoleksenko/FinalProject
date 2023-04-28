@@ -2,7 +2,14 @@ import { createTheme } from '@mui/material/styles';
 import 'typeface-montserrat';
 
 const theme = createTheme({
-  shadows: ['none'],
+  shadows: [
+    'none',
+    '0px 0px 0px rgba(0, 0, 0, 0)',
+    '0px 0px 0px rgba(0, 0, 0, 0)',
+    '0px 0px 0px rgba(0, 0, 0, 0)',
+    '0px 0px 0px rgba(0, 0, 0, 0)',
+    '0px 0px 0px rgba(0, 0, 0, 0)',
+  ],
   palette: {
     primary: {
       main: '#000000',
