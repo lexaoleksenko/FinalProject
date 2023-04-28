@@ -54,7 +54,7 @@ function ItemsListPage() {
         </Grid>
         {status === 'loading' ? (
           <Grid container spacing={1} marginTop={0} marginBottom={5}>
-            {Array.from({ length: 12 }).map((_, index) => (
+            {Array.from({ length: 9 }).map((_, index) => (
               <ListCardSkeleton key={index} />
             ))}
           </Grid>

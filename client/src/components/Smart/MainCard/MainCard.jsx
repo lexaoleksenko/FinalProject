@@ -76,9 +76,16 @@ MainCard.defaultProps = {
 };
 
 MainCard.propTypes = {
-  product: PropTypes.objectOf(PropTypes.string).isRequired,
+  product: PropTypes.objectOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+      PropTypes.array,
+      PropTypes.number,
+    ]),
+  ).isRequired,
   name: PropTypes.string,
-  currentPrice: PropTypes.string,
+  currentPrice: PropTypes.number,
   description: PropTypes.string,
   color: PropTypes.string,
   imageUrls: PropTypes.arrayOf(PropTypes.string).isRequired,

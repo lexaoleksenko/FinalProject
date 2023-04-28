@@ -22,7 +22,7 @@ ButtonDark.defaultProps = {
   color: 'primary',
   variant: 'contained',
   disabled: false,
-  style: '',
+  style: null,
 };
 
 ButtonDark.propTypes = {
@@ -31,7 +31,9 @@ ButtonDark.propTypes = {
   color: PropTypes.string,
   variant: PropTypes.string,
   disabled: PropTypes.bool,
-  style: PropTypes.string,
+  style: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  ),
 };
 
 export default ButtonDark;
