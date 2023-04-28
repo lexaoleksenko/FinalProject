@@ -49,7 +49,7 @@ function LogInPage() {
 
   return (
     <div className={style.logInBcgr}>
-      <Paper className={style.logInPage}>
+      <Paper className={style.logInPage} elevation={0}>
         <Typography
           className={style.title}
           style={{ marginBottom: 30 }}
@@ -91,9 +91,9 @@ function LogInPage() {
             Log In
           </Button>
         </form>
-        <NavLink to="/sigup">
+        <NavLink to="/signup">
           <Button type="button" size="small" variant="contained">
-            Sig UP
+            Sign UP
           </Button>
         </NavLink>
       </Paper>

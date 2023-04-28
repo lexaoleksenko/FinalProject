@@ -21,31 +21,32 @@ const initialState = {
 export const getCardProduct = createSlice({
   name: 'getCardProduct',
   initialState,
-  extraReducers: {
-    [fetchCardProduct.pending]: state => {
-      const newState = {
-        ...state,
-        status: 'loading',
-        product: null,
-      };
-      return newState;
-    },
-    [fetchCardProduct.fulfilled]: (state, action) => {
-      const newState = {
-        ...state,
-        status: 'loaded',
-        product: action.payload,
-      };
-      return newState;
-    },
-    [fetchCardProduct.rejected]: state => {
-      const newState = {
-        ...state,
-        status: 'error',
-        product: null,
-      };
-      return newState;
-    },
+  extraReducers: builder => {
+    builder
+      .addCase(fetchCardProduct.pending, state => {
+        const newState = {
+          ...state,
+          status: 'loading',
+          product: null,
+        };
+        return newState;
+      })
+      .addCase(fetchCardProduct.fulfilled, (state, action) => {
+        const newState = {
+          ...state,
+          status: 'loaded',
+          product: action.payload,
+        };
+        return newState;
+      })
+      .addCase(fetchCardProduct.rejected, state => {
+        const newState = {
+          ...state,
+          status: 'error',
+          product: null,
+        };
+        return newState;
+      });
   },
 });
 

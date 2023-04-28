@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Grid } from '@mui/material';
+import { Grid, Container } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchAllProducts,
@@ -36,46 +36,48 @@ function ItemsListPage() {
 
   useEffect(() => {
     if (status === 'loaded') {
-      setProdArr(products[0].products);
-      console.log('products[0]>>>>>>', products[0]);
+      setProdArr(products.products);
     }
   }, [status]);
 
   return (
-    <div className={style.root}>
-      <h2 className={style.title}>
-        All categories
-        <span>{'>'}Apple</span>
-        <span>{'>'}128GB</span>
-        <span>{'>'}Black</span>
-      </h2>
-      <Grid display="flex">
-        <Grid marginRight={1} marginTop={1}>
-          <SimpleAccordion />
+    <Container maxWidth="lg">
+      {' '}
+      <div className={style.root}>
+        <h2 className={style.title}>
+          All categories
+          <span>{'>'}Apple</span>
+          <span>{'>'}128GB</span>
+          <span>{'>'}Black</span>
+        </h2>
+        <Grid display="flex">
+          <Grid marginRight={1} marginTop={1}>
+            <SimpleAccordion />
+          </Grid>
+          {status === 'loading' ? (
+            <Grid container spacing={1} marginTop={0} marginBottom={5}>
+              {Array.from({ length: 9 }).map((_, index) => (
+                <ListCardSkeleton key={index} />
+              ))}
+            </Grid>
+          ) : (
+            <Grid container spacing={1} marginTop={0} marginBottom={5}>
+              {prodArr.map((product, index) => (
+                <ListCard
+                  product={product}
+                  key={index}
+                  imageUrl={product.imageUrls[0]}
+                  name={product.name}
+                  currentPrice={product.currentPrice}
+                  itemNo={product.itemNo}
+                />
+              ))}
+            </Grid>
+          )}
         </Grid>
-        {status === 'loading' ? (
-          <Grid container spacing={1} marginTop={0} marginBottom={5}>
-            {Array.from({ length: 12 }).map((_, index) => (
-              <ListCardSkeleton key={index} />
-            ))}
-          </Grid>
-        ) : (
-          <Grid container spacing={1} marginTop={0} marginBottom={5}>
-            {prodArr.map((product, index) => (
-              <ListCard
-                product={product}
-                key={index}
-                imageUrl={product.imageUrls[0]}
-                name={product.name}
-                currentPrice={product.currentPrice}
-                itemNo={product.itemNo}
-              />
-            ))}
-          </Grid>
-        )}
-      </Grid>
-      <PaginationRounded />
-    </div>
+        <PaginationRounded />
+      </div>
+    </Container>
   );
 }
 export default ItemsListPage;

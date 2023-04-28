@@ -20,7 +20,7 @@ function PaginationRounded() {
 
   useEffect(() => {
     if (status === 'loaded') {
-      const pageQuantity = Math.ceil(products[0].productsQuantity / 9);
+      const pageQuantity = Math.ceil(products.productsQuantity / 9);
       setPageTotal(pageQuantity);
     }
   }, [status]);
@@ -28,13 +28,13 @@ function PaginationRounded() {
   return (
     <Stack spacing={2}>
       <Pagination
-        count={pageTotal}
+        count={pageTotal ?? 1}
         onChange={handlePageChange}
         variant="outlined"
         shape="rounded"
         size="small"
-        showFirstButton="true"
-        showLastButton="true"
+        showFirstButton
+        showLastButton
         style={{ marginLeft: 'auto', marginRight: 'auto', marginBottom: 20 }}
       />
     </Stack>
