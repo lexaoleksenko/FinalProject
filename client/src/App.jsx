@@ -10,7 +10,6 @@ import CheckoutPage from './pages/Checkout/CheckoutPage';
 import ItemCardPage from './pages/ItemCardPage/ItemCardPage';
 import ItemsListPage from './pages/ItemsListPage/ItemsListPage';
 import WishlistPage from './pages/WishlistPage/WishlistPage';
-import CartPage from './pages/Cart/CartPage';
 import LogInPage from './pages/LogInPage/LogInPage';
 import SigInPage from './pages/SigInPage/SigInPage';
 import LoadingPage from './pages/LoadingPage/LoadingPage';
@@ -53,7 +52,6 @@ function App() {
           <Route path="/products" element={<ItemsListPage />} />
           <Route path="/product/:itemNo" element={<ItemCardPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/cart" element={<CartPage />} />
           <Route path="/wishlist" element={<WishlistPage />} />
         </Routes>
       </Container>

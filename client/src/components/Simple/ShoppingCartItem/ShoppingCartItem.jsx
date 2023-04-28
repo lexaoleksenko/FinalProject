@@ -5,11 +5,11 @@ import { Box, Button, Typography, Divider } from '@mui/material';
 import style from './itemstable.module.scss';
 
 const itemPropType = PropTypes.shape({
-  _id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  img: PropTypes.string.isRequired,
-  count: PropTypes.number.isRequired,
+  _id: PropTypes.string,
+  name: PropTypes.string,
+  price: PropTypes.number,
+  img: PropTypes.string,
+  count: PropTypes.number,
 });
 
 const itemsPropType = PropTypes.arrayOf(itemPropType);
@@ -24,10 +24,10 @@ function ShoppingCartItem({
   return (
     <div className={style.wrapper}>
       {items?.map(item => (
-        <div className={style.items}>
+        <div className={style.items} key={item.itemNo}>
           <img className={style.image} src={item.imageUrls[0]} alt="img" />
           <div className={style.position}>
-            <Box className={style.info} key={item.itemNo}>
+            <Box className={style.info}>
               <Typography className={style.name}>{item.name}</Typography>
               <Typography className={style.price}>
                 Price: ${item.currentPrice}
@@ -81,7 +81,13 @@ function ShoppingCartItem({
 }
 
 ShoppingCartItem.defaultProps = {
-  items: [],
+  items: {
+    _id: null,
+    name: null,
+    price: null,
+    img: null,
+    count: null,
+  },
   buttonDisplay: false,
 };
 
