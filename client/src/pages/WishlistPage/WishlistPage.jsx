@@ -15,7 +15,7 @@ function WishlistPage() {
 
   useEffect(() => {
     if (status === 'loaded') {
-      setProdArr(products[0]);
+      setProdArr(products);
     }
   }, [status, products]);
 

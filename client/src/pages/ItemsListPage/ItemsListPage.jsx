@@ -36,8 +36,7 @@ function ItemsListPage() {
 
   useEffect(() => {
     if (status === 'loaded') {
-      setProdArr(products[0].products);
-      console.log('products[0]>>>>>>', products[0]);
+      setProdArr(products.products);
     }
   }, [status]);
 

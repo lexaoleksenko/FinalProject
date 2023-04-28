@@ -9,7 +9,6 @@ export const fetchAllProducts = createAsyncThunk(
       const { data } = await axios.get(
         `/api/products/filter?${filterParams}&perPage=9&`,
       );
-      console.log('axios', `/api/products/filter?${filterParams}`);
       return data;
     } catch (error) {
       console.warn(error);
@@ -64,7 +63,7 @@ export const getAllProd = createSlice({
       const newState = {
         ...state,
         status: 'loaded',
-        products: [action.payload],
+        products: action.payload,
       };
       return newState;
     },
