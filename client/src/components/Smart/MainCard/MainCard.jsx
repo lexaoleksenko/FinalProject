@@ -13,7 +13,14 @@ import {
   stateSelectedProducts,
 } from '../../../redux/slices/shopping-cart';
 
-function MainCard({ product }) {
+function MainCard({
+  product,
+  imageUrls,
+  name,
+  currentPrice,
+  color,
+  description,
+}) {
   const dispatch = useDispatch();
   const selectedProducts = useSelector(stateSelectedProducts);
   const handleBuyNow = e => {
@@ -29,15 +36,15 @@ function MainCard({ product }) {
   };
   return (
     <Card className={style.card}>
-      <MainCardSlider imageUrls={product.imageUrls} />
+      <MainCardSlider imageUrls={imageUrls} />
       <CardContent className={style.cardContent}>
         <div className={style.typography}>
-          <Typography variant="p">{product.name}</Typography>
-          <Typography variant="p">{product.currentPrice}$</Typography>
+          <Typography variant="p">{name}</Typography>
+          <Typography variant="p">{currentPrice}$</Typography>
         </div>
         <div className={style.cardDescrip}>
-          <Typography variant="p">Color: {product.color}</Typography>
-          <Typography variant="p">{product.description}</Typography>
+          <Typography variant="p">Color: {color}</Typography>
+          <Typography variant="p">{description}</Typography>
         </div>
         <div className={style.cardIcon}>
           <NavLink onClick={handleBuyNow}>
@@ -62,21 +69,19 @@ function MainCard({ product }) {
 }
 
 MainCard.defaultProps = {
-  product: {},
-  // name: 'iPhone 14 Pro Max',
-  // currentPrice: '1000$',
-  // description: 'Here is some cool product description',
-  // color: 'Here is some cool color',
+  name: 'iPhone 14 Pro Max',
+  currentPrice: '1000$',
+  description: 'Here is some cool product description',
+  color: 'Here is some cool color',
 };
 
 MainCard.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  product: PropTypes.object,
-  // name: PropTypes.string,
-  // currentPrice: PropTypes.string,
-  // description: PropTypes.string,
-  // color: PropTypes.string,
-  // imageUrls: PropTypes.arrayOf(PropTypes.string).isRequired,
+  product: PropTypes.objectOf(PropTypes.string).isRequired,
+  name: PropTypes.string,
+  currentPrice: PropTypes.string,
+  description: PropTypes.string,
+  color: PropTypes.string,
+  imageUrls: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 export default MainCard;

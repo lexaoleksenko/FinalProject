@@ -1,6 +1,6 @@
 import { React, useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import style from './WishlistPage.module.scss';
 import ListCard from '../../components/Smart/ListCard/ListCard';
 import ListCardSkeleton from '../../components/Smart/ListCard/ListCardSkeleton';
@@ -43,7 +43,7 @@ function WishlistPage() {
             not have to look it up later.
           </p>
         </div>
-        <Grid container spacing={4} marginTop={0} marginBottom={5}>
+        <Grid container spacing={1} marginTop={0} marginBottom={5}>
           {selectedProductsFav.map((product, index) => (
             <ListCard
               product={product}
@@ -52,6 +52,9 @@ function WishlistPage() {
               name={product.name}
               currentPrice={product.currentPrice}
               itemNo={product.itemNo}
+              lg={3}
+              md={4}
+              sm={6}
             />
           ))}
         </Grid>

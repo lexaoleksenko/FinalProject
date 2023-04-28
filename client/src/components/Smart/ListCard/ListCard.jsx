@@ -59,42 +59,44 @@ function ListCard({
     <Grid item xs={12} sm={sm} md={md} lg={lg}>
       {' '}
       <Stack spacing={4}>
-        <NavLink to={`/product/${itemNo}`} className={style.mainLink}>
-          <Card className={style.card}>
+        <Card className={style.card}>
+          <NavLink to={`/product/${itemNo}`} className={style.mainLink}>
             <CardMedia
               className={style.cardMedia}
               component="img"
               image={imageUrl}
               alt={name}
             />
-            <CardContent className={style.cardContent}>
+          </NavLink>
+          <CardContent className={style.cardContent}>
+            <NavLink to={`/product/${itemNo}`} className={style.mainLink}>
               <div className={style.typography}>
                 <Typography variant="p">{name}</Typography>
                 <Typography variant="p">{currentPrice}$</Typography>
               </div>
-              <div className={style.cardIcon}>
-                <NavLink onClick={e => handleBuyNow(e, product)}>
-                  <ButtonDark
-                    label="BUY NOW"
-                    disabled={selectedProducts.includes(product.itemNo)}
-                  />
-                </NavLink>
-                <NavLink onClick={() => handleAddToFav(product)}>
-                  <button className={style.cardFavButton} type="button">
-                    <FavoriteIcon />
-                  </button>
-                </NavLink>
-              </div>
-            </CardContent>
-          </Card>
-        </NavLink>
+            </NavLink>
+            <div className={style.cardIcon}>
+              <ButtonDark
+                label="BUY NOW"
+                disabled={selectedProducts.includes(product.itemNo)}
+                onClick={e => handleBuyNow(e, product)}
+              />
+              <button
+                className={style.cardFavButton}
+                type="button"
+                onClick={() => handleAddToFav(product)}
+              >
+                <FavoriteIcon />
+              </button>
+            </div>
+          </CardContent>
+        </Card>
       </Stack>
     </Grid>
   );
 }
 
 ListCard.defaultProps = {
-  product: {},
   name: 'iPhone 14 Pro Max',
   currentPrice: '1000$',
   imageUrl: './logo2.png',
@@ -105,8 +107,7 @@ ListCard.defaultProps = {
 };
 
 ListCard.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  product: PropTypes.object,
+  product: PropTypes.objectOf(PropTypes.string).isRequired,
   name: PropTypes.string,
   currentPrice: PropTypes.string,
   imageUrl: PropTypes.string,
