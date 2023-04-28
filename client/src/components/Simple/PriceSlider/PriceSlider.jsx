@@ -3,49 +3,38 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Slider from '@mui/material/Slider';
 
-function valueLabelFormat(value) {
-  const units = ['uah'];
-
-  let unitIndex = 0;
-  let scaledValue = value;
-
-  while (scaledValue >= 1000 && unitIndex < units.length - 1) {
-    unitIndex += 1;
-    scaledValue /= 1000;
-  }
-
-  return `${scaledValue} ${units[unitIndex]}`;
-}
-
-function calculateValue(value) {
-  return 2 ** value;
-}
+import { useDispatch } from 'react-redux';
+import { setMinPrice, setMaxPrice } from '../../../redux/slices/getAllProducts';
 
 export default function NonLinearSlider() {
-  const [value, setValue] = React.useState(10);
+  const dispatch = useDispatch();
+  const [rangeValues, setRangeValues] = React.useState([600, 2000]);
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      dispatch(setMinPrice(rangeValues[0]));
+      dispatch(setMaxPrice(rangeValues[1]));
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [rangeValues]);
 
   const handleChange = (event, newValue) => {
-    if (typeof newValue === 'number') {
-      setValue(newValue);
-    }
+    setRangeValues(newValue);
   };
 
   return (
     <Box sx={{ width: 230 }}>
-      <Typography id="non-linear-slider">
-        {valueLabelFormat(calculateValue(value))}
-      </Typography>
+      <Typography id="slider">{`${rangeValues[0]}USD - ${rangeValues[1]}USD`}</Typography>
       <Slider
-        value={value}
-        min={5}
-        step={1}
-        max={16}
-        scale={calculateValue}
-        getAriaValueText={valueLabelFormat}
-        valueLabelFormat={valueLabelFormat}
+        value={rangeValues}
         onChange={handleChange}
         valueLabelDisplay="auto"
-        aria-labelledby="non-linear-slider"
+        marks={false}
+        min={600}
+        step={200}
+        max={2000}
+        aria-labelledby="slider"
       />
     </Box>
   );

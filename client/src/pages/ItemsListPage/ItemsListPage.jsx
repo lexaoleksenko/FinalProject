@@ -8,7 +8,6 @@ import {
 } from '../../redux/slices/getAllProducts';
 
 import style from './ItemsList.module.scss';
-// eslint-disable-next-line import/no-named-as-default,import/no-named-as-default-member
 import ListCard from '../../components/Smart/ListCard/ListCard';
 import ListCardSkeleton from '../../components/Smart/ListCard/ListCardSkeleton';
 import SimpleAccordion from '../../components/Simple/ProductAccordion/ProductAccordion';
@@ -19,7 +18,6 @@ import { stateSelectedProductsFav } from '../../redux/slices/wishList';
 function ItemsListPage() {
   const dispatch = useDispatch();
   const [prodArr, setProdArr] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
   const { status, products } = useSelector(allProdState);
   const selectedProducts = useSelector(stateSelectedProducts);
   const selectedProductsFav = useSelector(stateSelectedProductsFav);
@@ -38,60 +36,32 @@ function ItemsListPage() {
 
   useEffect(() => {
     if (status === 'loaded') {
-      setProdArr(products[0]);
+      setProdArr(products[0].products);
+      console.log('products[0]>>>>>>', products[0]);
     }
-  }, [status, products]);
+  }, [status]);
 
-  // Logic for displaying current products
-  const indexOfLastProduct = currentPage * 9;
-  const indexOfFirstProduct = indexOfLastProduct - 9;
-  const currentProducts = prodArr.slice(
-    indexOfFirstProduct,
-    indexOfLastProduct,
-  );
-
-  const paginate = pageNumber => {
-    setCurrentPage(pageNumber);
-  };
-
-  if (status === 'loading') {
-    return (
-      <>
-        <h2 className={style.title}>
-          All categories
-          <span>{'>'}Apple</span>
-          <span>{'>'}128GB</span>
-          <span>{'>'}Black</span>
-        </h2>
-        <Grid display="flex">
-          <Grid marginRight={1} marginTop={1}>
-            <SimpleAccordion />
-          </Grid>
+  return (
+    <div className={style.root}>
+      <h2 className={style.title}>
+        All categories
+        <span>{'>'}Apple</span>
+        <span>{'>'}128GB</span>
+        <span>{'>'}Black</span>
+      </h2>
+      <Grid display="flex">
+        <Grid marginRight={1} marginTop={1}>
+          <SimpleAccordion />
+        </Grid>
+        {status === 'loading' ? (
           <Grid container spacing={1} marginTop={0} marginBottom={5}>
             {Array.from({ length: 12 }).map((_, index) => (
               <ListCardSkeleton key={index} />
             ))}
           </Grid>
-        </Grid>
-      </>
-    );
-  }
-
-  if (prodArr && status === 'loaded') {
-    return (
-      <div className={style.root}>
-        <h2 className={style.title}>
-          All categories
-          <span>{'>'}Apple</span>
-          <span>{'>'}128GB</span>
-          <span>{'>'}Black</span>
-        </h2>
-        <Grid display="flex">
-          <Grid marginRight={1} marginTop={1}>
-            <SimpleAccordion />
-          </Grid>
+        ) : (
           <Grid container spacing={1} marginTop={0} marginBottom={5}>
-            {currentProducts.map((product, index) => (
+            {prodArr.map((product, index) => (
               <ListCard
                 product={product}
                 key={index}
@@ -102,15 +72,10 @@ function ItemsListPage() {
               />
             ))}
           </Grid>
-        </Grid>
-        <PaginationRounded
-          productsPerPage={9}
-          totalProducts={prodArr.length}
-          paginate={paginate}
-          currentPage={currentPage}
-        />
-      </div>
-    );
-  }
+        )}
+      </Grid>
+      <PaginationRounded />
+    </div>
+  );
 }
 export default ItemsListPage;

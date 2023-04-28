@@ -1,34 +1,44 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
+import { React, useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
-function PaginationRounded(props) {
-  const { productsPerPage, totalProducts, paginate, currentPage } = props;
-  const pageNumbers = Math.ceil(totalProducts / productsPerPage);
+import {
+  allProdState,
+  setSelectPage,
+} from '../../../redux/slices/getAllProducts';
 
-  const handleChange = (event, value) => {
-    paginate(value);
+function PaginationRounded() {
+  const dispatch = useDispatch();
+  const [pageTotal, setPageTotal] = useState(null);
+  const { products, status } = useSelector(allProdState);
+
+  const handlePageChange = (event, value) => {
+    dispatch(setSelectPage(value));
   };
+
+  useEffect(() => {
+    if (status === 'loaded') {
+      const pageQuantity = Math.ceil(products[0].productsQuantity / 9);
+      setPageTotal(pageQuantity);
+    }
+  }, [status]);
 
   return (
     <Stack spacing={2}>
       <Pagination
-        count={pageNumbers}
-        page={currentPage}
-        onChange={handleChange}
+        count={pageTotal}
+        onChange={handlePageChange}
+        variant="outlined"
         shape="rounded"
+        size="small"
+        showFirstButton="true"
+        showLastButton="true"
         style={{ marginLeft: 'auto', marginRight: 'auto', marginBottom: 20 }}
       />
     </Stack>
   );
 }
-
-PaginationRounded.propTypes = {
-  productsPerPage: PropTypes.number.isRequired,
-  totalProducts: PropTypes.number.isRequired,
-  paginate: PropTypes.func.isRequired,
-  currentPage: PropTypes.number.isRequired,
-};
 
 export default PaginationRounded;
