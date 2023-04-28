@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from 'react';
-import { Grid } from '@mui/material';
+import { Grid, Container } from '@mui/material';
 import { useSelector } from 'react-redux';
 import style from './WishlistPage.module.scss';
 import ListCard from '../../components/Smart/ListCard/ListCard';
@@ -31,7 +31,7 @@ function WishlistPage() {
 
   if (prodArr && status === 'loaded') {
     return (
-      <>
+      <Container maxWidth="lg">
         <div className={style.title}>
           <h2>Your Wishlist In MobiStore</h2>
           <p>
@@ -58,7 +58,7 @@ function WishlistPage() {
             />
           ))}
         </Grid>
-      </>
+      </Container>
     );
   }
 }

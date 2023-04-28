@@ -25,31 +25,32 @@ const initialState = {
 const registSlice = createSlice({
   name: 'regist',
   initialState,
-  extraReducers: {
-    [fetchUserData.pending]: state => {
-      const newState = {
-        ...state,
-        status: 'loading',
-        data: null,
-      };
-      return newState;
-    },
-    [fetchUserData.fulfilled]: (state, action) => {
-      const newState = {
-        ...state,
-        status: 'loaded',
-        data: [action.payload],
-      };
-      return newState;
-    },
-    [fetchUserData.rejected]: state => {
-      const newState = {
-        ...state,
-        status: 'error',
-        data: null,
-      };
-      return newState;
-    },
+  extraReducers: builder => {
+    builder
+      .addCase(fetchUserData.pending, state => {
+        const newState = {
+          ...state,
+          status: 'loading',
+          data: null,
+        };
+        return newState;
+      })
+      .addCase(fetchUserData.fulfilled, (state, action) => {
+        const newState = {
+          ...state,
+          status: 'loaded',
+          data: [action.payload],
+        };
+        return newState;
+      })
+      .addCase(fetchUserData.rejected, state => {
+        const newState = {
+          ...state,
+          status: 'error',
+          data: null,
+        };
+        return newState;
+      });
   },
 });
 

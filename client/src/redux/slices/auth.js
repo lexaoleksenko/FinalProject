@@ -37,31 +37,32 @@ const authSlice = createSlice({
       return newState;
     },
   },
-  extraReducers: {
-    [fetchUserToken.pending]: state => {
-      const newState = {
-        ...state,
-        status: 'loading',
-        token: null,
-      };
-      return newState;
-    },
-    [fetchUserToken.fulfilled]: (state, action) => {
-      const newState = {
-        ...state,
-        status: 'loaded',
-        token: [action.payload],
-      };
-      return newState;
-    },
-    [fetchUserToken.rejected]: state => {
-      const newState = {
-        ...state,
-        status: 'error',
-        token: null,
-      };
-      return newState;
-    },
+  extraReducers: builder => {
+    builder
+      .addCase(fetchUserToken.pending, state => {
+        const newState = {
+          ...state,
+          status: 'loading',
+          token: null,
+        };
+        return newState;
+      })
+      .addCase(fetchUserToken.fulfilled, (state, action) => {
+        const newState = {
+          ...state,
+          status: 'loaded',
+          token: [action.payload],
+        };
+        return newState;
+      })
+      .addCase(fetchUserToken.rejected, state => {
+        const newState = {
+          ...state,
+          status: 'error',
+          token: null,
+        };
+        return newState;
+      });
   },
 });
 

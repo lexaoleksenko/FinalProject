@@ -1,6 +1,8 @@
 import { React, useState, useEffect } from 'react';
 import { useMatch } from 'react-router-dom';
 
+import { Container } from '@mui/material';
+
 import { useDispatch, useSelector } from 'react-redux';
 import {
   cardProductState,
@@ -41,17 +43,20 @@ function ItemCardPage() {
 
   if (currentProd && status === 'loaded') {
     return (
-      <div className={style.mainCardContainer}>
-        <MainCard
-          product={currentProd}
-          name={currentProd.name}
-          currentPrice={currentProd.currentPrice}
-          description={currentProd.description}
-          color={currentProd.color}
-          imageUrls={currentProd.imageUrls}
-        />
-        <CardHelpInfo />
-      </div>
+      <Container maxWidth="lg">
+        {' '}
+        <div className={style.mainCardContainer}>
+          <MainCard
+            product={currentProd}
+            name={currentProd.name}
+            currentPrice={currentProd.currentPrice}
+            description={currentProd.description}
+            color={currentProd.color}
+            imageUrls={currentProd.imageUrls}
+          />
+          <CardHelpInfo />
+        </div>
+      </Container>
     );
   }
 }

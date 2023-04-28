@@ -1,6 +1,5 @@
 import { React, useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { Container } from '@mui/material';
 
 import { useDispatch } from 'react-redux';
 import Navbar from './components/Smart/Navbar/Navbar';
@@ -46,18 +45,12 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about-us" element={<HomePage aboutUs />} />
-      </Routes>
-      <Container maxWidth="lg">
-        <Routes>
-          <Route path="/products" element={<ItemsListPage />} />
-          <Route path="/products/:itemNo" element={<ItemCardPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/wishlist" element={<WishlistPage />} />
-        </Routes>
-      </Container>
-      <Routes>
+        <Route path="/products" element={<ItemsListPage />} />
+        <Route path="/products/:itemNo" element={<ItemCardPage />} />
+        <Route path="/checkout" element={<CheckoutPage />} />
+        <Route path="/wishlist" element={<WishlistPage />} />
         <Route path="/login" element={<LogInPage />} />
-        <Route path="/sigup" element={<SigInPage />} />
+        <Route path="/signup" element={<SigInPage />} />
       </Routes>
       <Footer />
     </>

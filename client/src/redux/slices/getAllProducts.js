@@ -50,31 +50,32 @@ export const getAllProd = createSlice({
       return newState;
     },
   },
-  extraReducers: {
-    [fetchAllProducts.pending]: state => {
-      const newState = {
-        ...state,
-        status: 'loading',
-        products: null,
-      };
-      return newState;
-    },
-    [fetchAllProducts.fulfilled]: (state, action) => {
-      const newState = {
-        ...state,
-        status: 'loaded',
-        products: action.payload,
-      };
-      return newState;
-    },
-    [fetchAllProducts.rejected]: state => {
-      const newState = {
-        ...state,
-        status: 'error',
-        products: null,
-      };
-      return newState;
-    },
+  extraReducers: builder => {
+    builder
+      .addCase(fetchAllProducts.pending, state => {
+        const newState = {
+          ...state,
+          status: 'loading',
+          products: null,
+        };
+        return newState;
+      })
+      .addCase(fetchAllProducts.fulfilled, (state, action) => {
+        const newState = {
+          ...state,
+          status: 'loaded',
+          products: action.payload,
+        };
+        return newState;
+      })
+      .addCase(fetchAllProducts.rejected, state => {
+        const newState = {
+          ...state,
+          status: 'error',
+          products: null,
+        };
+        return newState;
+      });
   },
 });
 

@@ -135,7 +135,7 @@ function SigInPage() {
             variant="contained"
             fullWidth
           >
-            SiG UP
+            SiGN UP
           </Button>
         </form>
       </Paper>
