@@ -57,7 +57,7 @@ function Navbar() {
     dispatch(toggleDrawer(false));
   };
 
-  const isMobile = useMediaQuery('(max-width:1300px)');
+  const isMobile = useMediaQuery('(max-width:768px)');
 
   return (
     <div>
@@ -85,7 +85,7 @@ function Navbar() {
       ) : (
         <AppBar position="static" className={style.root}>
           <Toolbar>
-            <Typography variant="h6" className={style}>
+            <Typography variant="h6">
               <Logo />
             </Typography>
             <NavLinks

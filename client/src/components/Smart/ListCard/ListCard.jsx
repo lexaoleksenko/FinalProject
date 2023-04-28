@@ -60,7 +60,7 @@ function ListCard({
       {' '}
       <Stack spacing={4}>
         <Card className={style.card}>
-          <NavLink to={`/product/${itemNo}`} className={style.mainLink}>
+          <NavLink to={`/products/${itemNo}`} className={style.mainLink}>
             <CardMedia
               className={style.cardMedia}
               component="img"

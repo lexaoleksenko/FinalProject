@@ -18,7 +18,7 @@ function NavLinks({
   onClickLogOut,
   onClickOpenDrawer,
 }) {
-  const isMobile = useMediaQuery('(max-width:1300px)');
+  const isMobile = useMediaQuery('(max-width:768px)');
 
   const [anchorEl, setAnchorEl] = useState(null);
 

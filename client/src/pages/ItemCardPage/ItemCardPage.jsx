@@ -17,7 +17,7 @@ function ItemCardPage() {
   const dispatch = useDispatch();
   const [currentProd, setCurrentProd] = useState();
   const { status, product } = useSelector(cardProductState);
-  const match = useMatch('/product/:itemNo');
+  const match = useMatch('/products/:itemNo');
   const { itemNo } = match.params;
 
   useEffect(() => {
