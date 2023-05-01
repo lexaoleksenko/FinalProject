@@ -15,10 +15,15 @@ import PaginationRounded from '../../components/Simple/Pagination/Pagination';
 import { stateSelectedProducts } from '../../redux/slices/shopping-cart';
 import { stateSelectedProductsFav } from '../../redux/slices/wishList';
 
+import { searchState } from '../../redux/slices/search';
+
 function ItemsListPage() {
   const dispatch = useDispatch();
   const [prodArr, setProdArr] = useState([]);
   const { status, products } = useSelector(allProdState);
+  const { searchStatus, searchProducts } = useSelector(searchState);
+  console.log('searchStatus---', searchStatus);
+  console.log('searchProduct---', searchProducts);
   const selectedProducts = useSelector(stateSelectedProducts);
   const selectedProductsFav = useSelector(stateSelectedProductsFav);
 
@@ -39,6 +44,12 @@ function ItemsListPage() {
       setProdArr(products.products);
     }
   }, [status]);
+
+  useEffect(() => {
+    if (searchStatus === 'loaded') {
+      setProdArr(searchProducts);
+    }
+  }, [searchStatus]);
 
   return (
     <Container maxWidth="lg">
@@ -75,9 +86,12 @@ function ItemsListPage() {
             </Grid>
           )}
         </Grid>
-        <PaginationRounded />
+        <div>
+          <PaginationRounded />
+        </div>
       </div>
     </Container>
   );
 }
+
 export default ItemsListPage;

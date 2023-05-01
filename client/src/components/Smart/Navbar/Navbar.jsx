@@ -21,7 +21,7 @@ import style from './Navbar.module.scss';
 import Logo from '../../UI/Logo/Logo';
 import NavLinks from '../../Simple/NavLinks/NavLinks';
 import NavIcon from '../../Simple/NavIcon/NavIcon';
-import InputNav from '../../UI/InputWhite/InputWhite';
+import InputNav from '../InputNav/InputNav';
 import CartList from '../CartList/CartList';
 import { stateSelectedProductsFav } from '../../../redux/slices/wishList';
 
