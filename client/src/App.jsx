@@ -45,7 +45,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/about-us" element={<HomePage aboutUs />} />
-        <Route path="/products" element={<ItemsListPage />} />
+        <Route path="/products/filter?" element={<ItemsListPage />} />
         <Route path="/products/:itemNo" element={<ItemCardPage />} />
         <Route path="/checkout" element={<CheckoutPage />} />
         <Route path="/wishlist" element={<WishlistPage />} />

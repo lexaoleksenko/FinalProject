@@ -5,14 +5,14 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
 import {
-  allProdState,
+  filterProdState,
   setSelectPage,
-} from '../../../redux/slices/getAllProducts';
+} from '../../../redux/slices/getFilterProducts';
 
 function PaginationRounded() {
   const dispatch = useDispatch();
   const [pageTotal, setPageTotal] = useState(null);
-  const { products, status } = useSelector(allProdState);
+  const { products, status } = useSelector(filterProdState);
 
   const handlePageChange = (event, value) => {
     dispatch(setSelectPage(value));
