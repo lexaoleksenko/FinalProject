@@ -43,7 +43,7 @@ function NavLinks({
           <NavLink to="/about-us">
             <ButtonNav label="About us" />
           </NavLink>
-          <NavLink to="/" className={style.link}>
+          <NavLink to="/contact" className={style.link}>
             <ButtonNav label="Contact" />
           </NavLink>
         </div>
