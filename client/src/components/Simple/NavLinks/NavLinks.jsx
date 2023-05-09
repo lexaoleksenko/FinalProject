@@ -37,13 +37,13 @@ function NavLinks({
           <NavLink to="/" className={style.link}>
             <ButtonNav label="Home" />
           </NavLink>
-          <NavLink to="/products" className={style.link}>
+          <NavLink to="/products/filter?" className={style.link}>
             <ButtonNav label="All goods" />
           </NavLink>
           <NavLink to="/about-us">
             <ButtonNav label="About us" />
           </NavLink>
-          <NavLink to="/" className={style.link}>
+          <NavLink to="/contact" className={style.link}>
             <ButtonNav label="Contact" />
           </NavLink>
         </div>

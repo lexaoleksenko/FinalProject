@@ -4,13 +4,13 @@ import { useSelector } from 'react-redux';
 import style from './WishlistPage.module.scss';
 import ListCard from '../../components/Smart/ListCard/ListCard';
 import ListCardSkeleton from '../../components/Smart/ListCard/ListCardSkeleton';
-import { allProdState } from '../../redux/slices/getAllProducts';
+import { filterProdState } from '../../redux/slices/getFilterProducts';
 import { stateSelectedProductsFav } from '../../redux/slices/wishList';
 
 function WishlistPage() {
   const [isLoading] = useState(false);
   const [prodArr, setProdArr] = useState([]);
-  const { status, products } = useSelector(allProdState);
+  const { status, products } = useSelector(filterProdState);
   const selectedProductsFav = useSelector(stateSelectedProductsFav);
 
   useEffect(() => {

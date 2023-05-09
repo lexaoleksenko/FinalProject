@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Grid, Container } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  fetchAllProducts,
-  allProdState,
-} from '../../redux/slices/getAllProducts';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import { useSelector } from 'react-redux';
+import { filterProdState } from '../../redux/slices/getFilterProducts';
+
+// import { searchState } from '../../redux/slices/search';
 
 import style from './ItemsList.module.scss';
 import ListCard from '../../components/Smart/ListCard/ListCard';
@@ -15,18 +15,20 @@ import PaginationRounded from '../../components/Simple/Pagination/Pagination';
 import { stateSelectedProducts } from '../../redux/slices/shopping-cart';
 import { stateSelectedProductsFav } from '../../redux/slices/wishList';
 
-import { searchState } from '../../redux/slices/search';
-
 function ItemsListPage() {
-  const dispatch = useDispatch();
+  // ALL FILTER LOGIC IS IN THE ACCORDION COMPONENT
+
   const [prodArr, setProdArr] = useState([]);
+<<<<<<< HEAD
   const { status, products } = useSelector(allProdState);
+=======
+  const { status, products } = useSelector(filterProdState);
+  const prodQuantity = prodArr <= 0;
+  console.log('itemList_prod>>>', prodQuantity);
+  // const { searchStatus, searchProducts } = useSelector(searchState);
+>>>>>>> b73d6affd43ff61f2ef363109db8313586b42820
   const selectedProducts = useSelector(stateSelectedProducts);
   const selectedProductsFav = useSelector(stateSelectedProductsFav);
-
-  useEffect(() => {
-    dispatch(fetchAllProducts());
-  }, []);
 
   useEffect(() => {
     localStorage.setItem('products', JSON.stringify(selectedProducts));
@@ -42,6 +44,15 @@ function ItemsListPage() {
     }
   }, [status]);
 
+<<<<<<< HEAD
+=======
+  // useEffect(() => {
+  //   if (searchStatus === 'loaded') {
+  //     setProdArr(searchProducts);
+  //   }
+  // }, [searchStatus]);
+
+>>>>>>> b73d6affd43ff61f2ef363109db8313586b42820
   return (
     <Container maxWidth="lg">
       {' '}
@@ -63,18 +74,34 @@ function ItemsListPage() {
               ))}
             </Grid>
           ) : (
-            <Grid container spacing={1} marginTop={0} marginBottom={5}>
-              {prodArr.map((product, index) => (
-                <ListCard
-                  product={product}
-                  key={index}
-                  imageUrl={product.imageUrls[0]}
-                  name={product.name}
-                  currentPrice={product.currentPrice}
-                  itemNo={product.itemNo}
-                />
-              ))}
-            </Grid>
+            <>
+              {prodQuantity ? (
+                <Grid container spacing={1} margin="auto" height="100%">
+                  <div className={style.wrapper}>
+                    <p>Ooops...</p>
+                    <p>
+                      There were no products with suitable filter settings, try
+                      changing your search parameters.
+                    </p>
+                    <SentimentVeryDissatisfiedIcon fontSize="large" />
+                  </div>
+                </Grid>
+              ) : (
+                <Grid container spacing={1} marginTop={0} marginBottom={5}>
+                  {prodArr.map((product, index) => (
+                    <ListCard
+                      product={product}
+                      key={index}
+                      imageUrl={product.imageUrls[0]}
+                      name={product.name}
+                      currentPrice={product.currentPrice}
+                      itemNo={product.itemNo}
+                    />
+                  ))}
+                </Grid>
+              )}
+              <div>{}</div>
+            </>
           )}
         </Grid>
         <div>

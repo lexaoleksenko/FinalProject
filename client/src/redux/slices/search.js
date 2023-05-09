@@ -34,7 +34,6 @@ const searchSlice = createSlice({
         return newState;
       })
       .addCase(fetchSearchProduct.fulfilled, (state, action) => {
-        console.log('fulfilled', action.payload);
         const newState = {
           ...state,
           searchStatus: 'loaded',

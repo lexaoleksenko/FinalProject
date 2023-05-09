@@ -1,14 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const fetchAllProducts = createAsyncThunk(
-  'getAllProducts/fetchAllProducts',
+export const fetchFilterProducts = createAsyncThunk(
+  'getFilterProducts/fetchFilterProducts',
   async params => {
-    const filterParams = params ?? '';
+    const filterParams = `${params}&perPage=9&` ?? '';
     try {
-      const { data } = await axios.get(
-        `/api/products/filter?${filterParams}&perPage=9&`,
-      );
+      const { data } = await axios.get(`/api/products/filter?${filterParams}`);
       return data;
     } catch (error) {
       console.warn(error);
@@ -24,8 +22,8 @@ const initialState = {
   selectPage: 1,
 };
 
-export const getAllProd = createSlice({
-  name: 'getAllProducts',
+export const getFilterProd = createSlice({
+  name: 'getFilterProducts',
   initialState,
   reducers: {
     setMinPrice: (state, action) => {
@@ -52,7 +50,7 @@ export const getAllProd = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(fetchAllProducts.pending, state => {
+      .addCase(fetchFilterProducts.pending, state => {
         const newState = {
           ...state,
           status: 'loading',
@@ -60,7 +58,7 @@ export const getAllProd = createSlice({
         };
         return newState;
       })
-      .addCase(fetchAllProducts.fulfilled, (state, action) => {
+      .addCase(fetchFilterProducts.fulfilled, (state, action) => {
         const newState = {
           ...state,
           status: 'loaded',
@@ -68,7 +66,7 @@ export const getAllProd = createSlice({
         };
         return newState;
       })
-      .addCase(fetchAllProducts.rejected, state => {
+      .addCase(fetchFilterProducts.rejected, state => {
         const newState = {
           ...state,
           status: 'error',
@@ -79,8 +77,14 @@ export const getAllProd = createSlice({
   },
 });
 
-export const allProdReducer = getAllProd.reducer;
+export const filterProdReducer = getFilterProd.reducer;
 
-export const { setMinPrice, setMaxPrice, setSelectPage } = getAllProd.actions;
+export const {
+  setMinPrice,
+  setMaxPrice,
+  setSelectPage,
+  setQueryString,
+  setStartQueryString,
+} = getFilterProd.actions;
 
-export const allProdState = state => state.getAllProducts;
+export const filterProdState = state => state.getFilterProducts;
