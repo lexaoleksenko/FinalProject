@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
@@ -35,6 +35,24 @@ function ListCard({
   const dispatch = useDispatch();
   const selectedProducts = useSelector(stateSelectedProducts);
   const selectedProductsFav = useSelector(stateSelectedProductsFav);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(
+    JSON.parse(localStorage.getItem(product.itemNo)) || false,
+  );
+
+  useEffect(() => {
+    setIsDisabled(
+      selectedProducts.some(item => item.itemNo === product.itemNo),
+    );
+  }, [selectedProducts, product.itemNo]);
+
+  useEffect(() => {
+    const isExist = selectedProductsFav.find(
+      item => item.itemNo === product.itemNo,
+    );
+    setIsFavorite(Boolean(isExist));
+  }, ['favorites', selectedProductsFav]);
+
   const handleBuyNow = (e, params) => {
     e.stopPropagation();
 
@@ -45,7 +63,10 @@ function ListCard({
 
     const data = selectedProducts.concat(params);
     dispatch(setSelectedProducts(data));
+    setIsDisabled(true);
+    // localStorage.setItem(params.itemNo, JSON.stringify(true));
   };
+
   const handleAddToFav = params => {
     const isExist = selectedProductsFav.find(
       item => item.itemNo === params.itemNo,
@@ -54,6 +75,23 @@ function ListCard({
 
     const data = selectedProductsFav.concat(params);
     dispatch(setSelectedProductsFav(data));
+  };
+  const handleRemoveFromFav = params => {
+    const data = selectedProductsFav.filter(
+      item => item.itemNo !== params.itemNo,
+    );
+    dispatch(setSelectedProductsFav(data));
+    setIsFavorite(false);
+  };
+
+  const handleToggleFavorite = () => {
+    if (isFavorite) {
+      handleRemoveFromFav(product);
+      localStorage.removeItem(product.itemNo);
+    } else {
+      handleAddToFav(product);
+      localStorage.setItem('favorites', JSON.stringify(product));
+    }
   };
   return (
     <Grid item xs={12} sm={sm} md={md} lg={lg}>
@@ -77,16 +115,20 @@ function ListCard({
             </NavLink>
             <div className={style.cardIcon}>
               <ButtonDark
-                label="BUY NOW"
-                disabled={selectedProducts.includes(product.itemNo)}
+                label={isDisabled ? 'Added' : 'BUY NOW'}
+                disabled={isDisabled}
                 onClick={e => handleBuyNow(e, product)}
               />
               <button
                 className={style.cardFavButton}
                 type="button"
-                onClick={() => handleAddToFav(product)}
+                onClick={handleToggleFavorite}
               >
-                <FavoriteIcon />
+                {isFavorite ? (
+                  <FavoriteIcon style={{ color: 'red' }} />
+                ) : (
+                  <FavoriteIcon />
+                )}
               </button>
             </div>
           </CardContent>

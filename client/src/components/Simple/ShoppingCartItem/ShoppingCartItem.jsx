@@ -16,6 +16,7 @@ const itemsPropType = PropTypes.arrayOf(itemPropType);
 
 function ShoppingCartItem({
   buttonDisplay,
+  quantityDisplay,
   items,
   remove,
   increase,
@@ -47,7 +48,17 @@ function ShoppingCartItem({
                     >
                       -
                     </Button>
-                    <p className={style.item}>&times;{item.quantity}</p>
+                    <p className={style.item}>
+                      {' '}
+                      <span
+                        className={`${
+                          quantityDisplay ? style.quantity : style.quantityNone
+                        }`}
+                      >
+                        Quantity:
+                      </span>
+                      {item.quantity}
+                    </p>
                     <Button
                       className={`${
                         buttonDisplay ? style.buttonsNone : style.button
@@ -89,10 +100,12 @@ ShoppingCartItem.defaultProps = {
     count: null,
   },
   buttonDisplay: false,
+  quantityDisplay: false,
 };
 
 ShoppingCartItem.propTypes = {
   buttonDisplay: PropTypes.bool,
+  quantityDisplay: PropTypes.bool,
   items: itemsPropType,
   remove: PropTypes.func.isRequired,
   increase: PropTypes.func.isRequired,

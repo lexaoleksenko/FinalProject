@@ -1,10 +1,8 @@
 import React from 'react';
 import { TextField } from '@mui/material';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { useField } from 'formik';
 
-// eslint-disable-next-line react/prop-types
-function InputCheckoutPage({ name, ...otherProps }) {
+function InputCheckoutPage({ name, onChange, ...otherProps }) {
   const [field, mata] = useField(name);
   const configTextField = {
     ...field,

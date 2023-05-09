@@ -1,12 +1,19 @@
 import React from 'react';
-import { Button, Grid, Stack } from '@mui/material';
-// eslint-disable-next-line import/no-extraneous-dependencies
+import { Grid, Stack, Typography } from '@mui/material';
 import { Form, Formik } from 'formik';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import * as Yup from 'yup';
+import { useDispatch } from 'react-redux';
 import InputCheckoutPage from '../../UI/InputCheckoutPage/InputCheckoutPage';
+import ButtonsCheckoutPage from '../../UI/Buttons/ButtonsCheckoutPage/ButtonsCheckoutPage';
+import { toggleDrawer } from '../../../redux/slices/shopping-cart';
 
 function FormContacts() {
+  const dispatch = useDispatch();
+
+  const handelBackToCart = () => {
+    dispatch(toggleDrawer(true));
+  };
+
   return (
     <>
       <Formik
@@ -29,13 +36,21 @@ function FormContacts() {
           email: Yup.string()
             .email('Please enter a valid email address')
             .required('Email is required'),
-          phoneNumber: Yup.string()
-            .min(19, 'Please enter your phone number correctly')
+          phoneNumber: Yup.number()
+            .min(10, 'Please enter your phone number correctly')
             .required('The phone number is required'),
         })}
       >
         <Form style={{ padding: '30px 10px' }}>
           <Grid container spacing={5}>
+            <Grid item xs={12}>
+              <Typography
+                style={{ color: '#000000', paddingBottom: '10px' }}
+                variant="h5"
+              >
+                Main Information
+              </Typography>
+            </Grid>
             <Grid item xs={6}>
               <InputCheckoutPage name="firstName" label="First Name" />
             </Grid>
@@ -51,21 +66,19 @@ function FormContacts() {
           </Grid>
         </Form>
       </Formik>
-      <Stack style={{ padding: '200px 20px' }} direction="column" spacing={3}>
-        <Button
-          style={{ maxWidth: '450px', margin: '10px auto' }}
-          size="large"
+      <Stack style={{ padding: '50px 20px' }} direction="column" spacing={3}>
+        <ButtonsCheckoutPage
+          label="Saved & Continue"
           variant="contained"
-        >
-          Saved & continue
-        </Button>
-        <Button
-          style={{ maxWidth: '450px', margin: '10px auto' }}
           size="large"
+          type="submit"
+        />
+        <ButtonsCheckoutPage
+          label="Back to Cart"
           variant="outlined"
-        >
-          Back to Cart
-        </Button>
+          size="large"
+          onClick={handelBackToCart}
+        />
       </Stack>
     </>
   );
