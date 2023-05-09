@@ -19,14 +19,9 @@ function ItemsListPage() {
   // ALL FILTER LOGIC IS IN THE ACCORDION COMPONENT
 
   const [prodArr, setProdArr] = useState([]);
-<<<<<<< HEAD
-  const { status, products } = useSelector(allProdState);
-=======
   const { status, products } = useSelector(filterProdState);
   const prodQuantity = prodArr <= 0;
-  console.log('itemList_prod>>>', prodQuantity);
-  // const { searchStatus, searchProducts } = useSelector(searchState);
->>>>>>> b73d6affd43ff61f2ef363109db8313586b42820
+
   const selectedProducts = useSelector(stateSelectedProducts);
   const selectedProductsFav = useSelector(stateSelectedProductsFav);
 
@@ -44,15 +39,6 @@ function ItemsListPage() {
     }
   }, [status]);
 
-<<<<<<< HEAD
-=======
-  // useEffect(() => {
-  //   if (searchStatus === 'loaded') {
-  //     setProdArr(searchProducts);
-  //   }
-  // }, [searchStatus]);
-
->>>>>>> b73d6affd43ff61f2ef363109db8313586b42820
   return (
     <Container maxWidth="lg">
       {' '}
