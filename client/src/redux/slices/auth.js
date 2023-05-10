@@ -10,8 +10,7 @@ export const fetchUserToken = createAsyncThunk(
           'Content-Type': 'application/json',
         },
       });
-      const tokenWithoutBearer = await data.token.replace('Bearer ', '');
-      const token = tokenWithoutBearer;
+      const { token } = data;
       return token;
     } catch (error) {
       return error;
@@ -37,34 +36,36 @@ const authSlice = createSlice({
       return newState;
     },
   },
-  extraReducers: {
-    [fetchUserToken.pending]: state => {
-      const newState = {
-        ...state,
-        status: 'loading',
-        token: null,
-      };
-      return newState;
-    },
-    [fetchUserToken.fulfilled]: (state, action) => {
-      const newState = {
-        ...state,
-        status: 'loaded',
-        token: [action.payload],
-      };
-      return newState;
-    },
-    [fetchUserToken.rejected]: state => {
-      const newState = {
-        ...state,
-        status: 'error',
-        token: null,
-      };
-      return newState;
-    },
+  extraReducers: builder => {
+    builder
+      .addCase(fetchUserToken.pending, state => {
+        const newState = {
+          ...state,
+          status: 'loading',
+          token: null,
+        };
+        return newState;
+      })
+      .addCase(fetchUserToken.fulfilled, (state, action) => {
+        const newState = {
+          ...state,
+          status: 'loaded',
+          token: [action.payload],
+        };
+        return newState;
+      })
+      .addCase(fetchUserToken.rejected, state => {
+        const newState = {
+          ...state,
+          status: 'error',
+          token: null,
+        };
+        return newState;
+      });
   },
 });
 
 export const selectIsAuth = state => Boolean(state.auth.token);
+export const token = state => state.auth.token;
 export const { logout } = authSlice.actions;
 export const authReducer = authSlice.reducer;

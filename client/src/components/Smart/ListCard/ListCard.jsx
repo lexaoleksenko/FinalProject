@@ -13,14 +13,18 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useDispatch, useSelector } from 'react-redux';
 import ButtonDark from '../../UI/Buttons/ButtonDark/ButtonDark';
 import style from './ListCard.module.scss';
+
 import {
   setSelectedProducts,
   stateSelectedProducts,
 } from '../../../redux/slices/shopping-cart';
+
 import {
   setSelectedProductsFav,
   stateSelectedProductsFav,
 } from '../../../redux/slices/wishList';
+
+import { fetchAddProductsCart } from '../../../redux/slices/cartBack';
 
 function ListCard({
   product,
@@ -33,8 +37,12 @@ function ListCard({
   sm,
 }) {
   const dispatch = useDispatch();
+
+  // *** Not authorized logic ***
+
   const selectedProducts = useSelector(stateSelectedProducts);
   const selectedProductsFav = useSelector(stateSelectedProductsFav);
+
   const handleBuyNow = (e, params) => {
     e.stopPropagation();
 
@@ -46,6 +54,7 @@ function ListCard({
     const data = selectedProducts.concat(params);
     dispatch(setSelectedProducts(data));
   };
+
   const handleAddToFav = params => {
     const isExist = selectedProductsFav.find(
       item => item.itemNo === params.itemNo,
@@ -55,12 +64,21 @@ function ListCard({
     const data = selectedProductsFav.concat(params);
     dispatch(setSelectedProductsFav(data));
   };
+
+  // *** AUTHORIZED logic ***
+  const isAuth = Boolean(localStorage.getItem('token'));
+  const bearer = localStorage.getItem('token');
+
+  const handleBuyCartBack = (e, prodId) => {
+    dispatch(fetchAddProductsCart({ token: bearer, productId: prodId }));
+  };
+
   return (
     <Grid item xs={12} sm={sm} md={md} lg={lg}>
       {' '}
       <Stack spacing={4}>
         <Card className={style.card}>
-          <NavLink to={`/product/${itemNo}`} className={style.mainLink}>
+          <NavLink to={`/products/${itemNo}`} className={style.mainLink}>
             <CardMedia
               className={style.cardMedia}
               component="img"
@@ -79,7 +97,11 @@ function ListCard({
               <ButtonDark
                 label="BUY NOW"
                 disabled={selectedProducts.includes(product.itemNo)}
-                onClick={e => handleBuyNow(e, product)}
+                onClick={
+                  isAuth
+                    ? e => handleBuyCartBack(e, product._id)
+                    : e => handleBuyNow(e, product)
+                }
               />
               <button
                 className={style.cardFavButton}
@@ -98,7 +120,7 @@ function ListCard({
 
 ListCard.defaultProps = {
   name: 'iPhone 14 Pro Max',
-  currentPrice: '1000$',
+  currentPrice: 1000,
   imageUrl: './logo2.png',
   itemNo: '00000',
   lg: 4,
@@ -107,9 +129,16 @@ ListCard.defaultProps = {
 };
 
 ListCard.propTypes = {
-  product: PropTypes.objectOf(PropTypes.string).isRequired,
+  product: PropTypes.objectOf(
+    PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.bool,
+      PropTypes.array,
+      PropTypes.number,
+    ]),
+  ).isRequired,
   name: PropTypes.string,
-  currentPrice: PropTypes.string,
+  currentPrice: PropTypes.number,
   imageUrl: PropTypes.string,
   itemNo: PropTypes.string,
   lg: PropTypes.number,

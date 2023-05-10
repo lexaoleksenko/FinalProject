@@ -1,5 +1,6 @@
 import { React, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -11,18 +12,26 @@ import NonLinearSlider from '../NonLinearSlider/NonLinearSlider';
 import PriceSlider from '../PriceSlider/PriceSlider';
 
 import {
-  fetchAllProducts,
-  allProdState,
-} from '../../../redux/slices/getAllProducts';
+  filterProdState,
+  fetchFilterProducts,
+  setMaxPrice,
+  setMinPrice,
+  setSelectPage,
+} from '../../../redux/slices/getFilterProducts';
 
 import style from './ProductAccordion.module.scss';
 
 function SimpleAccordion() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [expanded, setExpanded] = useState(0);
 
+  // Getting current search parameters
+  const queryParams = location.search.substring(1);
+
   // Pagination
-  const { selectPage } = useSelector(allProdState);
+  const { selectPage } = useSelector(filterProdState);
 
   // filter brand
   const [selectBrand, setSelectBrand] = useState([]);
@@ -49,7 +58,7 @@ function SimpleAccordion() {
   };
 
   // filter price
-  const { filterMinPrice, filterMaxPrice } = useSelector(allProdState);
+  const { filterMinPrice, filterMaxPrice } = useSelector(filterProdState);
 
   // create filter URL params
   const urlParams = new URLSearchParams();
@@ -58,15 +67,15 @@ function SimpleAccordion() {
     urlParams.set('startPage', selectPage);
   }
 
-  if (selectBrand.length >= 1) {
+  if (selectBrand.length > 0) {
     urlParams.set('brand', selectBrand);
   }
 
-  if (selectColor.length >= 1) {
+  if (selectColor.length > 0) {
     urlParams.set('color', selectColor);
   }
 
-  if (selectDisplay.length >= 1) {
+  if (selectDisplay.length > 0) {
     urlParams.set('display', selectDisplay);
   }
 
@@ -82,15 +91,52 @@ function SimpleAccordion() {
 
   // dispatch filter URL
   useEffect(() => {
-    dispatch(fetchAllProducts(url));
+    const timer = setTimeout(() => {
+      dispatch(fetchFilterProducts(url));
+      navigate(`/products/filter?${url}`);
+    }, 50);
+    return () => clearTimeout(timer);
   }, [
-    selectBrand,
     selectColor,
-    filterMinPrice,
-    filterMaxPrice,
+    selectBrand,
     selectDisplay,
+    filterMaxPrice,
+    filterMinPrice,
     selectPage,
   ]);
+
+  // Implemented the ability to reuse the link without
+  // losing the set parameters in the filter
+  useEffect(() => {
+    const params = new URLSearchParams(queryParams);
+    const color = params.get('color');
+    const brand = params.get('brand');
+    const display = params.get('display');
+    const minPrice = params.get('minPrice');
+    const maxPrice = params.get('maxPrice');
+    const startPage = params.get('startPage');
+    if (color) {
+      const colorArr = color.split(',');
+      setSelectColor(prevColorArr => prevColorArr.concat(colorArr));
+    }
+    if (brand) {
+      const brandArr = brand.split(',');
+      setSelectBrand(prevBrandArr => prevBrandArr.concat(brandArr));
+    }
+    if (display) {
+      const displayArr = display.split(',');
+      setSelectDisplay(prevDispArr => prevDispArr.concat(displayArr));
+    }
+    if (minPrice) {
+      dispatch(setMinPrice(minPrice));
+    }
+    if (maxPrice) {
+      dispatch(setMaxPrice(maxPrice));
+    }
+    if (startPage) {
+      dispatch(setSelectPage(startPage));
+    }
+  }, []);
 
   const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -131,6 +177,7 @@ function SimpleAccordion() {
                             delSelectBrand(e.target.name);
                           }
                         }}
+                        checked={queryParams.includes('Apple')}
                       />
                       Apple
                     </span>
@@ -146,6 +193,7 @@ function SimpleAccordion() {
                             delSelectBrand(e.target.name);
                           }
                         }}
+                        checked={queryParams.includes('Samsung')}
                       />
                       Samsung
                     </span>
@@ -161,6 +209,7 @@ function SimpleAccordion() {
                             delSelectBrand(e.target.name);
                           }
                         }}
+                        checked={queryParams.includes('Huawei')}
                       />
                       Huawei
                     </span>
@@ -176,6 +225,7 @@ function SimpleAccordion() {
                             delSelectBrand(e.target.name);
                           }
                         }}
+                        checked={queryParams.includes('Xiaomi')}
                       />
                       Xiaomi
                     </span>
@@ -220,6 +270,7 @@ function SimpleAccordion() {
                             delSelectDisplay(e.target.name);
                           }
                         }}
+                        checked={queryParams.includes('LCD')}
                       />
                       LCD
                     </span>
@@ -235,6 +286,7 @@ function SimpleAccordion() {
                             delSelectDisplay(e.target.name);
                           }
                         }}
+                        checked={queryParams.includes('OLED')}
                       />
                       OLED
                     </span>
@@ -250,6 +302,7 @@ function SimpleAccordion() {
                             delSelectDisplay(e.target.name);
                           }
                         }}
+                        checked={queryParams.includes('AMOLED')}
                       />
                       AMOLED
                     </span>
@@ -265,6 +318,7 @@ function SimpleAccordion() {
                             delSelectDisplay(e.target.name);
                           }
                         }}
+                        checked={queryParams.includes('Retina')}
                       />
                       Retina
                     </span>
@@ -289,6 +343,7 @@ function SimpleAccordion() {
                             delSelectColor(e.target.name);
                           }
                         }}
+                        checked={queryParams.includes('black')}
                       />
                       Black
                     </span>
@@ -304,6 +359,7 @@ function SimpleAccordion() {
                             delSelectColor(e.target.name);
                           }
                         }}
+                        checked={queryParams.includes('white')}
                       />
                       White
                     </span>
@@ -319,6 +375,7 @@ function SimpleAccordion() {
                             delSelectColor(e.target.name);
                           }
                         }}
+                        checked={queryParams.includes('other')}
                       />
                       Other
                     </span>

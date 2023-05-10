@@ -18,7 +18,7 @@ function NavLinks({
   onClickLogOut,
   onClickOpenDrawer,
 }) {
-  const isMobile = useMediaQuery('(max-width:1300px)');
+  const isMobile = useMediaQuery('(max-width:768px)');
 
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -37,13 +37,13 @@ function NavLinks({
           <NavLink to="/" className={style.link}>
             <ButtonNav label="Home" />
           </NavLink>
-          <NavLink to="/products" className={style.link}>
+          <NavLink to="/products/filter?" className={style.link}>
             <ButtonNav label="All goods" />
           </NavLink>
           <NavLink to="/about-us">
             <ButtonNav label="About us" />
           </NavLink>
-          <NavLink to="/" className={style.link}>
+          <NavLink to="/contact" className={style.link}>
             <ButtonNav label="Contact" />
           </NavLink>
         </div>
@@ -111,6 +111,8 @@ function NavLinks({
 }
 
 NavLinks.defaultProps = {
+  onClickLogOut: null,
+  onClickOpenDrawer: null,
   cartCount: 666,
   favCount: 999,
   nameAvatar: 'Jhon Dou',
@@ -122,8 +124,8 @@ NavLinks.propTypes = {
   favCount: PropTypes.number,
   nameAvatar: PropTypes.string,
   isAuth: PropTypes.bool,
-  onClickLogOut: PropTypes.func.isRequired,
-  onClickOpenDrawer: PropTypes.func.isRequired,
+  onClickLogOut: PropTypes.func,
+  onClickOpenDrawer: PropTypes.func,
 };
 
 export default NavLinks;

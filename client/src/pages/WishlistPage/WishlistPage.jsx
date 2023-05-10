@@ -1,21 +1,21 @@
 import { React, useEffect, useState } from 'react';
-import { Grid } from '@mui/material';
+import { Grid, Container } from '@mui/material';
 import { useSelector } from 'react-redux';
 import style from './WishlistPage.module.scss';
 import ListCard from '../../components/Smart/ListCard/ListCard';
 import ListCardSkeleton from '../../components/Smart/ListCard/ListCardSkeleton';
-import { allProdState } from '../../redux/slices/getAllProducts';
+import { filterProdState } from '../../redux/slices/getFilterProducts';
 import { stateSelectedProductsFav } from '../../redux/slices/wishList';
 
 function WishlistPage() {
   const [isLoading] = useState(false);
   const [prodArr, setProdArr] = useState([]);
-  const { status, products } = useSelector(allProdState);
+  const { status, products } = useSelector(filterProdState);
   const selectedProductsFav = useSelector(stateSelectedProductsFav);
 
   useEffect(() => {
     if (status === 'loaded') {
-      setProdArr(products[0]);
+      setProdArr(products);
     }
   }, [status, products]);
 
@@ -31,7 +31,7 @@ function WishlistPage() {
 
   if (prodArr && status === 'loaded') {
     return (
-      <>
+      <Container maxWidth="lg">
         <div className={style.title}>
           <h2>Your Wishlist In MobiStore</h2>
           <p>
@@ -58,7 +58,7 @@ function WishlistPage() {
             />
           ))}
         </Grid>
-      </>
+      </Container>
     );
   }
 }

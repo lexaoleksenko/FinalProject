@@ -17,6 +17,7 @@ function ButtonWhite({ label, onClick, color, variant, disabled, style }) {
 }
 
 ButtonWhite.defaultProps = {
+  onClick: null,
   label: 'My Button',
   color: 'buttonWhite',
   variant: 'contained',
@@ -26,7 +27,7 @@ ButtonWhite.defaultProps = {
 
 ButtonWhite.propTypes = {
   label: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   color: PropTypes.string,
   variant: PropTypes.string,
   disabled: PropTypes.bool,
