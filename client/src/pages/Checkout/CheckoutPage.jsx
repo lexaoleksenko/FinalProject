@@ -36,11 +36,11 @@ export default function CheckoutPage() {
           <FormContacts />
         </TabPanel>
         <TabPanel style={{ padding: '50px 20px' }} value="2">
-        <Typography className={style.title} variant="h5">
-          Delivery &#38; Payment
-        </Typography>
-        <DeliveryPaymentInfo />
-      </TabPanel>
+          <Typography className={style.title} variant="h5">
+            Delivery &#38; Payment
+          </Typography>
+          <DeliveryPaymentInfo />
+        </TabPanel>
         <TabPanel style={{ padding: '50px 20px' }} value="3">
           <ProductOrderInfo />
           <Stack

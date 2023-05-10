@@ -32,6 +32,9 @@ function SimpleAccordion() {
 
   // Pagination
   const { selectPage } = useSelector(filterProdState);
+  const setPageOne = () => {
+    dispatch(setSelectPage(1));
+  };
 
   // filter brand
   const [selectBrand, setSelectBrand] = useState([]);
@@ -39,6 +42,7 @@ function SimpleAccordion() {
   const delSelectBrand = value => {
     const newSelectBrand = selectBrand.filter(brand => brand !== value);
     setSelectBrand(newSelectBrand);
+    setPageOne();
   };
 
   // filter color
@@ -47,6 +51,7 @@ function SimpleAccordion() {
   const delSelectColor = value => {
     const newSelectColor = selectColor.filter(color => color !== value);
     setSelectColor(newSelectColor);
+    setPageOne();
   };
 
   // filter display
@@ -55,6 +60,7 @@ function SimpleAccordion() {
   const delSelectDisplay = value => {
     const newSelectDisplay = selectDisplay.filter(display => display !== value);
     setSelectDisplay(newSelectDisplay);
+    setPageOne();
   };
 
   // filter price
@@ -172,6 +178,7 @@ function SimpleAccordion() {
                         onChange={e => {
                           if (e.target.checked) {
                             setSelectBrand([...selectBrand, e.target.name]);
+                            setPageOne();
                           }
                           if (!e.target.checked) {
                             delSelectBrand(e.target.name);
@@ -188,6 +195,7 @@ function SimpleAccordion() {
                         onChange={e => {
                           if (e.target.checked) {
                             setSelectBrand([...selectBrand, e.target.name]);
+                            setPageOne();
                           }
                           if (!e.target.checked) {
                             delSelectBrand(e.target.name);
@@ -204,6 +212,7 @@ function SimpleAccordion() {
                         onChange={e => {
                           if (e.target.checked) {
                             setSelectBrand([...selectBrand, e.target.name]);
+                            setPageOne();
                           }
                           if (!e.target.checked) {
                             delSelectBrand(e.target.name);
@@ -220,6 +229,7 @@ function SimpleAccordion() {
                         onChange={e => {
                           if (e.target.checked) {
                             setSelectBrand([...selectBrand, e.target.name]);
+                            setPageOne();
                           }
                           if (!e.target.checked) {
                             delSelectBrand(e.target.name);
@@ -265,6 +275,7 @@ function SimpleAccordion() {
                         onChange={e => {
                           if (e.target.checked) {
                             setSelectDisplay([...selectDisplay, e.target.name]);
+                            setPageOne();
                           }
                           if (!e.target.checked) {
                             delSelectDisplay(e.target.name);
@@ -281,6 +292,7 @@ function SimpleAccordion() {
                         onChange={e => {
                           if (e.target.checked) {
                             setSelectDisplay([...selectDisplay, e.target.name]);
+                            setPageOne();
                           }
                           if (!e.target.checked) {
                             delSelectDisplay(e.target.name);
@@ -297,6 +309,7 @@ function SimpleAccordion() {
                         onChange={e => {
                           if (e.target.checked) {
                             setSelectDisplay([...selectDisplay, e.target.name]);
+                            setPageOne();
                           }
                           if (!e.target.checked) {
                             delSelectDisplay(e.target.name);
@@ -313,6 +326,7 @@ function SimpleAccordion() {
                         onChange={e => {
                           if (e.target.checked) {
                             setSelectDisplay([...selectDisplay, e.target.name]);
+                            setPageOne();
                           }
                           if (!e.target.checked) {
                             delSelectDisplay(e.target.name);
@@ -338,6 +352,7 @@ function SimpleAccordion() {
                         onChange={e => {
                           if (e.target.checked) {
                             setSelectColor([...selectColor, e.target.name]);
+                            setPageOne();
                           }
                           if (!e.target.checked) {
                             delSelectColor(e.target.name);
@@ -354,6 +369,7 @@ function SimpleAccordion() {
                         onChange={e => {
                           if (e.target.checked) {
                             setSelectColor([...selectColor, e.target.name]);
+                            setPageOne();
                           }
                           if (!e.target.checked) {
                             delSelectColor(e.target.name);
@@ -370,6 +386,7 @@ function SimpleAccordion() {
                         onChange={e => {
                           if (e.target.checked) {
                             setSelectColor([...selectColor, e.target.name]);
+                            setPageOne();
                           }
                           if (!e.target.checked) {
                             delSelectColor(e.target.name);

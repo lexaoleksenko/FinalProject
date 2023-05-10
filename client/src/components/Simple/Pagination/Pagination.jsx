@@ -12,7 +12,7 @@ import {
 function PaginationRounded() {
   const dispatch = useDispatch();
   const [pageTotal, setPageTotal] = useState(null);
-  const { products, status } = useSelector(filterProdState);
+  const { products, status, selectPage } = useSelector(filterProdState);
 
   const handlePageChange = (event, value) => {
     dispatch(setSelectPage(value));
@@ -28,6 +28,7 @@ function PaginationRounded() {
   return (
     <Stack spacing={2}>
       <Pagination
+        page={selectPage}
         count={pageTotal ?? 1}
         onChange={handlePageChange}
         variant="outlined"
