@@ -26,7 +26,14 @@ function ShoppingCartItem({
   remove,
   increase,
   decrease,
+  addItemBack,
+  itemBack,
+  cartBackQuantity,
+  removeBack,
+  increaseBack,
+  decreaseBack,
 }) {
+  const isAuth = Boolean(localStorage.getItem('token'));
   const dispatch = useDispatch();
   const selectedProducts = useSelector(stateSelectedProducts);
   const handleBuyNow = (e, params) => {
@@ -40,16 +47,97 @@ function ShoppingCartItem({
     const data = selectedProducts.concat(params);
     dispatch(setSelectedProducts(data));
   };
-  return (
-    <div className={style.wrapper}>
-      {items?.map(item => (
-        <div className={style.items} key={item.itemNo}>
-          <img className={style.image} src={item.imageUrls[0]} alt="img" />
+  if (!isAuth || searchSettings) {
+    return (
+      <div className={style.wrapper}>
+        {items?.map(item => (
+          <div className={style.items} key={item.itemNo}>
+            <img className={style.image} src={item.imageUrls[0]} alt="img" />
+            <div className={style.position}>
+              <Box className={style.info}>
+                <Typography className={style.name}>{item.name}</Typography>
+                <Typography className={style.price}>
+                  Price: ${item.currentPrice}
+                </Typography>
+              </Box>
+              <div>
+                <div className={style.location}>
+                  <div>
+                    <Box className={style.buttons}>
+                      <Button
+                        className={`${
+                          buttonDisplay ? style.buttonsNone : style.button
+                        }`}
+                        style={{ width: searchSettings ? '150px' : '' }}
+                        sx={{
+                          backgroundColor: '#A9A9A9',
+                          fontSize: 20,
+                        }}
+                        size="small"
+                        onClick={
+                          searchSettings
+                            ? e =>
+                                isAuth
+                                  ? addItemBack(item._id)
+                                  : handleBuyNow(e, item)
+                            : () => decrease(item.itemNo, item.quantity)
+                        }
+                      >
+                        {searchSettings ? 'Buy now' : '-'}
+                      </Button>
+                      <p
+                        className={searchSettings ? style.itemNone : style.item}
+                      >
+                        &times;{item.quantity}
+                      </p>
+                      <Button
+                        className={`${
+                          buttonDisplay || searchSettings
+                            ? style.buttonsNone
+                            : style.button
+                        }`}
+                        sx={{
+                          backgroundColor: '#A9A9A9',
+                          fontSize: 25,
+                        }}
+                        onClick={() => increase(item.itemNo)}
+                      >
+                        +
+                      </Button>
+                    </Box>
+                  </div>
+                  <div className={style.delete}>
+                    <Button
+                      className={`${
+                        buttonDisplay || searchSettings
+                          ? style.buttonsNone
+                          : style.button
+                      }`}
+                      sx={{ fontSize: 15 }}
+                      onClick={() => remove(item.itemNo)}
+                    >
+                      <Close />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+              <Divider />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+  if (isAuth && !searchSettings) {
+    return (
+      <div className={style.wrapper}>
+        <div className={style.items}>
+          <img className={style.image} src={itemBack.imageUrls[0]} alt="img" />
           <div className={style.position}>
             <Box className={style.info}>
-              <Typography className={style.name}>{item.name}</Typography>
+              <Typography className={style.name}>{itemBack.name}</Typography>
               <Typography className={style.price}>
-                Price: ${item.currentPrice}
+                Price: ${itemBack.currentPrice}
               </Typography>
             </Box>
             <div>
@@ -57,37 +145,28 @@ function ShoppingCartItem({
                 <div>
                   <Box className={style.buttons}>
                     <Button
-                      className={`${
-                        buttonDisplay ? style.buttonsNone : style.button
-                      }`}
-                      style={{ width: searchSettings ? '150px' : '' }}
+                      className={style.button}
                       sx={{
                         backgroundColor: '#A9A9A9',
                         fontSize: 20,
                       }}
                       size="small"
-                      onClick={
-                        searchSettings
-                          ? e => handleBuyNow(e, item)
-                          : () => decrease(item.itemNo, item.quantity)
+                      onClick={() =>
+                        decreaseBack(itemBack._id, cartBackQuantity)
                       }
                     >
-                      {searchSettings ? 'Buy now' : '-'}
+                      -
                     </Button>
                     <p className={searchSettings ? style.itemNone : style.item}>
-                      &times;{item.quantity}
+                      &times;{cartBackQuantity}
                     </p>
                     <Button
-                      className={`${
-                        buttonDisplay || searchSettings
-                          ? style.buttonsNone
-                          : style.button
-                      }`}
+                      className={style.button}
                       sx={{
                         backgroundColor: '#A9A9A9',
                         fontSize: 25,
                       }}
-                      onClick={() => increase(item.itemNo)}
+                      onClick={() => increaseBack(itemBack._id)}
                     >
                       +
                     </Button>
@@ -95,13 +174,9 @@ function ShoppingCartItem({
                 </div>
                 <div className={style.delete}>
                   <Button
-                    className={`${
-                      buttonDisplay || searchSettings
-                        ? style.buttonsNone
-                        : style.button
-                    }`}
+                    className={style.button}
                     sx={{ fontSize: 15 }}
-                    onClick={() => remove(item.itemNo)}
+                    onClick={() => removeBack(itemBack._id)}
                   >
                     <Close />
                   </Button>
@@ -111,12 +186,14 @@ function ShoppingCartItem({
             <Divider />
           </div>
         </div>
-      ))}
-    </div>
-  );
+      </div>
+    );
+  }
 }
 
 ShoppingCartItem.defaultProps = {
+  buttonDisplay: false,
+  searchSettings: false,
   items: {
     _id: null,
     name: null,
@@ -124,17 +201,36 @@ ShoppingCartItem.defaultProps = {
     img: null,
     count: null,
   },
-  buttonDisplay: false,
-  searchSettings: false,
+  itemBack: {
+    _id: null,
+    name: null,
+    price: null,
+    img: null,
+    count: null,
+  },
+  remove: null,
+  increase: null,
+  decrease: null,
+  cartBackQuantity: null,
+  increaseBack: null,
+  decreaseBack: null,
+  removeBack: null,
+  addItemBack: null,
 };
 
 ShoppingCartItem.propTypes = {
   buttonDisplay: PropTypes.bool,
-  searchSettings: PropTypes.bool,
+  searchSettings: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   items: itemsPropType,
-  remove: PropTypes.func.isRequired,
-  increase: PropTypes.func.isRequired,
-  decrease: PropTypes.func.isRequired,
+  remove: PropTypes.func,
+  increase: PropTypes.func,
+  decrease: PropTypes.func,
+  itemBack: itemPropType,
+  cartBackQuantity: PropTypes.number,
+  increaseBack: PropTypes.func,
+  decreaseBack: PropTypes.func,
+  removeBack: PropTypes.func,
+  addItemBack: PropTypes.func,
 };
 
 export default ShoppingCartItem;

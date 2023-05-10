@@ -6,6 +6,7 @@ import { cardProductReducer } from './slices/getCardProduct';
 import { cartReducer } from './slices/shopping-cart';
 import { favoritesReducer } from './slices/wishList';
 import { sliceReducer } from './slices/search';
+import { cartBackReducer } from './slices/cartBack';
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     getFilterProducts: filterProdReducer,
     getCardProduct: cardProductReducer,
     cart: cartReducer,
+    cartBack: cartBackReducer,
     favorites: favoritesReducer,
     search: sliceReducer,
   },

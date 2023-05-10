@@ -13,14 +13,18 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useDispatch, useSelector } from 'react-redux';
 import ButtonDark from '../../UI/Buttons/ButtonDark/ButtonDark';
 import style from './ListCard.module.scss';
+
 import {
   setSelectedProducts,
   stateSelectedProducts,
 } from '../../../redux/slices/shopping-cart';
+
 import {
   setSelectedProductsFav,
   stateSelectedProductsFav,
 } from '../../../redux/slices/wishList';
+
+import { fetchAddProductsCart } from '../../../redux/slices/cartBack';
 
 function ListCard({
   product,
@@ -33,8 +37,12 @@ function ListCard({
   sm,
 }) {
   const dispatch = useDispatch();
+
+  // *** Not authorized logic ***
+
   const selectedProducts = useSelector(stateSelectedProducts);
   const selectedProductsFav = useSelector(stateSelectedProductsFav);
+
   const handleBuyNow = (e, params) => {
     e.stopPropagation();
 
@@ -46,6 +54,7 @@ function ListCard({
     const data = selectedProducts.concat(params);
     dispatch(setSelectedProducts(data));
   };
+
   const handleAddToFav = params => {
     const isExist = selectedProductsFav.find(
       item => item.itemNo === params.itemNo,
@@ -55,6 +64,15 @@ function ListCard({
     const data = selectedProductsFav.concat(params);
     dispatch(setSelectedProductsFav(data));
   };
+
+  // *** AUTHORIZED logic ***
+  const isAuth = Boolean(localStorage.getItem('token'));
+  const bearer = localStorage.getItem('token');
+
+  const handleBuyCartBack = (e, prodId) => {
+    dispatch(fetchAddProductsCart({ token: bearer, productId: prodId }));
+  };
+
   return (
     <Grid item xs={12} sm={sm} md={md} lg={lg}>
       {' '}
@@ -79,7 +97,11 @@ function ListCard({
               <ButtonDark
                 label="BUY NOW"
                 disabled={selectedProducts.includes(product.itemNo)}
-                onClick={e => handleBuyNow(e, product)}
+                onClick={
+                  isAuth
+                    ? e => handleBuyCartBack(e, product._id)
+                    : e => handleBuyNow(e, product)
+                }
               />
               <button
                 className={style.cardFavButton}
