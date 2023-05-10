@@ -8,6 +8,7 @@ import { stateSelectedProducts } from '../../../redux/slices/shopping-cart';
 import style from './InputNav.module.scss';
 
 import ShoppingCartItem from '../../Simple/ShoppingCartItem/ShoppingCartItem';
+import { fetchAddProductsCart } from '../../../redux/slices/cartBack';
 
 function InputNav({ label }) {
   const dispatch = useDispatch();
@@ -70,6 +71,12 @@ function InputNav({ label }) {
     };
   }, [open]);
 
+  // Auth addCartBack
+  const bearer = localStorage.getItem('token');
+  const handleIncreaseCountBack = prodId => {
+    dispatch(fetchAddProductsCart({ token: bearer, productId: prodId }));
+  };
+
   return (
     <div className={style.root}>
       <form className={style.form}>
@@ -105,6 +112,7 @@ function InputNav({ label }) {
             items={prodArr}
             searchSettings="false"
             sx={{ fontSize: 15 }}
+            addItemBack={handleIncreaseCountBack}
           />
         )}
       </Popper>

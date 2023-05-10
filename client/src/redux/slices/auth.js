@@ -10,8 +10,7 @@ export const fetchUserToken = createAsyncThunk(
           'Content-Type': 'application/json',
         },
       });
-      const tokenWithoutBearer = await data.token.replace('Bearer ', '');
-      const token = tokenWithoutBearer;
+      const { token } = data;
       return token;
     } catch (error) {
       return error;
@@ -67,5 +66,6 @@ const authSlice = createSlice({
 });
 
 export const selectIsAuth = state => Boolean(state.auth.token);
+export const token = state => state.auth.token;
 export const { logout } = authSlice.actions;
 export const authReducer = authSlice.reducer;

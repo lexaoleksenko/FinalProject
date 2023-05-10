@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { fetchUserToken } from '../../redux/slices/auth';
 
 import style from './LogInpage.module.scss';
+import { fetchCartProducts } from '../../redux/slices/cartBack';
 
 function LogInPage() {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ function LogInPage() {
     }
 
     if (data.payload) {
+      dispatch(fetchCartProducts(data.payload));
       navigate('/');
       return window.localStorage.setItem('token', data.payload);
     }
