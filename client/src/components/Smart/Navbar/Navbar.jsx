@@ -24,6 +24,7 @@ import NavIcon from '../../Simple/NavIcon/NavIcon';
 import InputNav from '../InputNav/InputNav';
 import CartList from '../CartList/CartList';
 import { stateSelectedProductsFav } from '../../../redux/slices/wishList';
+import { cartBackState } from '../../../redux/slices/cartBack';
 
 function Navbar() {
   const location = useLocation();
@@ -31,7 +32,15 @@ function Navbar() {
   const [isAuth, setIsAuth] = useState(false);
   const stateDraw = useSelector(stateDrawer);
   const cartProducts = useSelector(stateSelectedProducts);
+  const { productsCartBack } = useSelector(cartBackState);
   const favProducts = useSelector(stateSelectedProductsFav);
+  const [cartBackLength, setCartBackLength] = useState(null);
+
+  useEffect(() => {
+    if (productsCartBack) {
+      setCartBackLength(productsCartBack.length);
+    }
+  }, [productsCartBack]);
 
   const handleLogOut = () => {
     window.localStorage.removeItem('token');
@@ -71,7 +80,7 @@ function Navbar() {
             <InputNav />
             <NavIcon
               favCount={favProducts.length}
-              cartCount={cartProducts.length}
+              cartCount={isAuth ? cartBackLength : cartProducts.length}
               nameAvatar="Artur Tech"
               isAuth={isAuth}
               onClickLogOut={handleLogOut}
@@ -90,7 +99,7 @@ function Navbar() {
             </Typography>
             <NavLinks
               favCount={favProducts.length}
-              cartCount={cartProducts.length}
+              cartCount={isAuth ? cartBackLength : cartProducts.length}
               nameAvatar="Artur Tech"
               isAuth={isAuth}
               onClickLogOut={handleLogOut}

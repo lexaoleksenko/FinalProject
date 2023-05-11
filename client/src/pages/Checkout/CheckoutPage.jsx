@@ -5,6 +5,7 @@ import { TabContext, TabList, TabPanel } from '@mui/lab';
 import FormContacts from '../../components/Simple/FormCheckoutPage/FormContacts';
 import style from './CheckoutPage.module.scss';
 import ProductOrderInfo from '../../components/Simple/ProductOrderInfo/ProductOrderInfo';
+import DeliveryPaymentInfo from '../../components/Simple/FormDeliveryPaymentCheckoutPage/DeliveryPaymentInfo';
 
 export default function CheckoutPage() {
   const [value, setValue] = useState('1');
@@ -33,8 +34,13 @@ export default function CheckoutPage() {
             }}
           />
         </TabPanel>
-        <TabPanel value="2">Delivery &#38; Payment</TabPanel>
-        <TabPanel value="3">
+        <TabPanel style={{ padding: '50px 20px' }} value="2">
+          <Typography className={style.title} variant="h5">
+            Delivery &#38; Payment
+          </Typography>
+          <DeliveryPaymentInfo />
+        </TabPanel>
+        <TabPanel style={{ padding: '50px 20px' }} value="3">
           <ProductOrderInfo />
         </TabPanel>
       </TabContext>

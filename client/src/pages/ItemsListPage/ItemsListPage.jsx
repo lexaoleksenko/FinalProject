@@ -21,8 +21,7 @@ function ItemsListPage() {
   const [prodArr, setProdArr] = useState([]);
   const { status, products } = useSelector(filterProdState);
   const prodQuantity = prodArr <= 0;
-  console.log('itemList_prod>>>', prodQuantity);
-  // const { searchStatus, searchProducts } = useSelector(searchState);
+
   const selectedProducts = useSelector(stateSelectedProducts);
   const selectedProductsFav = useSelector(stateSelectedProductsFav);
 
@@ -39,12 +38,6 @@ function ItemsListPage() {
       setProdArr(products.products);
     }
   }, [status]);
-
-  // useEffect(() => {
-  //   if (searchStatus === 'loaded') {
-  //     setProdArr(searchProducts);
-  //   }
-  // }, [searchStatus]);
 
   return (
     <Container maxWidth="lg">

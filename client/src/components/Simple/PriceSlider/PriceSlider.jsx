@@ -8,6 +8,7 @@ import { useLocation } from 'react-router-dom';
 import {
   setMinPrice,
   setMaxPrice,
+  setSelectPage,
 } from '../../../redux/slices/getFilterProducts';
 
 export default function NonLinearSlider() {
@@ -41,6 +42,7 @@ export default function NonLinearSlider() {
   const handleChangeCommitted = (event, newValue) => {
     dispatch(setMinPrice(newValue[0]));
     dispatch(setMaxPrice(newValue[1]));
+    dispatch(setSelectPage(1));
   };
 
   return (

@@ -1,56 +1,133 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import { Button } from '@mui/material';
-import { fetchSearchProduct } from '../../../redux/slices/search';
+import { useDispatch, useSelector } from 'react-redux';
+import { Popper, Backdrop } from '@mui/material';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
+import { fetchSearchProduct, searchState } from '../../../redux/slices/search';
+import { stateSelectedProducts } from '../../../redux/slices/shopping-cart';
+import style from './InputNav.module.scss';
 
-import styles from './InputNav.module.scss';
+import ShoppingCartItem from '../../Simple/ShoppingCartItem/ShoppingCartItem';
+import { fetchAddProductsCart } from '../../../redux/slices/cartBack';
 
 function InputNav({ label }) {
   const dispatch = useDispatch();
+  const [prodArr, setProdArr] = useState([]);
+  const prodQuantity = prodArr <= 0;
 
-  const [querySearch, setQuerySearch] = useState();
-  const [searchStatus, setSearchStatus] = useState(false);
-  const handleSearch = event => {
+  const [searchStatusLocal, setSearchStatus] = useState(false);
+  const { searchStatus, searchProducts } = useSelector(searchState);
+  const selectedProducts = useSelector(stateSelectedProducts);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleFetchSearch = event => {
     const inputElement = event.target;
     const inputValue = inputElement.value;
-    setQuerySearch(inputValue);
-  };
-  const handleFetchSearch = () => {
-    console.log('status');
-    if (querySearch) {
+    if (inputValue) {
       const data = {
-        query: querySearch,
+        query: inputValue,
       };
       dispatch(fetchSearchProduct(data));
       setSearchStatus(false);
-      console.log('+');
     }
-    if (querySearch === false) {
+    if (inputValue === false) {
       setSearchStatus(true);
-      console.log('-');
     }
   };
 
+  const handleInputClick = event => {
+    if (!searchStatusLocal) {
+      setAnchorEl(event.currentTarget);
+    }
+  };
+
+  const handlePopperClose = () => {
+    setTimeout(() => {
+      setAnchorEl(null);
+    }, 150);
+  };
+
+  const open = Boolean(anchorEl);
+
+  useEffect(() => {
+    if (searchStatus === 'loaded') {
+      setProdArr(searchProducts);
+    }
+  }, [searchStatus]);
+
+  useEffect(() => {
+    localStorage.setItem('products', JSON.stringify(selectedProducts));
+  }, [selectedProducts]);
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [open]);
+
+  // Auth addCartBack
+  const bearer = localStorage.getItem('token');
+  const handleIncreaseCountBack = prodId => {
+    dispatch(fetchAddProductsCart({ token: bearer, productId: prodId }));
+  };
+
   return (
-    <form className={styles.form}>
-      <div className={styles.group}>
-        <input
-          className={styles.input}
-          id="search"
-          type="text"
-          required
-          onChange={event => handleSearch(event)}
-        />
-        <span className={styles.bar}>{}</span>
-        <label className={styles.label}>
-          {searchStatus ? 'Input goods' : label}
-        </label>
-        <Button variant="contained" type="button" onClick={handleFetchSearch}>
-          Search
-        </Button>
-      </div>
-    </form>
+    <div className={style.root}>
+      <form className={style.form}>
+        <div className={style.group}>
+          <input
+            className={style.input}
+            id="search"
+            type="text"
+            required
+            onFocus={handleInputClick}
+            onChange={event => handleFetchSearch(event)}
+          />
+          <span className={style.bar}>{}</span>
+          <label className={style.label}>
+            {searchStatusLocal ? 'Input goods' : label}
+          </label>
+        </div>
+      </form>
+      <Popper
+        className={style.popper}
+        open={open}
+        anchorEl={anchorEl}
+        placement="bottom-end"
+      >
+        {searchStatus === 'loading' || prodQuantity ? (
+          <div className={style.wrapper}>
+            <p>Ooops...</p>
+            <p>Product not found</p>
+            <SentimentVeryDissatisfiedIcon fontSize="large" />
+          </div>
+        ) : (
+          <ShoppingCartItem
+            items={prodArr}
+            searchSettings="false"
+            sx={{ fontSize: 15 }}
+            addItemBack={handleIncreaseCountBack}
+          />
+        )}
+      </Popper>
+      <Backdrop
+        open={open}
+        onClick={handlePopperClose}
+        style={{
+          zIndex: 1,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          height: '100%',
+          marginTop: '150px',
+          marginBottom: '0px',
+        }}
+      />
+    </div>
   );
 }
 
