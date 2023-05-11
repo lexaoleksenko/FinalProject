@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Tab, Container } from '@mui/material';
+import { Tab, Container, Typography } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import FormContacts from '../../components/Simple/FormCheckoutPage/FormContacts';
 import style from './CheckoutPage.module.scss';

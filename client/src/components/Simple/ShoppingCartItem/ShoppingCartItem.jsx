@@ -12,8 +12,8 @@ import style from './itemstable.module.scss';
 const itemPropType = PropTypes.shape({
   _id: PropTypes.string,
   name: PropTypes.string,
-  price: PropTypes.number,
-  img: PropTypes.string,
+  currentPrice: PropTypes.number,
+  imageUrls: PropTypes.arrayOf(PropTypes.string),
   count: PropTypes.number,
 });
 
@@ -89,7 +89,9 @@ function ShoppingCartItem({
                       <p
                         className={searchSettings ? style.itemNone : style.item}
                       >
-                        &times;{item.quantity}
+                        {quantityDisplay
+                          ? `Quantity: ${item.quantity}`
+                          : item.quantity}
                       </p>
                       <Button
                         className={`${
@@ -159,7 +161,7 @@ function ShoppingCartItem({
                       -
                     </Button>
                     <p className={searchSettings ? style.itemNone : style.item}>
-                      &times;{cartBackQuantity}
+                      {cartBackQuantity}
                     </p>
                     <Button
                       className={style.button}
@@ -202,7 +204,6 @@ ShoppingCartItem.defaultProps = {
     img: null,
     count: null,
   },
-  buttonDisplay: false,
   quantityDisplay: false,
   itemBack: {
     _id: null,
