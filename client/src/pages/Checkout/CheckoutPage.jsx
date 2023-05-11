@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import { Tab, Container } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import FormContacts from '../../components/Simple/FormCheckoutPage/FormContacts';
@@ -26,7 +27,11 @@ export default function CheckoutPage() {
           <Tab className={style.item} label="Order Review" value="3" />
         </TabList>
         <TabPanel value="1">
-          <FormContacts />
+          <FormContacts
+            handelContinue={() => {
+              setValue('2');
+            }}
+          />
         </TabPanel>
         <TabPanel value="2">Delivery &#38; Payment</TabPanel>
         <TabPanel value="3">
