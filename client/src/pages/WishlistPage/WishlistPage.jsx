@@ -14,6 +14,10 @@ function WishlistPage() {
   const selectedProductsFav = useSelector(stateSelectedProductsFav);
 
   useEffect(() => {
+    localStorage.setItem('favorites', JSON.stringify(selectedProductsFav));
+  }, [selectedProductsFav]);
+
+  useEffect(() => {
     if (status === 'loaded') {
       setProdArr(products);
     }

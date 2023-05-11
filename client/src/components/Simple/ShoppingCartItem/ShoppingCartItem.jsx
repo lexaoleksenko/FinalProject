@@ -21,6 +21,7 @@ const itemsPropType = PropTypes.arrayOf(itemPropType);
 
 function ShoppingCartItem({
   buttonDisplay,
+  quantityDisplay,
   searchSettings,
   items,
   remove,
@@ -201,6 +202,8 @@ ShoppingCartItem.defaultProps = {
     img: null,
     count: null,
   },
+  buttonDisplay: false,
+  quantityDisplay: false,
   itemBack: {
     _id: null,
     name: null,
@@ -220,6 +223,7 @@ ShoppingCartItem.defaultProps = {
 
 ShoppingCartItem.propTypes = {
   buttonDisplay: PropTypes.bool,
+  quantityDisplay: PropTypes.bool,
   searchSettings: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
   items: itemsPropType,
   remove: PropTypes.func,

@@ -6,6 +6,7 @@ import { cardProductReducer } from './slices/getCardProduct';
 import { cartReducer } from './slices/shopping-cart';
 import { favoritesReducer } from './slices/wishList';
 import { sliceReducer } from './slices/search';
+import { checkoutReducer } from './slices/checkout';
 import { cartBackReducer } from './slices/cartBack';
 
 export const store = configureStore({
@@ -18,5 +19,6 @@ export const store = configureStore({
     cartBack: cartBackReducer,
     favorites: favoritesReducer,
     search: sliceReducer,
+    checkout: checkoutReducer,
   },
 });
