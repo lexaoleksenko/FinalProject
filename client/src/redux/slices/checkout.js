@@ -8,6 +8,10 @@ const initialState = {
     phoneNumber: '',
   },
   contactsFormStatus: false,
+  deliveryAddress: null,
+  shipping: '',
+  paymentInfo: '',
+  deliveryPaymentStatus: false,
 };
 
 const checkoutSlice = createSlice({
@@ -56,6 +60,30 @@ const checkoutSlice = createSlice({
         contactsFormStatus: action.payload,
       };
     },
+    updateDeliveryAddress(state, action) {
+      return {
+        ...state,
+        deliveryAddress: action.payload,
+      };
+    },
+    updateShipping(state, action) {
+      return {
+        ...state,
+        shipping: action.payload,
+      };
+    },
+    updatePaymentInfo(state, action) {
+      return {
+        ...state,
+        paymentInfo: action.payload,
+      };
+    },
+    updateDeliveryPaymentStatus(state, action) {
+      return {
+        ...state,
+        deliveryPaymentStatus: action.payload,
+      };
+    },
   },
 });
 
@@ -65,6 +93,10 @@ export const {
   updateFormEmail,
   updateFormPhoneNumber,
   updateFormStatus,
+  updateDeliveryAddress,
+  updateShipping,
+  updatePaymentInfo,
+  updateDeliveryPaymentStatus,
 } = checkoutSlice.actions;
 
 export const checkoutReducer = checkoutSlice.reducer;
