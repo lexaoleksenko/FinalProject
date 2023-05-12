@@ -1,5 +1,6 @@
 import { React, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -7,22 +8,32 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Checkbox from '@mui/material/Checkbox';
-import NonLinearSlider from '../NonLinearSlider/NonLinearSlider';
 import PriceSlider from '../PriceSlider/PriceSlider';
 
 import {
-  fetchAllProducts,
-  allProdState,
-} from '../../../redux/slices/getAllProducts';
+  filterProdState,
+  fetchFilterProducts,
+  setMaxPrice,
+  setMinPrice,
+  setSelectPage,
+} from '../../../redux/slices/getFilterProducts';
 
 import style from './ProductAccordion.module.scss';
 
 function SimpleAccordion() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [expanded, setExpanded] = useState(0);
 
+  // Getting current search parameters
+  const queryParams = location.search.substring(1);
+
   // Pagination
-  const { selectPage } = useSelector(allProdState);
+  const { selectPage } = useSelector(filterProdState);
+  const setPageOne = () => {
+    dispatch(setSelectPage(1));
+  };
 
   // filter brand
   const [selectBrand, setSelectBrand] = useState([]);
@@ -30,6 +41,7 @@ function SimpleAccordion() {
   const delSelectBrand = value => {
     const newSelectBrand = selectBrand.filter(brand => brand !== value);
     setSelectBrand(newSelectBrand);
+    setPageOne();
   };
 
   // filter color
@@ -38,6 +50,7 @@ function SimpleAccordion() {
   const delSelectColor = value => {
     const newSelectColor = selectColor.filter(color => color !== value);
     setSelectColor(newSelectColor);
+    setPageOne();
   };
 
   // filter display
@@ -46,10 +59,20 @@ function SimpleAccordion() {
   const delSelectDisplay = value => {
     const newSelectDisplay = selectDisplay.filter(display => display !== value);
     setSelectDisplay(newSelectDisplay);
+    setPageOne();
   };
 
   // filter price
-  const { filterMinPrice, filterMaxPrice } = useSelector(allProdState);
+  const { filterMinPrice, filterMaxPrice } = useSelector(filterProdState);
+
+  // filter memory
+  const [selectMemory, setSelectMemory] = useState([]);
+
+  const delSelectMemory = value => {
+    const newSelectMemory = selectMemory.filter(memory => memory !== value);
+    setSelectMemory(newSelectMemory);
+    setPageOne();
+  };
 
   // create filter URL params
   const urlParams = new URLSearchParams();
@@ -58,15 +81,15 @@ function SimpleAccordion() {
     urlParams.set('startPage', selectPage);
   }
 
-  if (selectBrand.length >= 1) {
+  if (selectBrand.length > 0) {
     urlParams.set('brand', selectBrand);
   }
 
-  if (selectColor.length >= 1) {
+  if (selectColor.length > 0) {
     urlParams.set('color', selectColor);
   }
 
-  if (selectDisplay.length >= 1) {
+  if (selectDisplay.length > 0) {
     urlParams.set('display', selectDisplay);
   }
 
@@ -78,19 +101,66 @@ function SimpleAccordion() {
     urlParams.set('maxPrice', filterMaxPrice);
   }
 
+  if (selectMemory.length > 0) {
+    urlParams.set('memoryStorage', selectMemory);
+  }
+
   const url = urlParams.toString().replace(/%2C/g, ',');
 
   // dispatch filter URL
   useEffect(() => {
-    dispatch(fetchAllProducts(url));
+    const timer = setTimeout(() => {
+      dispatch(fetchFilterProducts(url));
+      navigate(`/products/filter?${url}`);
+    }, 50);
+    return () => clearTimeout(timer);
   }, [
-    selectBrand,
     selectColor,
-    filterMinPrice,
-    filterMaxPrice,
+    selectBrand,
     selectDisplay,
+    filterMaxPrice,
+    filterMinPrice,
     selectPage,
+    selectMemory,
   ]);
+
+  // Implemented the ability to reuse the link without
+  // losing the set parameters in the filter
+  useEffect(() => {
+    const params = new URLSearchParams(queryParams);
+    const color = params.get('color');
+    const brand = params.get('brand');
+    const display = params.get('display');
+    const minPrice = params.get('minPrice');
+    const maxPrice = params.get('maxPrice');
+    const startPage = params.get('startPage');
+    const memoryStorage = params.get('memoryStorage');
+    if (color) {
+      const colorArr = color.split(',');
+      setSelectColor(prevColorArr => prevColorArr.concat(colorArr));
+    }
+    if (brand) {
+      const brandArr = brand.split(',');
+      setSelectBrand(prevBrandArr => prevBrandArr.concat(brandArr));
+    }
+    if (display) {
+      const displayArr = display.split(',');
+      setSelectDisplay(prevDispArr => prevDispArr.concat(displayArr));
+    }
+    if (minPrice) {
+      dispatch(setMinPrice(minPrice));
+    }
+    if (maxPrice) {
+      dispatch(setMaxPrice(maxPrice));
+    }
+    if (startPage) {
+      dispatch(setSelectPage(startPage));
+    }
+    if (memoryStorage) {
+      const memoryArr = memoryStorage.split(',');
+      setSelectMemory(prevMemoryArr => prevMemoryArr.concat(memoryArr));
+    }
+  }, []);
 
   const handleChange = panel => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -126,11 +196,13 @@ function SimpleAccordion() {
                         onChange={e => {
                           if (e.target.checked) {
                             setSelectBrand([...selectBrand, e.target.name]);
+                            setPageOne();
                           }
                           if (!e.target.checked) {
                             delSelectBrand(e.target.name);
                           }
                         }}
+                        checked={queryParams.includes('Apple')}
                       />
                       Apple
                     </span>
@@ -141,11 +213,13 @@ function SimpleAccordion() {
                         onChange={e => {
                           if (e.target.checked) {
                             setSelectBrand([...selectBrand, e.target.name]);
+                            setPageOne();
                           }
                           if (!e.target.checked) {
                             delSelectBrand(e.target.name);
                           }
                         }}
+                        checked={queryParams.includes('Samsung')}
                       />
                       Samsung
                     </span>
@@ -156,11 +230,13 @@ function SimpleAccordion() {
                         onChange={e => {
                           if (e.target.checked) {
                             setSelectBrand([...selectBrand, e.target.name]);
+                            setPageOne();
                           }
                           if (!e.target.checked) {
                             delSelectBrand(e.target.name);
                           }
                         }}
+                        checked={queryParams.includes('Huawei')}
                       />
                       Huawei
                     </span>
@@ -171,11 +247,13 @@ function SimpleAccordion() {
                         onChange={e => {
                           if (e.target.checked) {
                             setSelectBrand([...selectBrand, e.target.name]);
+                            setPageOne();
                           }
                           if (!e.target.checked) {
                             delSelectBrand(e.target.name);
                           }
                         }}
+                        checked={queryParams.includes('Xiaomi')}
                       />
                       Xiaomi
                     </span>
@@ -199,7 +277,59 @@ function SimpleAccordion() {
                   <Typography>Phone memory capacity</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <NonLinearSlider />
+                  <div className={style.checkbox}>
+                    <span>
+                      <Checkbox
+                        name="0-250"
+                        inputProps={{ 'aria-label': 'Checkbox demo' }}
+                        onChange={e => {
+                          if (e.target.checked) {
+                            setSelectMemory([...selectMemory, e.target.name]);
+                            setPageOne();
+                          }
+                          if (!e.target.checked) {
+                            delSelectMemory(e.target.name);
+                          }
+                        }}
+                        checked={queryParams.includes('0-250')}
+                      />
+                      0-256GB
+                    </span>
+                    <span>
+                      <Checkbox
+                        name="251-500"
+                        inputProps={{ 'aria-label': 'Checkbox demo' }}
+                        onChange={e => {
+                          if (e.target.checked) {
+                            setSelectMemory([...selectMemory, e.target.name]);
+                            setPageOne();
+                          }
+                          if (!e.target.checked) {
+                            delSelectMemory(e.target.name);
+                          }
+                        }}
+                        checked={queryParams.includes('251-500')}
+                      />
+                      256-512GB
+                    </span>
+                    <span>
+                      <Checkbox
+                        name="501-1000"
+                        inputProps={{ 'aria-label': 'Checkbox demo' }}
+                        onChange={e => {
+                          if (e.target.checked) {
+                            setSelectMemory([...selectMemory, e.target.name]);
+                            setPageOne();
+                          }
+                          if (!e.target.checked) {
+                            delSelectMemory(e.target.name);
+                          }
+                        }}
+                        checked={queryParams.includes('501-1000')}
+                      />
+                      512GB-1TB
+                    </span>
+                  </div>
                 </AccordionDetails>
               </Accordion>
               <Accordion className={style.accordion}>
@@ -215,26 +345,30 @@ function SimpleAccordion() {
                         onChange={e => {
                           if (e.target.checked) {
                             setSelectDisplay([...selectDisplay, e.target.name]);
+                            setPageOne();
                           }
                           if (!e.target.checked) {
                             delSelectDisplay(e.target.name);
                           }
                         }}
+                        checked={queryParams.includes('LCD')}
                       />
                       LCD
                     </span>
                     <span>
                       <Checkbox
-                        name="OLED"
+                        name="Organic"
                         inputProps={{ 'aria-label': 'Checkbox demo' }}
                         onChange={e => {
                           if (e.target.checked) {
                             setSelectDisplay([...selectDisplay, e.target.name]);
+                            setPageOne();
                           }
                           if (!e.target.checked) {
                             delSelectDisplay(e.target.name);
                           }
                         }}
+                        checked={queryParams.includes('Organic')}
                       />
                       OLED
                     </span>
@@ -245,11 +379,13 @@ function SimpleAccordion() {
                         onChange={e => {
                           if (e.target.checked) {
                             setSelectDisplay([...selectDisplay, e.target.name]);
+                            setPageOne();
                           }
                           if (!e.target.checked) {
                             delSelectDisplay(e.target.name);
                           }
                         }}
+                        checked={queryParams.includes('AMOLED')}
                       />
                       AMOLED
                     </span>
@@ -260,11 +396,13 @@ function SimpleAccordion() {
                         onChange={e => {
                           if (e.target.checked) {
                             setSelectDisplay([...selectDisplay, e.target.name]);
+                            setPageOne();
                           }
                           if (!e.target.checked) {
                             delSelectDisplay(e.target.name);
                           }
                         }}
+                        checked={queryParams.includes('Retina')}
                       />
                       Retina
                     </span>
@@ -284,11 +422,13 @@ function SimpleAccordion() {
                         onChange={e => {
                           if (e.target.checked) {
                             setSelectColor([...selectColor, e.target.name]);
+                            setPageOne();
                           }
                           if (!e.target.checked) {
                             delSelectColor(e.target.name);
                           }
                         }}
+                        checked={queryParams.includes('black')}
                       />
                       Black
                     </span>
@@ -299,11 +439,13 @@ function SimpleAccordion() {
                         onChange={e => {
                           if (e.target.checked) {
                             setSelectColor([...selectColor, e.target.name]);
+                            setPageOne();
                           }
                           if (!e.target.checked) {
                             delSelectColor(e.target.name);
                           }
                         }}
+                        checked={queryParams.includes('white')}
                       />
                       White
                     </span>
@@ -314,11 +456,13 @@ function SimpleAccordion() {
                         onChange={e => {
                           if (e.target.checked) {
                             setSelectColor([...selectColor, e.target.name]);
+                            setPageOne();
                           }
                           if (!e.target.checked) {
                             delSelectColor(e.target.name);
                           }
                         }}
+                        checked={queryParams.includes('other')}
                       />
                       Other
                     </span>

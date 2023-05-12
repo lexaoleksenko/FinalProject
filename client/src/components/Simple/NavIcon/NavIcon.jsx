@@ -22,7 +22,7 @@ function NavIcon({
   return (
     <div className={style.root}>
       <div className={style.containerIcon}>
-        <NavLink className={style.link}>
+        <div className={style.link}>
           <IconButton>
             <Badge badgeContent={cartCount} className={style.badge}>
               <ShoppingCartIcon
@@ -31,7 +31,7 @@ function NavIcon({
               />
             </Badge>
           </IconButton>
-        </NavLink>
+        </div>
         <NavLink to="/wishlist" className={style.link}>
           <IconButton>
             <Badge badgeContent={favCount} className={style.badge}>

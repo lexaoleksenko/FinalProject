@@ -17,20 +17,23 @@ function ButtonDark({ label, onClick, color, variant, disabled, style }) {
 }
 
 ButtonDark.defaultProps = {
+  onClick: null,
   label: 'My Button',
   color: 'primary',
   variant: 'contained',
   disabled: false,
-  style: '',
+  style: null,
 };
 
 ButtonDark.propTypes = {
   label: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   color: PropTypes.string,
   variant: PropTypes.string,
   disabled: PropTypes.bool,
-  style: PropTypes.string,
+  style: PropTypes.objectOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  ),
 };
 
 export default ButtonDark;

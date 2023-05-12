@@ -4,23 +4,45 @@ import Typography from '@mui/material/Typography';
 import Slider from '@mui/material/Slider';
 
 import { useDispatch } from 'react-redux';
-import { setMinPrice, setMaxPrice } from '../../../redux/slices/getAllProducts';
+import { useLocation } from 'react-router-dom';
+import {
+  setMinPrice,
+  setMaxPrice,
+  setSelectPage,
+} from '../../../redux/slices/getFilterProducts';
 
 export default function NonLinearSlider() {
   const dispatch = useDispatch();
-  const [rangeValues, setRangeValues] = React.useState([600, 2000]);
+  const location = useLocation();
+  const queryParams = location.search.substring(1);
 
+  const [rangeValues, setRangeValues] = React.useState([]);
+
+  // Resetting the slider when switching to another route
   React.useEffect(() => {
-    const timer = setTimeout(() => {
-      dispatch(setMinPrice(rangeValues[0]));
-      dispatch(setMaxPrice(rangeValues[1]));
-    }, 500);
+    dispatch(setMinPrice(600));
+    dispatch(setMaxPrice(2000));
+    setRangeValues([600, 2000]);
+  }, [location.pathname]);
 
-    return () => clearTimeout(timer);
-  }, [rangeValues]);
+  // Getting value from search parameters
+  React.useEffect(() => {
+    const params = new URLSearchParams(queryParams);
+    const minQuery = params.get('minPrice');
+    const maxQuery = params.get('maxPrice');
+    const minPrice = minQuery === null ? 600 : Number(minQuery);
+    const maxPrice = maxQuery === null ? 2000 : Number(maxQuery);
+    setRangeValues([minPrice, maxPrice]);
+  }, [queryParams]);
 
   const handleChange = (event, newValue) => {
-    setRangeValues(newValue);
+    setRangeValues([newValue[0], newValue[1]]);
+  };
+
+  const handleChangeCommitted = (event, newValue) => {
+    dispatch(setMinPrice(newValue[0]));
+    dispatch(setMaxPrice(newValue[1]));
+    dispatch(setSelectPage(1));
   };
 
   return (
@@ -29,6 +51,7 @@ export default function NonLinearSlider() {
       <Slider
         value={rangeValues}
         onChange={handleChange}
+        onChangeCommitted={handleChangeCommitted}
         valueLabelDisplay="auto"
         marks={false}
         min={600}

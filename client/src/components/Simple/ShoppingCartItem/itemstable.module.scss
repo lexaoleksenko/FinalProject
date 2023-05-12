@@ -6,23 +6,29 @@
   font-family: Arial, Helvetica, sans-serif;
   margin-bottom: 20px;
   padding-bottom: 20px;
+
   .items {
     display: flex;
     align-items: center;
+
     .image {
       max-width: 150px;
       object-fit: cover;
-      .image>img{
+
+      .image > img {
         max-width: 150px;
         min-width: 150px;
       }
     }
+
     .position {
       display: flex;
       flex-direction: column;
+
       .info {
         padding: 5px;
         margin-bottom: 10px;
+
         .name {
           font-weight: 600;
           font-size: 14px;
@@ -30,6 +36,7 @@
           margin: 0;
           padding: 5px 2px;
         }
+
         .price {
           padding: 5px 5px;
           margin: 0;
@@ -38,30 +45,50 @@
       }
     }
   }
+
   .button {
     height: 30px;
+    min-width: 0;
+    width: 30px;
+    background-color: black;
+    color: white;
   }
+
   .buttonsNone {
     display: none;
   }
+
   .item {
     padding: 0 10px;
     margin: 2px;
-    max-height: 20px
+    max-height: 20px;
   }
+  .quantity{
+    display: inline-block;
+  }
+  .quantityNone{
+    display: none;
+  }
+
+  .itemNone {
+    display: none;
+  }
+
   .buttons {
     padding: 10px;
     display: flex;
     justify-content: space-evenly;
     align-items: center;
   }
-  .delete{
-    padding-left:50px;
-    justify-content:flex-end
+
+  .delete {
+    padding: 10px 0 0 115px;
+    justify-content: flex-end
   }
+
   .location, .delete {
     display: flex;
-    padding-bottom:10px
+    padding-bottom: 10px
   }
 }
 

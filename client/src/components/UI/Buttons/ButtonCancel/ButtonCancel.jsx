@@ -22,11 +22,12 @@ function ButtonCancel({ onClick, style }) {
 }
 
 ButtonCancel.defaultProps = {
+  onClick: null,
   style: '',
 };
 
 ButtonCancel.propTypes = {
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   style: PropTypes.string,
 };
 

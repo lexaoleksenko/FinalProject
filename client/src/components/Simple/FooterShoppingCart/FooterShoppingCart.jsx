@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 export default function FooterShoppingCart({ amount }) {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
-      <Typography sx={{ fontSize: 20, color: 'black' }}>
+      <Typography sx={{ fontSize: 20, color: 'black', fontWeight: '600' }}>
         Total amount: {amount}$
       </Typography>
     </Box>
