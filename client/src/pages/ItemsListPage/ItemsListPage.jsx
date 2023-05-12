@@ -43,12 +43,7 @@ function ItemsListPage() {
     <Container maxWidth="lg">
       {' '}
       <div className={style.root}>
-        <h2 className={style.title}>
-          All categories
-          <span>{'>'}Apple</span>
-          <span>{'>'}128GB</span>
-          <span>{'>'}Black</span>
-        </h2>
+        <h2 className={style.title}>All categories</h2>
         <Grid display="flex">
           <Grid marginRight={1} marginTop={1}>
             <SimpleAccordion />
