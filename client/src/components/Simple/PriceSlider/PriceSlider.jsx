@@ -20,9 +20,9 @@ export default function NonLinearSlider() {
 
   // Resetting the slider when switching to another route
   React.useEffect(() => {
-    dispatch(setMinPrice(600));
+    dispatch(setMinPrice(400));
     dispatch(setMaxPrice(2000));
-    setRangeValues([600, 2000]);
+    setRangeValues([400, 2000]);
   }, [location.pathname]);
 
   // Getting value from search parameters
@@ -30,7 +30,7 @@ export default function NonLinearSlider() {
     const params = new URLSearchParams(queryParams);
     const minQuery = params.get('minPrice');
     const maxQuery = params.get('maxPrice');
-    const minPrice = minQuery === null ? 600 : Number(minQuery);
+    const minPrice = minQuery === null ? 400 : Number(minQuery);
     const maxPrice = maxQuery === null ? 2000 : Number(maxQuery);
     setRangeValues([minPrice, maxPrice]);
   }, [queryParams]);
@@ -54,7 +54,7 @@ export default function NonLinearSlider() {
         onChangeCommitted={handleChangeCommitted}
         valueLabelDisplay="auto"
         marks={false}
-        min={600}
+        min={400}
         step={200}
         max={2000}
         aria-labelledby="slider"
