@@ -24,7 +24,7 @@ function ItemCardPage() {
 
   useEffect(() => {
     dispatch(fetchCardProduct(itemNo));
-  }, []);
+  }, [itemNo]);
 
   useEffect(() => {
     if (status === 'loaded') {
