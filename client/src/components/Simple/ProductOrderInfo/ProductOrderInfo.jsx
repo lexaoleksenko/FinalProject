@@ -9,7 +9,7 @@ import {
 import FooterShoppingCart from '../FooterShoppingCart/FooterShoppingCart';
 import style from './ProductOrderInfo.module.scss';
 import ButtonsCheckoutPage from '../../UI/Buttons/ButtonsCheckoutPage/ButtonsCheckoutPage';
-import { checkoutState } from '../../../redux/slices/checkout';
+import { checkoutState, fetchNewOrder } from '../../../redux/slices/checkout';
 
 function ProductOrderInfo() {
   const selectedProducts = useSelector(stateSelectedProducts);
@@ -31,26 +31,15 @@ function ProductOrderInfo() {
   //  Logic OrderInfo
   // Contact Form
   const { contactsForm, contactsFormStatus } = useSelector(checkoutState);
-  const [contactsInfo, setContactsInfo] = useState(null);
-
-  useEffect(() => {
-    if (contactsFormStatus) {
-      setContactsInfo(contactsForm);
-    }
-  }, [contactsForm, contactsFormStatus]);
 
   // Delivery and payment
 
   const { deliveryAddress, shipping, paymentInfo, deliveryPaymentStatus } =
     useSelector(checkoutState);
-  const [deliveryInfo, setDeliveryInfo] = useState(null);
   const [deliveryMethod, setDeliveryMethod] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState(null);
 
   useEffect(() => {
-    if (deliveryPaymentStatus) {
-      setDeliveryInfo(deliveryAddress);
-    }
     if (shipping === 'CourierDeliveryKyiv') {
       setDeliveryMethod('Courier for Kyiv');
     }
@@ -63,7 +52,7 @@ function ProductOrderInfo() {
     if (paymentInfo === 'payment-by-card') {
       setPaymentMethod('Payment by bank card');
     }
-  }, [deliveryAddress, shipping, paymentInfo, deliveryPaymentStatus]);
+  }, [shipping, paymentInfo]);
 
   // Order
 
@@ -105,7 +94,9 @@ function ProductOrderInfo() {
           .split(' ')
           .shift()}. Address: ${deliveryAddress.address}
           Payment amount: ${result}</p>`,
-        products: selectedProducts,
+        products: selectedProducts.map(prod => {
+          return { product: prod, cartQuantity: prod.quantityCart };
+        }),
       });
     }
   }, [
@@ -119,6 +110,7 @@ function ProductOrderInfo() {
 
   const handleConfirmOrder = () => {
     console.log('Order>>>>', order);
+    dispatch(fetchNewOrder(order));
   };
 
   const confirmOrderStatus = Boolean(
@@ -150,23 +142,33 @@ function ProductOrderInfo() {
             <p>
               <span>Name: </span>
               <span>
-                {contactsInfo ? contactsInfo.firstName : 'Not entered'}
+                {contactsForm.firstName.length > 0
+                  ? contactsForm.firstName
+                  : 'Not entered'}
               </span>
             </p>
             <p>
               <span>Surname: </span>
               <span>
-                {contactsInfo ? contactsInfo.lastName : 'Not entered'}
+                {contactsForm.lastName.length > 0
+                  ? contactsForm.lastName
+                  : 'Not entered'}
               </span>
             </p>
             <p>
               <span>Email: </span>
-              <span>{contactsInfo ? contactsInfo.email : 'Not entered'}</span>
+              <span>
+                {contactsForm.email.length > 0
+                  ? contactsForm.email
+                  : 'Not entered'}
+              </span>
             </p>
             <p>
               <span>PhoneNumber: </span>
               <span>
-                {contactsInfo ? contactsInfo.phoneNumber : 'Not entered'}
+                {contactsForm.phoneNumber.length > 0
+                  ? contactsForm.phoneNumber
+                  : 'Not entered'}
               </span>
             </p>
           </div>
@@ -175,23 +177,35 @@ function ProductOrderInfo() {
             <p>Deliveri and Payment:</p>
             <p>
               <span>Country: </span>
-              <span>{deliveryInfo ? deliveryInfo.country : 'Not entered'}</span>
+              <span>
+                {deliveryAddress.country
+                  ? deliveryAddress.country
+                  : 'Not entered'}
+              </span>
             </p>
             <p>
               <span>City: </span>
               <span>
-                {deliveryInfo
-                  ? deliveryInfo.city.split(' ').shift()
+                {deliveryAddress.city
+                  ? deliveryAddress.city.split(' ').shift()
                   : 'Not entered'}
               </span>
             </p>
             <p>
               <span>Address: </span>
-              <span>{deliveryInfo ? deliveryInfo.address : 'Not entered'}</span>
+              <span>
+                {deliveryAddress.address
+                  ? deliveryAddress.address
+                  : 'Not entered'}
+              </span>
             </p>
             <p>
               <span>Postal: </span>
-              <span>{deliveryInfo ? deliveryInfo.postal : 'Not entered'}</span>
+              <span>
+                {deliveryAddress.postal
+                  ? deliveryAddress.postal
+                  : 'Not entered'}
+              </span>
             </p>
             <p>
               <span>Delivery method: </span>
