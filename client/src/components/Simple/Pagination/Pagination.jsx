@@ -7,7 +7,7 @@ import Stack from '@mui/material/Stack';
 import {
   filterProdState,
   setSelectPage,
-} from '../../../redux/slices/getFilterProducts';
+} from '../../../redux/slices/filterProducts';
 
 function PaginationRounded() {
   const dispatch = useDispatch();

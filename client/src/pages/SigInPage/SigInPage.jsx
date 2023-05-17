@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
 import { fetchUserData } from '../../redux/slices/registr';
+import { fetchUserToken } from '../../redux/slices/auth';
 
 import style from './SigInPage.module.scss';
 
@@ -17,11 +18,15 @@ function SigInPage() {
   const navigate = useNavigate();
 
   const [passError, setPassError] = useState([]);
+  const [status, setStatus] = useState(false);
+  const [pass, setPass] = useState();
 
   const onSubmit = async values => {
+    setStatus(true);
     const data = await dispatch(fetchUserData(values));
 
     if (!data.payload) {
+      setStatus(false);
       return setPassError(
         'Oooops,something went wrong, please try again later.',
       );
@@ -43,11 +48,24 @@ function SigInPage() {
       if (data.payload.response && data.payload.response.data.login) {
         setPassError(data.payload.response.data.login);
       }
-      return;
+      return setStatus(false);
     }
 
     if (data.payload) {
-      navigate('/login');
+      const logIn = async () => {
+        const authData = await dispatch(
+          fetchUserToken({
+            loginOrEmail: data.payload.email,
+            password: pass,
+          }),
+        );
+        if (authData) {
+          navigate('/');
+          return window.localStorage.setItem('token', authData.payload);
+        }
+        setStatus(false);
+      };
+      logIn();
     }
   };
 
@@ -120,6 +138,7 @@ function SigInPage() {
             className={style.field}
             label="Password"
             fullWidth
+            onChange={e => setPass(e.target.value)}
           />
           <div
             className={
@@ -129,7 +148,7 @@ function SigInPage() {
             <p>{passError}</p>
           </div>
           <Button
-            disabled={!isValid}
+            disabled={!isValid || status}
             type="submit"
             size="large"
             variant="contained"

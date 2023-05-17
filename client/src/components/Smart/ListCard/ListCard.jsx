@@ -111,7 +111,14 @@ function ListCard({
   };
 
   return (
-    <Grid item xs={12} sm={sm} md={md} lg={lg}>
+    <Grid
+      item
+      xs={12}
+      sm={sm}
+      md={md}
+      lg={lg}
+      style={{ maxHeight: '440px', marginBottom: '5px' }}
+    >
       {' '}
       <Stack spacing={4}>
         <Card className={style.card}>

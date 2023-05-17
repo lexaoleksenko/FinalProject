@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const fetchUserToken = createAsyncThunk(
-  'auth/fetchUserData',
+  'authorization/fetchUserData',
   async params => {
     try {
       const { data } = await axios.post('/api/customers/login', params, {
@@ -24,7 +24,7 @@ const initialState = {
 };
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: 'authorization',
   initialState,
   reducers: {
     logout(state) {
@@ -65,7 +65,7 @@ const authSlice = createSlice({
   },
 });
 
-export const selectIsAuth = state => Boolean(state.auth.token);
-export const token = state => state.auth.token;
+export const selectIsAuth = state => Boolean(state.authorization.token);
+export const token = state => state.authorization.token;
 export const { logout } = authSlice.actions;
 export const authReducer = authSlice.reducer;

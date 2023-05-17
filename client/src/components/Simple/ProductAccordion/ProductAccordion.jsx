@@ -16,7 +16,7 @@ import {
   setMaxPrice,
   setMinPrice,
   setSelectPage,
-} from '../../../redux/slices/getFilterProducts';
+} from '../../../redux/slices/filterProducts';
 
 import style from './ProductAccordion.module.scss';
 

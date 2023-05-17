@@ -9,7 +9,7 @@ import {
   setMinPrice,
   setMaxPrice,
   setSelectPage,
-} from '../../../redux/slices/getFilterProducts';
+} from '../../../redux/slices/filterProducts';
 
 export default function NonLinearSlider() {
   const dispatch = useDispatch();
