@@ -68,7 +68,7 @@ function ItemsListPage() {
                   </div>
                 </Grid>
               ) : (
-                <Grid container spacing={1} marginTop={0} marginBottom={5}>
+                <Grid container spacing={1} marginTop={0} marginBottom="auto">
                   {prodArr.map((product, index) => (
                     <ListCard
                       product={product}
@@ -85,7 +85,7 @@ function ItemsListPage() {
             </>
           )}
         </Grid>
-        <div>
+        <div style={{ marginTop: '20px' }}>
           <PaginationRounded />
         </div>
       </div>
