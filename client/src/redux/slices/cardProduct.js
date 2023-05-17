@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const fetchCardProduct = createAsyncThunk(
-  'getCardProduct/fetchCardProduct',
+  'cardProduct/fetchCardProduct',
   async id => {
     try {
       const { data } = await axios.get(`/api/products/${id}`);
@@ -19,7 +19,7 @@ const initialState = {
 };
 
 export const getCardProduct = createSlice({
-  name: 'getCardProduct',
+  name: 'cardProduct',
   initialState,
   extraReducers: builder => {
     builder
@@ -52,4 +52,4 @@ export const getCardProduct = createSlice({
 
 export const cardProductReducer = getCardProduct.reducer;
 
-export const cardProductState = state => state.getCardProduct;
+export const cardProductState = state => state.cardProduct;

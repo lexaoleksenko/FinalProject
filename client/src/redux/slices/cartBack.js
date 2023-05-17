@@ -72,7 +72,7 @@ const initialState = {
 };
 
 export const cartBack = createSlice({
-  name: 'cartBack',
+  name: 'cartBackEnd',
   initialState,
   extraReducers: builder => {
     builder
@@ -176,4 +176,4 @@ export const cartBack = createSlice({
 });
 
 export const cartBackReducer = cartBack.reducer;
-export const cartBackState = state => state.cartBack;
+export const cartBackState = state => state.cartBackEnd;
