@@ -8,7 +8,6 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Checkbox from '@mui/material/Checkbox';
-import NonLinearSlider from '../NonLinearSlider/NonLinearSlider';
 import PriceSlider from '../PriceSlider/PriceSlider';
 
 import {
@@ -17,7 +16,7 @@ import {
   setMaxPrice,
   setMinPrice,
   setSelectPage,
-} from '../../../redux/slices/getFilterProducts';
+} from '../../../redux/slices/filterProducts';
 
 import style from './ProductAccordion.module.scss';
 
@@ -66,6 +65,15 @@ function SimpleAccordion() {
   // filter price
   const { filterMinPrice, filterMaxPrice } = useSelector(filterProdState);
 
+  // filter memory
+  const [selectMemory, setSelectMemory] = useState([]);
+
+  const delSelectMemory = value => {
+    const newSelectMemory = selectMemory.filter(memory => memory !== value);
+    setSelectMemory(newSelectMemory);
+    setPageOne();
+  };
+
   // create filter URL params
   const urlParams = new URLSearchParams();
 
@@ -93,6 +101,10 @@ function SimpleAccordion() {
     urlParams.set('maxPrice', filterMaxPrice);
   }
 
+  if (selectMemory.length > 0) {
+    urlParams.set('memoryStorage', selectMemory);
+  }
+
   const url = urlParams.toString().replace(/%2C/g, ',');
 
   // dispatch filter URL
@@ -109,6 +121,7 @@ function SimpleAccordion() {
     filterMaxPrice,
     filterMinPrice,
     selectPage,
+    selectMemory,
   ]);
 
   // Implemented the ability to reuse the link without
@@ -121,6 +134,7 @@ function SimpleAccordion() {
     const minPrice = params.get('minPrice');
     const maxPrice = params.get('maxPrice');
     const startPage = params.get('startPage');
+    const memoryStorage = params.get('memoryStorage');
     if (color) {
       const colorArr = color.split(',');
       setSelectColor(prevColorArr => prevColorArr.concat(colorArr));
@@ -141,6 +155,10 @@ function SimpleAccordion() {
     }
     if (startPage) {
       dispatch(setSelectPage(startPage));
+    }
+    if (memoryStorage) {
+      const memoryArr = memoryStorage.split(',');
+      setSelectMemory(prevMemoryArr => prevMemoryArr.concat(memoryArr));
     }
   }, []);
 
@@ -259,7 +277,59 @@ function SimpleAccordion() {
                   <Typography>Phone memory capacity</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <NonLinearSlider />
+                  <div className={style.checkbox}>
+                    <span>
+                      <Checkbox
+                        name="0-250"
+                        inputProps={{ 'aria-label': 'Checkbox demo' }}
+                        onChange={e => {
+                          if (e.target.checked) {
+                            setSelectMemory([...selectMemory, e.target.name]);
+                            setPageOne();
+                          }
+                          if (!e.target.checked) {
+                            delSelectMemory(e.target.name);
+                          }
+                        }}
+                        checked={queryParams.includes('0-250')}
+                      />
+                      0-256GB
+                    </span>
+                    <span>
+                      <Checkbox
+                        name="251-500"
+                        inputProps={{ 'aria-label': 'Checkbox demo' }}
+                        onChange={e => {
+                          if (e.target.checked) {
+                            setSelectMemory([...selectMemory, e.target.name]);
+                            setPageOne();
+                          }
+                          if (!e.target.checked) {
+                            delSelectMemory(e.target.name);
+                          }
+                        }}
+                        checked={queryParams.includes('251-500')}
+                      />
+                      256-512GB
+                    </span>
+                    <span>
+                      <Checkbox
+                        name="501-1000"
+                        inputProps={{ 'aria-label': 'Checkbox demo' }}
+                        onChange={e => {
+                          if (e.target.checked) {
+                            setSelectMemory([...selectMemory, e.target.name]);
+                            setPageOne();
+                          }
+                          if (!e.target.checked) {
+                            delSelectMemory(e.target.name);
+                          }
+                        }}
+                        checked={queryParams.includes('501-1000')}
+                      />
+                      512GB-1TB
+                    </span>
+                  </div>
                 </AccordionDetails>
               </Accordion>
               <Accordion className={style.accordion}>
@@ -287,7 +357,7 @@ function SimpleAccordion() {
                     </span>
                     <span>
                       <Checkbox
-                        name="OLED"
+                        name="Organic"
                         inputProps={{ 'aria-label': 'Checkbox demo' }}
                         onChange={e => {
                           if (e.target.checked) {
@@ -298,7 +368,7 @@ function SimpleAccordion() {
                             delSelectDisplay(e.target.name);
                           }
                         }}
-                        checked={queryParams.includes('OLED')}
+                        checked={queryParams.includes('Organic')}
                       />
                       OLED
                     </span>

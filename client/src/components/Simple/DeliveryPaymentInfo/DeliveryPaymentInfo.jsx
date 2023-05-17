@@ -1,5 +1,6 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+// eslint-disable-next-line no-unused-vars
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Formik, Form } from 'formik';
 import FormControl from '@mui/material/FormControl';
@@ -23,48 +24,24 @@ import {
   updateDeliveryPaymentStatus,
   updatePaymentInfo,
   updateShipping,
+  checkoutState,
 } from '../../../redux/slices/checkout';
 
 function DeliveryPaymentInfo({ handelContinue }) {
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
-    dispatch(updateDeliveryAddress(null));
-    dispatch(updateShipping(null));
-    dispatch(updatePaymentInfo(null));
-    dispatch(updateDeliveryPaymentStatus(false));
-  }, []);
-
-  // Delivery and payment DATA. Redux.
-  const [shipping, setShipping] = React.useState('PostOfficeDelivery');
-
-  const [deliveryAddress, setDeliveryAddress] = React.useState({
-    country: 'Ukraine',
-    city: '',
-    address: '',
-    postal: '',
-  });
-
-  const [paymentMethod, setPaymentMethod] = React.useState(
-    'payment-upon-delivery',
-  );
-
-  const deliveryStatusTrue = () => {
-    dispatch(updateDeliveryAddress(deliveryAddress));
-    dispatch(updateShipping(shipping));
-    dispatch(updatePaymentInfo(paymentMethod));
-    dispatch(updateDeliveryPaymentStatus(true));
-  };
+  const { deliveryAddress, shipping, paymentInfo } = useSelector(checkoutState);
 
   // LOGIC Type delivery
   const [deliveryTypeStatus, setDeliveryTypeStatus] = React.useState(false);
   React.useEffect(() => {
     if (shipping === 'PostOfficeDelivery') {
       setDeliveryTypeStatus(false);
-      setDeliveryAddress({
-        ...deliveryAddress,
-        address: '',
-      });
+      dispatch(
+        updateDeliveryAddress({
+          ...deliveryAddress,
+        }),
+      );
     }
     if (shipping === 'CourierDeliveryKyiv') {
       setDeliveryTypeStatus(true);
@@ -79,17 +56,21 @@ function DeliveryPaymentInfo({ handelContinue }) {
     const regex = /\d+/g;
     const postal = value.match(regex);
     if (name === 'city') {
-      setDeliveryAddress({
-        ...deliveryAddress,
-        city: value,
-        postal: postal[0],
-      });
+      dispatch(
+        updateDeliveryAddress({
+          ...deliveryAddress,
+          city: value,
+          postal: postal[0],
+        }),
+      );
     }
     if (name === 'office') {
-      setDeliveryAddress({
-        ...deliveryAddress,
-        address: value,
-      });
+      dispatch(
+        updateDeliveryAddress({
+          ...deliveryAddress,
+          address: value,
+        }),
+      );
     }
   };
 
@@ -98,48 +79,61 @@ function DeliveryPaymentInfo({ handelContinue }) {
   const [inputErrorStatus, setInputErrorStatus] = React.useState(false);
 
   const handleChangeInput = value => {
-    setDeliveryAddress({
-      ...deliveryAddress,
-      address: value,
-    });
+    dispatch(
+      updateDeliveryAddress({
+        ...deliveryAddress,
+        address: value,
+      }),
+    );
   };
 
   const handleDeliveryType = event => {
     const { value } = event.target;
-    setShipping(value);
+    dispatch(updateShipping(value));
     if (value === 'CourierDeliveryKyiv') {
-      setDeliveryAddress({
-        ...deliveryAddress,
-        city: 'Kyiv 01000',
-        address: '',
-        postal: '01000',
-      });
+      dispatch(
+        updateDeliveryAddress({
+          ...deliveryAddress,
+          city: 'Kyiv 01000',
+          address: '',
+          postal: '01000',
+        }),
+      );
       setInputErrorStatus(true);
     }
   };
 
   React.useEffect(() => {
-    if (
-      deliveryAddress.address.length > 0 ||
-      shipping === 'PostOfficeDelivery'
-    ) {
+    if (shipping === 'PostOfficeDelivery') {
       setInputErrorStatus(false);
     }
-  }, [deliveryAddress.address, shipping]);
+  }, [shipping]);
 
   // LOGIC Payment
 
   const handleChangePayment = event => {
-    setPaymentMethod(event.target.value);
+    dispatch(updatePaymentInfo(event.target.value));
   };
 
   // LOGIC Continue Button
-  const continueStatus = Boolean(
+
+  const deliveryStatus = Boolean(
     deliveryAddress.country &&
       deliveryAddress.city &&
       deliveryAddress.address &&
       deliveryAddress.postal,
   );
+
+  const mainStatus = Boolean(deliveryStatus && shipping && paymentInfo);
+
+  React.useEffect(() => {
+    if (mainStatus) {
+      dispatch(dispatch(updateDeliveryPaymentStatus(true)));
+    }
+    if (!mainStatus) {
+      dispatch(dispatch(updateDeliveryPaymentStatus(false)));
+    }
+  }, [mainStatus]);
 
   return (
     <>
@@ -186,7 +180,7 @@ function DeliveryPaymentInfo({ handelContinue }) {
               >
                 <Select
                   name="city"
-                  value={deliveryAddress.city}
+                  value={deliveryTypeStatus ? '' : deliveryAddress.city}
                   onChange={handleDeliveryAddress}
                   displayEmpty
                   sx={{ minWidth: '120px' }}
@@ -321,7 +315,7 @@ function DeliveryPaymentInfo({ handelContinue }) {
               >
                 <RadioGroup
                   name="paymentMethod"
-                  value={paymentMethod}
+                  value={paymentInfo ?? 'payment-upon-delivery'}
                   onChange={handleChangePayment}
                 >
                   <FormControlLabel
@@ -345,9 +339,8 @@ function DeliveryPaymentInfo({ handelContinue }) {
           style={{ maxWidth: '450px', margin: '10px auto' }}
           size="large"
           variant="contained"
-          disabled={!continueStatus}
+          disabled={!mainStatus}
           onClick={() => {
-            deliveryStatusTrue();
             handelContinue();
           }}
         >

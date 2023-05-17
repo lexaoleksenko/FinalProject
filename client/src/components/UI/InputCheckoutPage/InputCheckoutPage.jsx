@@ -18,9 +18,10 @@ function InputCheckoutPage({ name, ...otherProps }) {
     ...otherProps,
     fullWidth: true,
     variant: 'outlined',
+    helperText: '',
   };
 
-  if (meta && meta.touched && meta.error) {
+  if (meta && meta.error) {
     configTextField.error = true;
     configTextField.helperText = meta.error;
   }

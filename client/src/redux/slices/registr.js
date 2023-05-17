@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const fetchUserData = createAsyncThunk(
-  'regist/fetchUserData',
+  'registration/fetchUserData',
   async params => {
     try {
       const { data } = await axios.post('/api/customers', params, {
@@ -23,7 +23,7 @@ const initialState = {
 };
 
 const registSlice = createSlice({
-  name: 'regist',
+  name: 'registration',
   initialState,
   extraReducers: builder => {
     builder
