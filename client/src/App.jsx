@@ -13,6 +13,7 @@ import LogInPage from './pages/LogInPage/LogInPage';
 import SigInPage from './pages/SigInPage/SigInPage';
 import LoadingPage from './pages/LoadingPage/LoadingPage';
 import ContactPage from './pages/ContactPage/ContactPage';
+import SuccessfulOrder from './pages/SuccessfulOrderPage/SuccessfulOrder';
 
 import { setSelectedProducts } from './redux/slices/shopping-cart';
 import { setSelectedProductsFav } from './redux/slices/wishList';
@@ -63,6 +64,7 @@ function App() {
         <Route path="/login" element={<LogInPage />} />
         <Route path="/signup" element={<SigInPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/successful-order" element={<SuccessfulOrder />} />
       </Routes>
       <Footer />
     </>

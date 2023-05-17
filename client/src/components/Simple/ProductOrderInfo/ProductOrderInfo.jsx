@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Grid, Stack, Typography, Divider } from '@mui/material';
 import ShoppingCartItem from '../ShoppingCartItem/ShoppingCartItem';
 import {
@@ -19,6 +20,7 @@ function ProductOrderInfo() {
     0,
   );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     localStorage.setItem('products', JSON.stringify(selectedProducts));
@@ -110,6 +112,7 @@ function ProductOrderInfo() {
 
   const handleConfirmOrder = () => {
     console.log('Order>>>>', order);
+    navigate('/successful-order');
     dispatch(fetchNewOrder(order));
   };
 
