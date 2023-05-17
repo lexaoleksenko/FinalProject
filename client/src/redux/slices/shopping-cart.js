@@ -37,7 +37,7 @@ const shoppingCartSlice = createSlice({
         ...state,
         selectedProducts: state.selectedProducts.map(item => {
           if (item.itemNo === action.payload) {
-            return { ...item, quantity: item.quantity + 1 };
+            return { ...item, quantityCart: item.quantityCart + 1 };
           }
           return item;
         }),
@@ -49,7 +49,7 @@ const shoppingCartSlice = createSlice({
         ...state,
         selectedProducts: state.selectedProducts.map(item => {
           if (item.itemNo === action.payload) {
-            return { ...item, quantity: item.quantity - 1 };
+            return { ...item, quantityCart: item.quantityCart - 1 };
           }
           return item;
         }),

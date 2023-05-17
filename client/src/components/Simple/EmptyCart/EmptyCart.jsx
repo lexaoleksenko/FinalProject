@@ -1,14 +1,13 @@
 import React from 'react';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 function EmptyCart() {
   return (
-    <Typography
-      style={{ textAlign: 'center', padding: '20px 0' }}
-      className="empty"
-    >
-      Your Cart is empty
-    </Typography>
+    <Box sx={{ minWidth: 375 }}>
+      <Typography sx={{ textAlign: 'center', padding: '20px 0' }}>
+        Your Cart is empty
+      </Typography>
+    </Box>
   );
 }
 

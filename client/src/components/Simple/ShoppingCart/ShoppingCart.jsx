@@ -32,7 +32,7 @@ function ShoppingCart() {
   };
   const result = selectedProducts.reduce(
     (previousValue, currentItem) =>
-      previousValue + currentItem.quantity * currentItem.currentPrice,
+      previousValue + currentItem.quantityCart * currentItem.currentPrice,
     0,
   );
   const handleRemoveItem = itemNo => {
@@ -116,7 +116,7 @@ function ShoppingCart() {
           />
         ))}
 
-        <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+        <Box>
           <FooterShoppingCart amount={cartBackTotal} />
           <NavLink to="/checkout">
             <ButtonDark label="CHECKOUT" onClick={handleCheckout} />

@@ -68,6 +68,11 @@ function Navbar() {
 
   const isMobile = useMediaQuery('(max-width:768px)');
 
+  const totalQuantity = cartProducts.reduce(
+    (total, item) => total + item.quantityCart,
+    0,
+  );
+
   return (
     <div>
       {!isMobile ? (
@@ -80,7 +85,7 @@ function Navbar() {
             <InputNav />
             <NavIcon
               favCount={favProducts.length}
-              cartCount={isAuth ? cartBackLength : cartProducts.length}
+              cartCount={isAuth ? cartBackLength : totalQuantity}
               nameAvatar="Artur Tech"
               isAuth={isAuth}
               onClickLogOut={handleLogOut}
@@ -99,7 +104,7 @@ function Navbar() {
             </Typography>
             <NavLinks
               favCount={favProducts.length}
-              cartCount={isAuth ? cartBackLength : cartProducts.length}
+              cartCount={isAuth ? cartBackLength : totalQuantity}
               nameAvatar="Artur Tech"
               isAuth={isAuth}
               onClickLogOut={handleLogOut}

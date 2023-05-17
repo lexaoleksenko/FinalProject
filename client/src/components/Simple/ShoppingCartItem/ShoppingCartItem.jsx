@@ -81,7 +81,7 @@ function ShoppingCartItem({
                                 isAuth
                                   ? addItemBack(item._id)
                                   : handleBuyNow(e, item)
-                            : () => decrease(item.itemNo, item.quantity)
+                            : () => decrease(item.itemNo, item.quantityCart)
                         }
                       >
                         {searchSettings ? 'Buy now' : '-'}
@@ -90,8 +90,8 @@ function ShoppingCartItem({
                         className={searchSettings ? style.itemNone : style.item}
                       >
                         {quantityDisplay
-                          ? `Quantity: ${item.quantity}`
-                          : item.quantity}
+                          ? `Qty: ${item.quantityCart}`
+                          : item.quantityCart}
                       </p>
                       <Button
                         className={`${

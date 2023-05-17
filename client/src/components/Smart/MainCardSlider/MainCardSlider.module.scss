@@ -1,5 +1,6 @@
 .slick_slider {
   width: 48%;
+  margin: auto;
 
   .slick_slide {
     width: 100%;
@@ -56,4 +57,10 @@
 .slick-dots button:active {
   background-color: #000000;
   transition: 0.2s;
+}
+
+@media (max-width: 768px) {
+  .slick_slider {
+    width: 100%;
+  }
 }

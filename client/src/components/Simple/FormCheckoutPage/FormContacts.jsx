@@ -1,5 +1,5 @@
-import { React, useEffect, useState } from 'react';
-import { Grid, Stack, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Divider, Grid, Stack, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
@@ -16,6 +16,7 @@ function FormContacts({ handelContinue }) {
   const dispatch = useDispatch();
   const [isFormValid, setIsFormValid] = useState(false);
   const { contactsForm } = useSelector(checkoutState);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   const contactsContent = Boolean(
     contactsForm.firstName ||
@@ -46,6 +47,16 @@ function FormContacts({ handelContinue }) {
   const formStatusTrue = () => {
     dispatch(updateFormStatus(true));
   };
+  const handleScreenSize = () => {
+    setIsSmallScreen(window.innerWidth <= 768);
+  };
+  useEffect(() => {
+    handleScreenSize();
+    window.addEventListener('resize', handleScreenSize);
+    return () => {
+      window.removeEventListener('resize', handleScreenSize);
+    };
+  }, []);
 
   return (
     <>
@@ -74,15 +85,11 @@ function FormContacts({ handelContinue }) {
         {({ isValid }) => {
           handleIsValid(isValid);
           return (
-            <Form style={{ padding: '30px 10px' }}>
-              <Grid container spacing={5}>
+            <Form sx={{ padding: '30px 10px' }}>
+              <Grid container spacing={5} direction="column">
                 <Grid item xs={12}>
-                  <Typography
-                    style={{ color: '#000000', paddingBottom: '10px' }}
-                    variant="h5"
-                  >
-                    Main Information
-                  </Typography>
+                  <Typography variant="h6">Main Information</Typography>
+                  <Divider />
                 </Grid>
                 <Grid item xs={6}>
                   <InputCheckoutPage name="firstName" label="First Name" />
@@ -101,7 +108,13 @@ function FormContacts({ handelContinue }) {
           );
         }}
       </Formik>
-      <Stack style={{ padding: '50px 20px' }} direction="column" spacing={3}>
+      <Stack
+        sx={{
+          padding: isSmallScreen ? '30px 20px' : '50px 20px',
+        }}
+        direction="column"
+        spacing={3}
+      >
         <ButtonsCheckoutPage
           label="Saved & Continue"
           variant="contained"
