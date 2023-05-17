@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Grid, Container } from '@mui/material';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import { useSelector } from 'react-redux';
-import { filterProdState } from '../../redux/slices/getFilterProducts';
+import { filterProdState } from '../../redux/slices/filterProducts';
 
 // import { searchState } from '../../redux/slices/search';
 

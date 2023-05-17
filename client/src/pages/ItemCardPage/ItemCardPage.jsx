@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   cardProductState,
   fetchCardProduct,
-} from '../../redux/slices/getCardProduct';
+} from '../../redux/slices/cardProduct';
 
 import MainCard from '../../components/Smart/MainCard/MainCard';
 import MainCardSkeleton from '../../components/Smart/MainCard/MainCardSkeleton';
