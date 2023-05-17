@@ -52,7 +52,6 @@ const searchSlice = createSlice({
   },
 });
 
-// export const { logout } = serchSlice.actions;
-export const sliceReducer = searchSlice.reducer;
+export const searchReducer = searchSlice.reducer;
 
 export const searchState = state => state.search;
