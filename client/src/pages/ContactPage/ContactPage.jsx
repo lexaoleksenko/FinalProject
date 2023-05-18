@@ -7,16 +7,8 @@ import style from './ContactPage.module.scss';
 function ContactPage() {
   return (
     <Container maxWidth="lg">
-      <Grid
-        container
-        spacing={1}
-        display="flex"
-        justifyContent="space-between"
-        marginTop="100px"
-        style={{ backgroundColor: '#ffffff', borderRadius: '10px' }}
-        padding="50px"
-      >
-        <Grid item className={style.info} textAlign="center" width="400px">
+      <Grid className={style.container} spacing={1}>
+        <Grid item className={style.info} textAlign="center">
           <p>
             <span>City: </span>Kyiv, Ukraine
           </p>

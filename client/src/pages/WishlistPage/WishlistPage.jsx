@@ -50,6 +50,7 @@ function WishlistPage() {
         <Grid container spacing={1} marginTop={0} marginBottom={5}>
           {selectedProductsFav.map((product, index) => (
             <ListCard
+              className={style.image}
               product={product}
               key={index}
               imageUrl={product.imageUrls[0]}

@@ -60,12 +60,17 @@ function Navbar() {
 
   const isMobile = useMediaQuery('(max-width:768px)');
 
+  const isTab = useMediaQuery('(max-width:940px)');
+
   return (
     <div>
       {!isMobile ? (
         <AppBar position="static" className={style.root}>
-          <Toolbar>
-            <Typography variant="h6">
+          <Toolbar style={{ padding: '0' }}>
+            <Typography
+              style={isTab ? { marginRight: '-30px', marginLeft: '-30px' } : {}}
+              variant="h6"
+            >
               <Logo />
             </Typography>
             <NavLinks />
