@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Grid, Stack, Typography, Divider, Box } from '@mui/material';
 import ShoppingCartItem from '../ShoppingCartItem/ShoppingCartItem';
 import {
@@ -9,7 +10,7 @@ import {
 import FooterShoppingCart from '../FooterShoppingCart/FooterShoppingCart';
 import style from './ProductOrderInfo.module.scss';
 import ButtonsCheckoutPage from '../../UI/Buttons/ButtonsCheckoutPage/ButtonsCheckoutPage';
-import { checkoutState } from '../../../redux/slices/checkout';
+import { checkoutState, fetchNewOrder } from '../../../redux/slices/checkout';
 
 function ProductOrderInfo() {
   const selectedProducts = useSelector(stateSelectedProducts);
@@ -19,6 +20,7 @@ function ProductOrderInfo() {
     0,
   );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     localStorage.setItem('products', JSON.stringify(selectedProducts));
@@ -31,26 +33,15 @@ function ProductOrderInfo() {
   //  Logic OrderInfo
   // Contact Form
   const { contactsForm, contactsFormStatus } = useSelector(checkoutState);
-  const [contactsInfo, setContactsInfo] = useState(null);
-
-  useEffect(() => {
-    if (contactsFormStatus) {
-      setContactsInfo(contactsForm);
-    }
-  }, [contactsForm, contactsFormStatus]);
 
   // Delivery and payment
 
   const { deliveryAddress, shipping, paymentInfo, deliveryPaymentStatus } =
     useSelector(checkoutState);
-  const [deliveryInfo, setDeliveryInfo] = useState(null);
   const [deliveryMethod, setDeliveryMethod] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState(null);
 
   useEffect(() => {
-    if (deliveryPaymentStatus) {
-      setDeliveryInfo(deliveryAddress);
-    }
     if (shipping === 'CourierDeliveryKyiv') {
       setDeliveryMethod('Courier for Kyiv');
     }
@@ -63,7 +54,7 @@ function ProductOrderInfo() {
     if (paymentInfo === 'payment-by-card') {
       setPaymentMethod('Payment by bank card');
     }
-  }, [deliveryAddress, shipping, paymentInfo, deliveryPaymentStatus]);
+  }, [shipping, paymentInfo]);
 
   // Order
 
@@ -105,7 +96,9 @@ function ProductOrderInfo() {
           .split(' ')
           .shift()}. Address: ${deliveryAddress.address}
           Payment amount: ${result}</p>`,
-        products: selectedProducts,
+        products: selectedProducts.map(prod => {
+          return { product: prod, cartQuantity: prod.quantityCart };
+        }),
       });
     }
   }, [
@@ -119,6 +112,8 @@ function ProductOrderInfo() {
 
   const handleConfirmOrder = () => {
     console.log('Order>>>>', order);
+    navigate('/successful-order');
+    dispatch(fetchNewOrder(order));
   };
 
   const confirmOrderStatus = Boolean(

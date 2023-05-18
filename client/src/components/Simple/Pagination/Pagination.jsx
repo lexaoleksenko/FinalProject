@@ -7,7 +7,7 @@ import Stack from '@mui/material/Stack';
 import {
   filterProdState,
   setSelectPage,
-} from '../../../redux/slices/getFilterProducts';
+} from '../../../redux/slices/filterProducts';
 
 function PaginationRounded() {
   const dispatch = useDispatch();
@@ -28,7 +28,7 @@ function PaginationRounded() {
   return (
     <Stack spacing={2}>
       <Pagination
-        page={selectPage}
+        page={parseInt(selectPage, 10)}
         count={pageTotal ?? 1}
         onChange={handlePageChange}
         variant="outlined"

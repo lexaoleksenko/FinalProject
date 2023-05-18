@@ -19,7 +19,7 @@ function SpecialOfferSec() {
         <h3>
           iPhone 14 Pro is now available in the <span>MobiStore</span>!
         </h3>
-        <NavLink className={style.link}>
+        <NavLink className={style.link} to="/products/303125">
           <ButtonWhite label="Buy Now" />
         </NavLink>
         <div

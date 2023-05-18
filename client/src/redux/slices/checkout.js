@@ -1,4 +1,17 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+
+export const fetchNewOrder = createAsyncThunk(
+  'checkout/fetchNewOrder',
+  async order => {
+    try {
+      const { data } = await axios.post(`/api/orders`, order);
+      return data;
+    } catch (error) {
+      console.warn(error);
+    }
+  },
+);
 
 const initialState = {
   contactsForm: {
@@ -8,9 +21,14 @@ const initialState = {
     phoneNumber: '',
   },
   contactsFormStatus: false,
-  deliveryAddress: null,
-  shipping: '',
-  paymentInfo: '',
+  deliveryAddress: {
+    country: 'Ukraine',
+    city: '',
+    address: '',
+    postal: '',
+  },
+  shipping: 'PostOfficeDelivery',
+  paymentInfo: 'payment-upon-delivery',
   deliveryPaymentStatus: false,
 };
 

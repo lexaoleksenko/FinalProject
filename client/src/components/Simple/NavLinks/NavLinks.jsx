@@ -5,8 +5,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useMediaQuery, IconButton, Menu, MenuItem } from '@mui/material';
 
 import ButtonNav from '../../UI/Buttons/ButtonNav/ButtonNav';
-import InputNav from '../../UI/InputWhite/InputWhite';
 import NavIcon from '../NavIcon/NavIcon';
+import MobileModalSearch from '../MobileModalSearch/MobileModalSearch';
 
 import style from './NavLinks.module.scss';
 
@@ -35,7 +35,7 @@ function NavLinks({
       {!isMobile ? (
         <div className={style.root}>
           <NavLink to="/" className={style.link}>
-            <ButtonNav label="Home" />
+            <ButtonNav className={style.button} label="Home" />
           </NavLink>
           <NavLink to="/products/filter?" className={style.link}>
             <ButtonNav label="All goods" />
@@ -49,6 +49,7 @@ function NavLinks({
         </div>
       ) : (
         <div className={style.rootMob}>
+          <MobileModalSearch />
           <IconButton onClick={handleOpen}>
             <MenuIcon style={{ color: '#ffffff', fontSize: 50 }} />
           </IconButton>
@@ -70,28 +71,33 @@ function NavLinks({
               },
             }}
           >
-            <MenuItem onClick={handleClose}>
+            <MenuItem style={{ marginLeft: '25px' }} onClick={handleClose}>
               <NavLink to="/" className={style.link}>
-                <ButtonNav label="Home" />
+                <ButtonNav
+                  label="Home"
+                  style={{
+                    width: 100,
+                  }}
+                />
               </NavLink>
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem style={{ marginLeft: '25px' }} onClick={handleClose}>
               <NavLink to="/products" className={style.link}>
                 <ButtonNav label="All goods" />
               </NavLink>
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem style={{ marginLeft: '25px' }} onClick={handleClose}>
               <NavLink to="/" className={style.link}>
                 <ButtonNav label="About us" />
               </NavLink>
             </MenuItem>
-            <MenuItem onClick={handleClose} style={{ marginBottom: 20 }}>
+            <MenuItem
+              onClick={handleClose}
+              style={{ marginBottom: 20, marginLeft: '25px' }}
+            >
               <NavLink to="/" className={style.link}>
                 <ButtonNav label="Contact" />
               </NavLink>
-            </MenuItem>
-            <MenuItem style={{ marginBottom: 20 }}>
-              <InputNav />
             </MenuItem>
             <MenuItem onClick={handleClose} style={{ marginBottom: 20 }}>
               <NavIcon

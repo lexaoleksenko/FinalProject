@@ -3,7 +3,6 @@
   margin-bottom: auto;
   margin-left: auto;
   margin-right: 10px;
-  width: 300px;
 }
 
 .form {
@@ -22,7 +21,7 @@
   padding: 0px;
   padding-left: 5px;
   display: block;
-  width: 250px;
+  width: 150px;
   color: #ffffff;
   font-family: 'montserrat';
   border: none;
@@ -47,7 +46,7 @@
   font-size: 0.875rem;
   text-transform: uppercase;
   font-weight: 500;
-  left: 170px;
+  left: 90px;
   top: -5px;
   transition: 0.5s ease all;
   -moz-transition: 0.5s ease all;
@@ -57,7 +56,7 @@
 .input:focus ~ .label,
 .input:valid ~ .label {
   top: -15px;
-  left: 190px;
+  left: 90px;
   font-size: 0.7rem;
   text-transform: uppercase;
   font-weight: 300;
@@ -67,7 +66,7 @@
 .bar {
   position: relative;
   display: block;
-  width: 250px;
+  width: 150px;
 }
 
 .bar:before,

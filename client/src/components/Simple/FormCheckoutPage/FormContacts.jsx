@@ -30,14 +30,13 @@ function FormContacts({ handelContinue }) {
   const handleIsValid = isValid => {
     const timer = setTimeout(() => {
       setIsFormValid(isValid);
+      dispatch(updateFormStatus(isValid));
     }, 50);
     return () => clearTimeout(timer);
   };
 
   useEffect(() => {
-    if (isFormValid === false) {
-      dispatch(updateFormStatus(false));
-    }
+    dispatch(updateFormStatus(isFormValid));
   }, [isFormValid]);
 
   const handelBackToCart = () => {
@@ -47,9 +46,13 @@ function FormContacts({ handelContinue }) {
   const formStatusTrue = () => {
     dispatch(updateFormStatus(true));
   };
+  
+  // Responsive Logic
+  
   const handleScreenSize = () => {
     setIsSmallScreen(window.innerWidth <= 768);
   };
+  
   useEffect(() => {
     handleScreenSize();
     window.addEventListener('resize', handleScreenSize);
@@ -70,16 +73,16 @@ function FormContacts({ handelContinue }) {
         validationSchema={Yup.object({
           firstName: Yup.string()
             .matches(/^[A-Za-z ]*$/, 'Please enter valid name')
-            .required('Enter your name correctly'),
+            .required('Name is required*'),
           lastName: Yup.string()
             .matches(/^[A-Za-z ]*$/, 'Please enter valid surname')
-            .required('Enter your surname correctly'),
+            .required('Surname is required*'),
           email: Yup.string()
             .email('Please enter a valid email address')
-            .required('Email is required'),
+            .required('Email is required*'),
           phoneNumber: Yup.number()
             .min(10, 'Please enter your phone number correctly')
-            .required('The phone number is required'),
+            .required('The phone number is required*'),
         })}
       >
         {({ isValid }) => {
@@ -121,7 +124,6 @@ function FormContacts({ handelContinue }) {
           size="large"
           type="submit"
           onClick={() => {
-            formStatusTrue();
             handelContinue();
           }}
           disabled={!continueStatus}

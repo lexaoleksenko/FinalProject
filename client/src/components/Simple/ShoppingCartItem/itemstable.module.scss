@@ -34,6 +34,13 @@
           text-transform: uppercase;
           margin: 0;
           padding: 5px 2px;
+
+          @media (max-width: 375px) {
+            & {
+              font-size: 13px
+            }
+          ;
+          }
         }
 
         .price {
@@ -61,10 +68,12 @@
     padding: 0 10px;
     margin: 0;
   }
-  .quantity{
+
+  .quantity {
     display: inline-block;
   }
-  .quantityNone{
+
+  .quantityNone {
     display: none;
   }
 
