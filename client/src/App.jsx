@@ -19,7 +19,7 @@ import { setSelectedProductsFav } from './redux/slices/wishList';
 import { fetchCartProducts } from './redux/slices/cartBack';
 
 function App() {
-  const [loading, setLoading] = useState(true);
+  const [loading] = useState(false);
   const dispatch = useDispatch();
   const isAuth = Boolean(localStorage.getItem('token'));
   const bearer = localStorage.getItem('token');
@@ -41,12 +41,12 @@ function App() {
     }
   }, []);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-    return () => clearTimeout(timer); // очищаем таймер при размонтировании компонента
-  }, []);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setLoading(false);
+  //   }, 2000);
+  //   return () => clearTimeout(timer); // очищаем таймер при размонтировании компонента
+  // }, []);
 
   return loading ? (
     <LoadingPage />

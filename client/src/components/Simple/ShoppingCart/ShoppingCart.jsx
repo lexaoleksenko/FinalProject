@@ -27,12 +27,13 @@ function ShoppingCart() {
 
   // *** Not authorized logic ***
   const selectedProducts = useSelector(stateSelectedProducts);
+
   const handleCheckout = () => {
     dispatch(toggleDrawer(false));
   };
   const result = selectedProducts.reduce(
     (previousValue, currentItem) =>
-      previousValue + currentItem.quantity * currentItem.currentPrice,
+      previousValue + currentItem.quantityCart * currentItem.currentPrice,
     0,
   );
   const handleRemoveItem = itemNo => {
