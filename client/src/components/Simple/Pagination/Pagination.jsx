@@ -28,7 +28,7 @@ function PaginationRounded() {
   return (
     <Stack spacing={2}>
       <Pagination
-        page={selectPage}
+        page={parseInt(selectPage, 10)}
         count={pageTotal ?? 1}
         onChange={handlePageChange}
         variant="outlined"

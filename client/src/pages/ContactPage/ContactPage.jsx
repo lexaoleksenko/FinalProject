@@ -7,7 +7,7 @@ import style from './ContactPage.module.scss';
 function ContactPage() {
   return (
     <Container maxWidth="lg">
-      <Grid className={style.container} spacing={1}>
+      <Grid className={style.container}>
         <Grid item className={style.info} textAlign="center">
           <p>
             <span>City: </span>Kyiv, Ukraine

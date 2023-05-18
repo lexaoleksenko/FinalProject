@@ -76,7 +76,7 @@ function MobileModalSearch() {
             id="outlined-basic"
             label="Enter product name"
             variant="standard"
-            fullWidth="true"
+            fullWidth
             InputLabelProps={{
               style: {
                 marginLeft: '30px',

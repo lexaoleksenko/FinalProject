@@ -16,7 +16,7 @@ function ProductOrderInfo() {
   const selectedProducts = useSelector(stateSelectedProducts);
   const result = selectedProducts.reduce(
     (previousValue, currentItem) =>
-      previousValue + currentItem.quantity * currentItem.currentPrice,
+      previousValue + currentItem.quantityCart * currentItem.currentPrice,
     0,
   );
   const dispatch = useDispatch();
@@ -122,7 +122,7 @@ function ProductOrderInfo() {
 
   return (
     <Grid spacing={2} container>
-      <Grid item xs={6} className={[style.box, style.boxes].join(' ')}>
+      <Grid item xs={6} className={style.boxes}>
         <Typography variant="h6" className={style.title}>
           Cart Products
         </Typography>
@@ -134,7 +134,7 @@ function ProductOrderInfo() {
         />
         <FooterShoppingCart amount={result} />
       </Grid>
-      <Grid item xs={6} className={[style.box, style.boxes]}>
+      <Grid item xs={6} className={style.boxes}>
         <Typography variant="h6" className={style.title}>
           Order Information
         </Typography>

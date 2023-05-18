@@ -34,7 +34,7 @@ ButtonNav.propTypes = {
   color: PropTypes.string,
   variant: PropTypes.string,
   disabled: PropTypes.bool,
-  style: PropTypes.string,
+  style: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };
 
 export default ButtonNav;

@@ -1,9 +1,8 @@
 import { React, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useMediaQuery } from '@mui/material';
 
-import { FormControlLabel, FormGroup } from '@mui/material';
+import { FormControlLabel, FormGroup, useMediaQuery } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
