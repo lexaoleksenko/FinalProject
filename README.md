@@ -31,12 +31,14 @@ click...click...click...
   8. `Footer` (Responsiveness, and all components)
 
 -Implemented Website functionality:
-  1. Registration Logic
-  2. Authorization Logic
+  1. Logic for Registration
+  2. Logic for Authorization
   3. Logic for getting all products
   4. Logic for getting one item
   5. Logic for pagination
   6. Logic for filtration
+  7. Logic for authorized cart
+  8. Logic for ordering
 
 -Organizational tasks:
   1. Project structure

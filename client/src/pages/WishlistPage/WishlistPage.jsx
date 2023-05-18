@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import style from './WishlistPage.module.scss';
 import ListCard from '../../components/Smart/ListCard/ListCard';
 import ListCardSkeleton from '../../components/Smart/ListCard/ListCardSkeleton';
-import { filterProdState } from '../../redux/slices/getFilterProducts';
+import { filterProdState } from '../../redux/slices/filterProducts';
 import { stateSelectedProductsFav } from '../../redux/slices/wishList';
 
 function WishlistPage() {

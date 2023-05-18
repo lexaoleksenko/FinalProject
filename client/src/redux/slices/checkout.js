@@ -1,4 +1,17 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+
+export const fetchNewOrder = createAsyncThunk(
+  'checkout/fetchNewOrder',
+  async order => {
+    try {
+      const { data } = await axios.post(`/api/orders`, order);
+      return data;
+    } catch (error) {
+      console.warn(error);
+    }
+  },
+);
 
 const initialState = {
   contactsForm: {
@@ -8,6 +21,15 @@ const initialState = {
     phoneNumber: '',
   },
   contactsFormStatus: false,
+  deliveryAddress: {
+    country: 'Ukraine',
+    city: '',
+    address: '',
+    postal: '',
+  },
+  shipping: 'PostOfficeDelivery',
+  paymentInfo: 'payment-upon-delivery',
+  deliveryPaymentStatus: false,
 };
 
 const checkoutSlice = createSlice({
@@ -56,6 +78,30 @@ const checkoutSlice = createSlice({
         contactsFormStatus: action.payload,
       };
     },
+    updateDeliveryAddress(state, action) {
+      return {
+        ...state,
+        deliveryAddress: action.payload,
+      };
+    },
+    updateShipping(state, action) {
+      return {
+        ...state,
+        shipping: action.payload,
+      };
+    },
+    updatePaymentInfo(state, action) {
+      return {
+        ...state,
+        paymentInfo: action.payload,
+      };
+    },
+    updateDeliveryPaymentStatus(state, action) {
+      return {
+        ...state,
+        deliveryPaymentStatus: action.payload,
+      };
+    },
   },
 });
 
@@ -65,6 +111,10 @@ export const {
   updateFormEmail,
   updateFormPhoneNumber,
   updateFormStatus,
+  updateDeliveryAddress,
+  updateShipping,
+  updatePaymentInfo,
+  updateDeliveryPaymentStatus,
 } = checkoutSlice.actions;
 
 export const checkoutReducer = checkoutSlice.reducer;

@@ -13,13 +13,14 @@ import LogInPage from './pages/LogInPage/LogInPage';
 import SigInPage from './pages/SigInPage/SigInPage';
 import LoadingPage from './pages/LoadingPage/LoadingPage';
 import ContactPage from './pages/ContactPage/ContactPage';
+import SuccessfulOrder from './pages/SuccessfulOrderPage/SuccessfulOrder';
 
 import { setSelectedProducts } from './redux/slices/shopping-cart';
 import { setSelectedProductsFav } from './redux/slices/wishList';
 import { fetchCartProducts } from './redux/slices/cartBack';
 
 function App() {
-  const [loading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const isAuth = Boolean(localStorage.getItem('token'));
   const bearer = localStorage.getItem('token');
@@ -41,12 +42,12 @@ function App() {
     }
   }, []);
 
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setLoading(false);
-  //   }, 2000);
-  //   return () => clearTimeout(timer); // очищаем таймер при размонтировании компонента
-  // }, []);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+    return () => clearTimeout(timer); // очищаем таймер при размонтировании компонента
+  }, []);
 
   return loading ? (
     <LoadingPage />
@@ -63,6 +64,7 @@ function App() {
         <Route path="/login" element={<LogInPage />} />
         <Route path="/signup" element={<SigInPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/successful-order" element={<SuccessfulOrder />} />
       </Routes>
       <Footer />
     </>

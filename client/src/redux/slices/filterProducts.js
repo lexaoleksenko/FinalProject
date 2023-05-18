@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const fetchFilterProducts = createAsyncThunk(
-  'getFilterProducts/fetchFilterProducts',
+  'filterProducts/fetchFilterProducts',
   async params => {
     const filterParams = `${params}&perPage=9&` ?? '';
     try {
@@ -23,7 +23,7 @@ const initialState = {
 };
 
 export const getFilterProd = createSlice({
-  name: 'getFilterProducts',
+  name: 'filterProducts',
   initialState,
   reducers: {
     setMinPrice: (state, action) => {
@@ -87,4 +87,4 @@ export const {
   setStartQueryString,
 } = getFilterProd.actions;
 
-export const filterProdState = state => state.getFilterProducts;
+export const filterProdState = state => state.filterProducts;

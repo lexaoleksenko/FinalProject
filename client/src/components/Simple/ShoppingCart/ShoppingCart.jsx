@@ -16,9 +16,12 @@ import EmptyCart from '../EmptyCart/EmptyCart';
 
 import {
   cartBackState,
+  fetchCartProducts,
   fetchDelProductsCart,
-  fetchAddProductsCart,
+  fetchAddProductQuant,
   fetchDelProductQuant,
+  increaseTotalQuantity,
+  decreaseTotalQuantity,
 } from '../../../redux/slices/cartBack';
 
 function ShoppingCart() {
@@ -53,26 +56,57 @@ function ShoppingCart() {
 
   // *** AUTHORIZED logic ***
   const [cartBackTotal, setCartBackTotal] = useState(0);
+  const [cartBackLocal, setCartBackLocal] = useState(null);
+  const cartBackLocalState = Boolean(
+    cartBackLocal !== null ? cartBackLocal.length : false,
+  );
 
   const { productsCartBack, statusCartBack } = useSelector(cartBackState);
   const bearer = localStorage.getItem('token');
   const backStatus = statusCartBack && productsCartBack && isAuth;
 
   useEffect(() => {
+    if (isAuth && bearer) {
+      dispatch(fetchCartProducts(bearer));
+    }
+  }, []);
+
+  useEffect(() => {
     if (productsCartBack) {
-      const totalPrice = productsCartBack.reduce((acc, prod) => {
+      setCartBackLocal(productsCartBack);
+    }
+  }, [productsCartBack]);
+
+  useEffect(() => {
+    if (cartBackLocal) {
+      const totalPrice = cartBackLocal.reduce((acc, prod) => {
         return acc + prod.product.currentPrice * prod.cartQuantity;
       }, 0);
       setCartBackTotal(totalPrice);
     }
-  }, [productsCartBack]);
+  }, [cartBackLocal]);
 
   const handleRemoveItemBack = prodId => {
     dispatch(fetchDelProductsCart({ token: bearer, productId: prodId }));
+    const updatedCart = cartBackLocal.filter(
+      prod => prod.product._id !== prodId,
+    );
+    setCartBackLocal(updatedCart);
   };
 
   const handleIncreaseCountBack = prodId => {
-    dispatch(fetchAddProductsCart({ token: bearer, productId: prodId }));
+    dispatch(fetchAddProductQuant({ token: bearer, productId: prodId }));
+    const updatedCart = cartBackLocal.map(prod => {
+      if (prod.product._id === prodId) {
+        return {
+          ...prod,
+          cartQuantity: prod.cartQuantity + 1,
+        };
+      }
+      return prod;
+    });
+    setCartBackLocal(updatedCart);
+    dispatch(increaseTotalQuantity());
   };
 
   const handleDecreaseCountBack = (prodId, count) => {
@@ -80,6 +114,17 @@ function ShoppingCart() {
       return;
     }
     dispatch(fetchDelProductQuant({ token: bearer, productId: prodId }));
+    const updatedCart = cartBackLocal.map(prod => {
+      if (prod.product._id === prodId) {
+        return {
+          ...prod,
+          cartQuantity: prod.cartQuantity - 1,
+        };
+      }
+      return prod;
+    });
+    setCartBackLocal(updatedCart);
+    dispatch(decreaseTotalQuantity());
   };
 
   if (selectedProducts.length && !isAuth) {
@@ -101,10 +146,10 @@ function ShoppingCart() {
       </>
     );
   }
-  if (backStatus) {
+  if (backStatus && productsCartBack && cartBackLocalState) {
     return (
       <>
-        {productsCartBack.map(prod => (
+        {cartBackLocal.map(prod => (
           <ShoppingCartItem
             key={prod.product.itemNo}
             items={null}
@@ -126,7 +171,7 @@ function ShoppingCart() {
       </>
     );
   }
-  if (!selectedProducts.length || !productsCartBack) {
+  if (!selectedProducts.length || !cartBackLocalState) {
     return <EmptyCart />;
   }
 }

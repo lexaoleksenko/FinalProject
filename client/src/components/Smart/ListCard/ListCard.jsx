@@ -8,6 +8,7 @@ import {
   Typography,
   Grid,
   Stack,
+  useMediaQuery,
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useDispatch, useSelector } from 'react-redux';
@@ -24,7 +25,10 @@ import {
   stateSelectedProductsFav,
 } from '../../../redux/slices/wishList';
 
-import { fetchAddProductsCart } from '../../../redux/slices/cartBack';
+import {
+  fetchAddProductsCart,
+  increaseTotalQuantity,
+} from '../../../redux/slices/cartBack';
 
 function ListCard({
   product,
@@ -108,10 +112,20 @@ function ListCard({
 
   const handleBuyCartBack = (e, prodId) => {
     dispatch(fetchAddProductsCart({ token: bearer, productId: prodId }));
+    dispatch(increaseTotalQuantity());
   };
 
+  const isMobile = useMediaQuery('(max-width:1170px)');
+
   return (
-    <Grid item xs={12} sm={sm} md={md} lg={lg}>
+    <Grid
+      item
+      xs={12}
+      sm={sm}
+      md={md}
+      lg={lg}
+      style={isMobile ? {} : { maxHeight: '440px', marginBottom: '5px' }}
+    >
       {' '}
       <Stack spacing={4}>
         <Card className={style.card}>

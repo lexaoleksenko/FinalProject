@@ -32,16 +32,8 @@ function Navbar() {
   const [isAuth, setIsAuth] = useState(false);
   const stateDraw = useSelector(stateDrawer);
   const cartProducts = useSelector(stateSelectedProducts);
-  const { productsCartBack } = useSelector(cartBackState);
+  const { totalQuantityBack } = useSelector(cartBackState);
   const favProducts = useSelector(stateSelectedProductsFav);
-  const [cartBackLength, setCartBackLength] = useState(null);
-
-  useEffect(() => {
-    if (productsCartBack) {
-      setCartBackLength(productsCartBack.length);
-    }
-  }, [productsCartBack]);
-
   const handleLogOut = () => {
     window.localStorage.removeItem('token');
     setIsAuth(false);
@@ -85,7 +77,7 @@ function Navbar() {
             <InputNav />
             <NavIcon
               favCount={favProducts.length}
-              cartCount={isAuth ? cartBackLength : cartProducts.length}
+              cartCount={isAuth ? totalQuantityBack : cartProducts.length}
               nameAvatar="Artur Tech"
               isAuth={isAuth}
               onClickLogOut={handleLogOut}
@@ -104,7 +96,7 @@ function Navbar() {
             </Typography>
             <NavLinks
               favCount={favProducts.length}
-              cartCount={isAuth ? cartBackLength : cartProducts.length}
+              cartCount={isAuth ? totalQuantityBack : cartProducts.length}
               nameAvatar="Artur Tech"
               isAuth={isAuth}
               onClickLogOut={handleLogOut}

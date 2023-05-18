@@ -8,7 +8,7 @@ const initialState = {
 };
 
 const shoppingCartSlice = createSlice({
-  name: 'cart',
+  name: 'cartLocal',
   initialState,
   reducers: {
     selectProduct(state, action) {
@@ -72,7 +72,7 @@ export const {
   decreaseCount,
   toggleDrawer,
 } = shoppingCartSlice.actions;
-export const stateCartProd = state => state.cart.products;
-export const stateSelectedProducts = state => state.cart.selectedProducts;
-export const stateDrawer = state => state.cart.stateDrawer;
+export const stateCartProd = state => state.cartLocal.products;
+export const stateSelectedProducts = state => state.cartLocal.selectedProducts;
+export const stateDrawer = state => state.cartLocal.stateDrawer;
 export const cartReducer = shoppingCartSlice.reducer;

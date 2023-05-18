@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Grid, Container } from '@mui/material';
+import { Grid, Container, useMediaQuery } from '@mui/material';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import { useSelector } from 'react-redux';
-import { filterProdState } from '../../redux/slices/getFilterProducts';
+import { filterProdState } from '../../redux/slices/filterProducts';
 
 // import { searchState } from '../../redux/slices/search';
 
@@ -39,18 +39,15 @@ function ItemsListPage() {
     }
   }, [status]);
 
+  const isMobile = useMediaQuery('(max-width:1170px)');
+
   return (
     <Container maxWidth="lg">
       {' '}
       <div className={style.root}>
-        <h2 className={style.title}>
-          All categories
-          <span>{'>'}Apple</span>
-          <span>{'>'}128GB</span>
-          <span>{'>'}Black</span>
-        </h2>
-        <Grid display="flex">
-          <Grid marginRight={1} marginTop={1}>
+        <h2 className={style.title}>All categories</h2>
+        <Grid display="flex" flexDirection={isMobile ? 'column' : 'row'}>
+          <Grid marginRight={isMobile ? '' : 1} marginTop={1}>
             <SimpleAccordion />
           </Grid>
           {status === 'loading' ? (
@@ -62,7 +59,7 @@ function ItemsListPage() {
           ) : (
             <>
               {prodQuantity ? (
-                <Grid container spacing={1} margin="auto" height="100%">
+                <Grid container spacing={1} margin="auto">
                   <div className={style.wrapper}>
                     <p>Ooops...</p>
                     <p>
@@ -73,7 +70,7 @@ function ItemsListPage() {
                   </div>
                 </Grid>
               ) : (
-                <Grid container spacing={1} marginTop={0} marginBottom={5}>
+                <Grid container spacing={1} marginTop={0} marginBottom="auto">
                   {prodArr.map((product, index) => (
                     <ListCard
                       product={product}
@@ -90,7 +87,7 @@ function ItemsListPage() {
             </>
           )}
         </Grid>
-        <div>
+        <div style={{ marginTop: '20px' }}>
           <PaginationRounded />
         </div>
       </div>

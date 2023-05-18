@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Close } from '@mui/icons-material';
 import { Box, Button, Typography, Divider } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 import {
   setSelectedProducts,
   stateSelectedProducts,
@@ -53,10 +54,17 @@ function ShoppingCartItem({
       <div className={style.wrapper}>
         {items?.map(item => (
           <div className={style.items} key={item.itemNo}>
-            <img className={style.image} src={item.imageUrls[0]} alt="img" />
+            <NavLink to={`/products/${item.itemNo}`}>
+              <img className={style.image} src={item.imageUrls[0]} alt="img" />
+            </NavLink>
             <div className={style.position}>
               <Box className={style.info}>
-                <Typography className={style.name}>{item.name}</Typography>
+                <NavLink
+                  to={`/products/${item.itemNo}`}
+                  style={{ color: '#000000', textDecoration: 'none' }}
+                >
+                  <Typography className={style.name}>{item.name}</Typography>
+                </NavLink>
                 <Typography className={style.price}>
                   Price: ${item.currentPrice}
                 </Typography>
