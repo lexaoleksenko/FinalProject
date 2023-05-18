@@ -1,14 +1,19 @@
-import { Box, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import React from 'react';
 import PropTypes from 'prop-types';
 
 export default function FooterShoppingCart({ amount }) {
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
-      <Typography sx={{ fontSize: 20, color: 'black', fontWeight: '600' }}>
-        Total amount: {amount}$
-      </Typography>
-    </Box>
+    <Typography
+      sx={{
+        fontSize: 16,
+        color: '#000000',
+        fontWeight: '600',
+        margin: 'auto',
+      }}
+    >
+      Total amount: ${amount}
+    </Typography>
   );
 }
 

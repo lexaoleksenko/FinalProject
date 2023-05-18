@@ -98,7 +98,7 @@ function ShoppingCartItem({
                         className={searchSettings ? style.itemNone : style.item}
                       >
                         {quantityDisplay
-                          ? `Quantity: ${item.quantityCart}`
+                          ? `Qty: ${item.quantityCart}`
                           : item.quantityCart}
                       </p>
                       <Button

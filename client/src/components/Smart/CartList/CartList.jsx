@@ -7,7 +7,7 @@ import ShoppingCart from '../../Simple/ShoppingCart/ShoppingCart';
 
 function CartList({ onClickClose }) {
   return (
-    <Box sx={{ maxWidth: 500 }}>
+    <Box sx={{ maxWidth: 550 }}>
       <Box
         sx={{ display: 'flex', justifyContent: 'flex-end', padding: '10px' }}
       >
@@ -29,7 +29,7 @@ function CartList({ onClickClose }) {
           Shopping Cart
         </Typography>
       </Box>
-      <Box sx={{ width: 450 }} role="presentation" onKeyDown={onClickClose}>
+      <Box sx={{ width: '100%' }} role="presentation" onKeyDown={onClickClose}>
         <ShoppingCart />
       </Box>
     </Box>

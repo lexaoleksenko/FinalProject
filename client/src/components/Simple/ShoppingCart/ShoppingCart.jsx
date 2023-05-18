@@ -162,7 +162,7 @@ function ShoppingCart() {
           />
         ))}
 
-        <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+        <Box>
           <FooterShoppingCart amount={cartBackTotal} />
           <NavLink to="/checkout">
             <ButtonDark label="CHECKOUT" onClick={handleCheckout} />

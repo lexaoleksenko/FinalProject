@@ -1,5 +1,4 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Formik, Form } from 'formik';
@@ -11,9 +10,7 @@ import {
   MenuItem,
   Select,
   Box,
-  Grid,
   Typography,
-  Button,
   TextField,
   Divider,
   Stack,
@@ -26,6 +23,7 @@ import {
   updateShipping,
   checkoutState,
 } from '../../../redux/slices/checkout';
+import ButtonsCheckoutPage from '../../UI/Buttons/ButtonsCheckoutPage/ButtonsCheckoutPage';
 
 function DeliveryPaymentInfo({ handelContinue }) {
   const dispatch = useDispatch();
@@ -123,7 +121,10 @@ function DeliveryPaymentInfo({ handelContinue }) {
       deliveryAddress.address &&
       deliveryAddress.postal,
   );
-
+  const handelBackToCart = () => {
+    dispatch(toggleDrawer(true));
+  };
+  
   const mainStatus = Boolean(deliveryStatus && shipping && paymentInfo);
 
   React.useEffect(() => {
@@ -134,7 +135,20 @@ function DeliveryPaymentInfo({ handelContinue }) {
       dispatch(dispatch(updateDeliveryPaymentStatus(false)));
     }
   }, [mainStatus]);
+  
+ // Responsive Logic
+ const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const handleScreenSize = () => {
+    setIsSmallScreen(window.innerWidth <= 768);
+  };
 
+  useEffect(() => {
+    handleScreenSize();
+    window.addEventListener('resize', handleScreenSize);
+    return () => {
+      window.removeEventListener('resize', handleScreenSize);
+    };
+  }, []);
   return (
     <>
       <Formik
@@ -155,12 +169,14 @@ function DeliveryPaymentInfo({ handelContinue }) {
             name="deliveryType"
             value={shipping}
             onChange={handleDeliveryType}
+            sx={{ margin: '15px auto' }}
           >
             <Box
               sx={{
                 display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
+                flexDirection: isSmallScreen ? 'column' : 'row',
+                alignItems: isSmallScreen ? 'stretch' : 'center',
+                pb: 3,
               }}
             >
               <FormControlLabel
@@ -172,10 +188,11 @@ function DeliveryPaymentInfo({ handelContinue }) {
                 sx={{
                   pl: 2,
                   display: 'flex',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  width: '60%',
+                  flexDirection: isSmallScreen ? 'column' : 'row',
+                  justifyContent: isSmallScreen
+                    ? 'space-between'
+                    : 'space-around',
+                  width: '100%',
                 }}
               >
                 <Select
@@ -183,7 +200,7 @@ function DeliveryPaymentInfo({ handelContinue }) {
                   value={deliveryTypeStatus ? '' : deliveryAddress.city}
                   onChange={handleDeliveryAddress}
                   displayEmpty
-                  sx={{ minWidth: '120px' }}
+                  sx={{ minWidth: '120px', margin: '10px 0' }}
                   disabled={deliveryTypeStatus}
                 >
                   <MenuItem value="" disabled>
@@ -204,7 +221,7 @@ function DeliveryPaymentInfo({ handelContinue }) {
                   value={deliveryTypeStatus ? '' : deliveryAddress.address}
                   onChange={handleDeliveryAddress}
                   displayEmpty
-                  sx={{ minWidth: '200px' }}
+                  sx={{ minWidth: '200px', margin: '10px 0' }}
                   disabled={deliveryTypeStatus}
                 >
                   <MenuItem value="" disabled>
@@ -214,35 +231,29 @@ function DeliveryPaymentInfo({ handelContinue }) {
                   <MenuItem value="officeAdress2">Office 2</MenuItem>
                   <MenuItem value="officeAdress3">Office 3</MenuItem>
                 </Select>
-                <Grid
-                  item
+                <Box
                   sx={{
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
+                    justifyContent: 'space-evenly',
                   }}
                 >
-                  <Typography variant="subtitle2">Price</Typography>
-                  <Typography variant="subtitle1">5$</Typography>
-                </Grid>
-                <Grid
-                  item
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Typography variant="subtitle2">Delivery Duration</Typography>
-                  <Typography variant="subtitle1">3-4 days</Typography>
-                </Grid>
+                  <Typography variant="subtitle2">
+                    Cost of delivery: 5$
+                  </Typography>
+                  <Typography variant="subtitle2">
+                    Delivery duration: 3-4 days
+                  </Typography>
+                </Box>
               </Box>
             </Box>
             <Box
               sx={{
                 display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
+                flexDirection: isSmallScreen ? 'column' : 'row',
+                alignItems: isSmallScreen ? 'stretch' : 'center',
+                pb: 3,
               }}
             >
               <FormControlLabel
@@ -254,10 +265,12 @@ function DeliveryPaymentInfo({ handelContinue }) {
                 sx={{
                   pl: 2,
                   display: 'flex',
-                  flexDirection: 'row',
+                  flexDirection: isSmallScreen ? 'column' : 'row',
+                  justifyContent: isSmallScreen
+                    ? 'space-between'
+                    : 'space-around',
                   alignItems: 'center',
-                  justifyContent: 'space-between',
-                  width: '75%',
+                  width: '100%',
                 }}
               >
                 <Typography variant="subtitle2">
@@ -272,32 +285,26 @@ function DeliveryPaymentInfo({ handelContinue }) {
                   onChange={e => handleChangeInput(e.target.value)}
                   disabled={!deliveryTypeStatus}
                 />
-                <Grid
-                  item
+                <Box
                   sx={{
                     display: 'flex',
                     flexDirection: 'column',
                     alignItems: 'center',
+                    justifyContent: 'space-evenly',
+                    mt: 1,
                   }}
                 >
-                  <Typography variant="subtitle2">Price</Typography>
-                  <Typography variant="subtitle1">5$</Typography>
-                </Grid>
-                <Grid
-                  item
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Typography variant="subtitle2">Delivery duration</Typography>
-                  <Typography variant="subtitle1">On the same day</Typography>
-                </Grid>
+                  <Typography variant="subtitle2">
+                    Cost of delivery: 5$
+                  </Typography>
+                  <Typography variant="subtitle2">
+                    Delivery duration: on the same day
+                  </Typography>
+                </Box>
               </Box>
             </Box>
-            <Box sx={{ mb: 2, mt: 4 }}>
-              <Typography variant="h6">Payment</Typography>
+            <Box sx={{ mt: 2, mb: 2 }}>
+              <Typography variant="h6">Payment options</Typography>
             </Box>
             <Divider />
             <Box
@@ -334,26 +341,28 @@ function DeliveryPaymentInfo({ handelContinue }) {
           </RadioGroup>
         </Form>
       </Formik>
-      <Stack style={{ padding: '100px 20px' }} direction="column" spacing={3}>
-        <Button
-          style={{ maxWidth: '450px', margin: '10px auto' }}
-          size="large"
+      <Stack
+        sx={{
+          padding: isSmallScreen ? '30px 20px' : '50px 20px',
+        }}
+        direction="column"
+        spacing={3}
+      >
+        <ButtonsCheckoutPage
+          label="Save & continue"
           variant="contained"
+          size="large"
           disabled={!mainStatus}
           onClick={() => {
             handelContinue();
           }}
-        >
-          Save & continue
-        </Button>
-        <Button
-          style={{ maxWidth: '450px', margin: '10px auto' }}
-          size="large"
+        />
+        <ButtonsCheckoutPage
+          label="Back to Cart"
           variant="outlined"
-          onClick={() => dispatch(toggleDrawer(true))}
-        >
-          Back to Cart
-        </Button>
+          size="large"
+          onClick={handelBackToCart}
+        />
       </Stack>
     </>
   );
