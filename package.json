@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "nodemon server.js",
-    "prepare": "cd .. && husky install client/.husky"
+    "prepare": "cd client && npm i && npm run build"
   },
   "repository": {
     "type": "git",
