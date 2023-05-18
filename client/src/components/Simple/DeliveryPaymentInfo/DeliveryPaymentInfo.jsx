@@ -124,7 +124,7 @@ function DeliveryPaymentInfo({ handelContinue }) {
   const handelBackToCart = () => {
     dispatch(toggleDrawer(true));
   };
-  
+
   const mainStatus = Boolean(deliveryStatus && shipping && paymentInfo);
 
   React.useEffect(() => {
@@ -135,9 +135,9 @@ function DeliveryPaymentInfo({ handelContinue }) {
       dispatch(dispatch(updateDeliveryPaymentStatus(false)));
     }
   }, [mainStatus]);
-  
- // Responsive Logic
- const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  // Responsive Logic
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
   const handleScreenSize = () => {
     setIsSmallScreen(window.innerWidth <= 768);
   };

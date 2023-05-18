@@ -43,16 +43,12 @@ function FormContacts({ handelContinue }) {
     dispatch(toggleDrawer(true));
   };
 
-  const formStatusTrue = () => {
-    dispatch(updateFormStatus(true));
-  };
-  
   // Responsive Logic
-  
+
   const handleScreenSize = () => {
     setIsSmallScreen(window.innerWidth <= 768);
   };
-  
+
   useEffect(() => {
     handleScreenSize();
     window.addEventListener('resize', handleScreenSize);
