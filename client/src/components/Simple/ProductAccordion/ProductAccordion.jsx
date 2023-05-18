@@ -2,6 +2,7 @@ import { React, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
 
+import { FormControlLabel, FormGroup, useMediaQuery } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -24,7 +25,8 @@ function SimpleAccordion() {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [expanded, setExpanded] = useState(0);
+  const isMobile = useMediaQuery('(max-width:1170px)');
+  const [expanded, setExpanded] = useState(isMobile ? 1 : 0);
 
   // Getting current search parameters
   const queryParams = location.search.substring(1);
@@ -168,311 +170,425 @@ function SimpleAccordion() {
 
   return (
     <>
-      <div>
-        <Accordion
-          className={style.accordion}
-          expanded={expanded === 0}
-          onChange={handleChange(0)}
-        >
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography>Phones</Typography>
-          </AccordionSummary>
-          <AccordionDetails>
-            <div>
-              <Accordion
-                className={style.accordion}
-                expanded={expanded === 0}
-                onChange={handleChange(0)}
-              >
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography>Brand</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <div className={style.checkbox}>
-                    <span>
-                      <Checkbox
-                        name="Apple"
-                        inputProps={{ 'aria-label': 'Checkbox demo' }}
-                        onChange={e => {
-                          if (e.target.checked) {
-                            setSelectBrand([...selectBrand, e.target.name]);
-                            setPageOne();
+      <FormGroup>
+        <div>
+          <Accordion
+            className={style.accordion}
+            expanded={expanded === 0}
+            onChange={handleChange(0)}
+          >
+            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+              <Typography>Phones</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <div>
+                <Accordion
+                  className={style.accordion}
+                  expanded={expanded === 0}
+                  onChange={handleChange(0)}
+                >
+                  <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    <Typography>Brand</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <div className={style.checkbox}>
+                      <span>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              name="Apple"
+                              inputProps={{ 'aria-label': 'Checkbox demo' }}
+                              onChange={e => {
+                                if (e.target.checked) {
+                                  setSelectBrand([
+                                    ...selectBrand,
+                                    e.target.name,
+                                  ]);
+                                  setPageOne();
+                                }
+                                if (!e.target.checked) {
+                                  delSelectBrand(e.target.name);
+                                }
+                              }}
+                              checked={queryParams.includes('Apple')}
+                            />
                           }
-                          if (!e.target.checked) {
-                            delSelectBrand(e.target.name);
+                          label="Apple"
+                          style={{ marginLeft: '0px' }}
+                        />
+                      </span>
+                      <span>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              name="Samsung"
+                              inputProps={{ 'aria-label': 'Checkbox demo' }}
+                              onChange={e => {
+                                if (e.target.checked) {
+                                  setSelectBrand([
+                                    ...selectBrand,
+                                    e.target.name,
+                                  ]);
+                                  setPageOne();
+                                }
+                                if (!e.target.checked) {
+                                  delSelectBrand(e.target.name);
+                                }
+                              }}
+                              checked={queryParams.includes('Samsung')}
+                            />
                           }
-                        }}
-                        checked={queryParams.includes('Apple')}
-                      />
-                      Apple
-                    </span>
-                    <span>
-                      <Checkbox
-                        name="Samsung"
-                        inputProps={{ 'aria-label': 'Checkbox demo' }}
-                        onChange={e => {
-                          if (e.target.checked) {
-                            setSelectBrand([...selectBrand, e.target.name]);
-                            setPageOne();
+                          label="Samsung"
+                          style={{ marginLeft: '0px' }}
+                        />
+                      </span>
+                      <span>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              name="Huawei"
+                              inputProps={{ 'aria-label': 'Checkbox demo' }}
+                              onChange={e => {
+                                if (e.target.checked) {
+                                  setSelectBrand([
+                                    ...selectBrand,
+                                    e.target.name,
+                                  ]);
+                                  setPageOne();
+                                }
+                                if (!e.target.checked) {
+                                  delSelectBrand(e.target.name);
+                                }
+                              }}
+                              checked={queryParams.includes('Huawei')}
+                            />
                           }
-                          if (!e.target.checked) {
-                            delSelectBrand(e.target.name);
+                          label="Huawei"
+                          style={{ marginLeft: '0px' }}
+                        />
+                      </span>
+                      <span>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              name="Xiaomi"
+                              inputProps={{ 'aria-label': 'Checkbox demo' }}
+                              onChange={e => {
+                                if (e.target.checked) {
+                                  setSelectBrand([
+                                    ...selectBrand,
+                                    e.target.name,
+                                  ]);
+                                  setPageOne();
+                                }
+                                if (!e.target.checked) {
+                                  delSelectBrand(e.target.name);
+                                }
+                              }}
+                              checked={queryParams.includes('Xiaomi')}
+                            />
                           }
-                        }}
-                        checked={queryParams.includes('Samsung')}
-                      />
-                      Samsung
-                    </span>
-                    <span>
-                      <Checkbox
-                        name="Huawei"
-                        inputProps={{ 'aria-label': 'Checkbox demo' }}
-                        onChange={e => {
-                          if (e.target.checked) {
-                            setSelectBrand([...selectBrand, e.target.name]);
-                            setPageOne();
+                          label="Xiaomi"
+                          style={{ marginLeft: '0px' }}
+                        />
+                      </span>
+                    </div>
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion
+                  className={style.accordion}
+                  expanded={expanded === 0}
+                  onChange={handleChange(0)}
+                >
+                  <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    <Typography>Price</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <PriceSlider />
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion className={style.accordion}>
+                  <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    <Typography>Phone memory capacity</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <div className={style.checkbox}>
+                      <span>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              name="128"
+                              inputProps={{ 'aria-label': 'Checkbox demo' }}
+                              onChange={e => {
+                                if (e.target.checked) {
+                                  setSelectMemory([
+                                    ...selectMemory,
+                                    e.target.name,
+                                  ]);
+                                  setPageOne();
+                                }
+                                if (!e.target.checked) {
+                                  delSelectMemory(e.target.name);
+                                }
+                              }}
+                              checked={queryParams.includes('128')}
+                            />
                           }
-                          if (!e.target.checked) {
-                            delSelectBrand(e.target.name);
+                          label="128GB"
+                          style={{ marginLeft: '0px' }}
+                        />
+                      </span>
+                      <span>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              name="256"
+                              inputProps={{ 'aria-label': 'Checkbox demo' }}
+                              onChange={e => {
+                                if (e.target.checked) {
+                                  setSelectMemory([
+                                    ...selectMemory,
+                                    e.target.name,
+                                  ]);
+                                  setPageOne();
+                                }
+                                if (!e.target.checked) {
+                                  delSelectMemory(e.target.name);
+                                }
+                              }}
+                              checked={queryParams.includes('256')}
+                            />
                           }
-                        }}
-                        checked={queryParams.includes('Huawei')}
-                      />
-                      Huawei
-                    </span>
-                    <span>
-                      <Checkbox
-                        name="Xiaomi"
-                        inputProps={{ 'aria-label': 'Checkbox demo' }}
-                        onChange={e => {
-                          if (e.target.checked) {
-                            setSelectBrand([...selectBrand, e.target.name]);
-                            setPageOne();
+                          label="256GB"
+                          style={{ marginLeft: '0px' }}
+                        />
+                      </span>
+                      <span>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              name="512"
+                              inputProps={{ 'aria-label': 'Checkbox demo' }}
+                              onChange={e => {
+                                if (e.target.checked) {
+                                  setSelectMemory([
+                                    ...selectMemory,
+                                    e.target.name,
+                                  ]);
+                                  setPageOne();
+                                }
+                                if (!e.target.checked) {
+                                  delSelectMemory(e.target.name);
+                                }
+                              }}
+                              checked={queryParams.includes('512')}
+                            />
                           }
-                          if (!e.target.checked) {
-                            delSelectBrand(e.target.name);
+                          label="512GB"
+                          style={{ marginLeft: '0px' }}
+                        />
+                      </span>
+                    </div>
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion className={style.accordion}>
+                  <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    <Typography>Display</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <div className={style.checkbox}>
+                      <span>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              name="LCD"
+                              inputProps={{ 'aria-label': 'Checkbox demo' }}
+                              onChange={e => {
+                                if (e.target.checked) {
+                                  setSelectDisplay([
+                                    ...selectDisplay,
+                                    e.target.name,
+                                  ]);
+                                  setPageOne();
+                                }
+                                if (!e.target.checked) {
+                                  delSelectDisplay(e.target.name);
+                                }
+                              }}
+                              checked={queryParams.includes('LCD')}
+                            />
                           }
-                        }}
-                        checked={queryParams.includes('Xiaomi')}
-                      />
-                      Xiaomi
-                    </span>
-                  </div>
-                </AccordionDetails>
-              </Accordion>
-              <Accordion
-                className={style.accordion}
-                expanded={expanded === 0}
-                onChange={handleChange(0)}
-              >
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography>Price</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <PriceSlider />
-                </AccordionDetails>
-              </Accordion>
-              <Accordion className={style.accordion}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography>Phone memory capacity</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <div className={style.checkbox}>
-                    <span>
-                      <Checkbox
-                        name="0-250"
-                        inputProps={{ 'aria-label': 'Checkbox demo' }}
-                        onChange={e => {
-                          if (e.target.checked) {
-                            setSelectMemory([...selectMemory, e.target.name]);
-                            setPageOne();
+                          label="LCD"
+                          style={{ marginLeft: '0px' }}
+                        />
+                      </span>
+                      <span>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              name="Organic"
+                              inputProps={{ 'aria-label': 'Checkbox demo' }}
+                              onChange={e => {
+                                if (e.target.checked) {
+                                  setSelectDisplay([
+                                    ...selectDisplay,
+                                    e.target.name,
+                                  ]);
+                                  setPageOne();
+                                }
+                                if (!e.target.checked) {
+                                  delSelectDisplay(e.target.name);
+                                }
+                              }}
+                              checked={queryParams.includes('Organic')}
+                            />
                           }
-                          if (!e.target.checked) {
-                            delSelectMemory(e.target.name);
+                          label="OLED"
+                          style={{ marginLeft: '0px' }}
+                        />
+                      </span>
+                      <span>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              name="AMOLED"
+                              inputProps={{ 'aria-label': 'Checkbox demo' }}
+                              onChange={e => {
+                                if (e.target.checked) {
+                                  setSelectDisplay([
+                                    ...selectDisplay,
+                                    e.target.name,
+                                  ]);
+                                  setPageOne();
+                                }
+                                if (!e.target.checked) {
+                                  delSelectDisplay(e.target.name);
+                                }
+                              }}
+                              checked={queryParams.includes('AMOLED')}
+                            />
                           }
-                        }}
-                        checked={queryParams.includes('0-250')}
-                      />
-                      0-256GB
-                    </span>
-                    <span>
-                      <Checkbox
-                        name="251-500"
-                        inputProps={{ 'aria-label': 'Checkbox demo' }}
-                        onChange={e => {
-                          if (e.target.checked) {
-                            setSelectMemory([...selectMemory, e.target.name]);
-                            setPageOne();
+                          label="AMOLED"
+                          style={{ marginLeft: '0px' }}
+                        />
+                      </span>
+                      <span>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              name="Retina"
+                              inputProps={{ 'aria-label': 'Checkbox demo' }}
+                              onChange={e => {
+                                if (e.target.checked) {
+                                  setSelectDisplay([
+                                    ...selectDisplay,
+                                    e.target.name,
+                                  ]);
+                                  setPageOne();
+                                }
+                                if (!e.target.checked) {
+                                  delSelectDisplay(e.target.name);
+                                }
+                              }}
+                              checked={queryParams.includes('Retina')}
+                            />
                           }
-                          if (!e.target.checked) {
-                            delSelectMemory(e.target.name);
+                          label="Retina"
+                          style={{ marginLeft: '0px' }}
+                        />
+                      </span>
+                    </div>
+                  </AccordionDetails>
+                </Accordion>
+                <Accordion className={style.accordion}>
+                  <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                    <Typography>Color</Typography>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <div className={style.checkbox}>
+                      <span>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              name="black"
+                              inputProps={{ 'aria-label': 'Checkbox demo' }}
+                              onChange={e => {
+                                if (e.target.checked) {
+                                  setSelectColor([
+                                    ...selectColor,
+                                    e.target.name,
+                                  ]);
+                                  setPageOne();
+                                }
+                                if (!e.target.checked) {
+                                  delSelectColor(e.target.name);
+                                }
+                              }}
+                              checked={queryParams.includes('black')}
+                            />
                           }
-                        }}
-                        checked={queryParams.includes('251-500')}
-                      />
-                      256-512GB
-                    </span>
-                    <span>
-                      <Checkbox
-                        name="501-1000"
-                        inputProps={{ 'aria-label': 'Checkbox demo' }}
-                        onChange={e => {
-                          if (e.target.checked) {
-                            setSelectMemory([...selectMemory, e.target.name]);
-                            setPageOne();
+                          label="Black"
+                          style={{ marginLeft: '0px' }}
+                        />
+                      </span>
+                      <span>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              name="white"
+                              inputProps={{ 'aria-label': 'Checkbox demo' }}
+                              onChange={e => {
+                                if (e.target.checked) {
+                                  setSelectColor([
+                                    ...selectColor,
+                                    e.target.name,
+                                  ]);
+                                  setPageOne();
+                                }
+                                if (!e.target.checked) {
+                                  delSelectColor(e.target.name);
+                                }
+                              }}
+                              checked={queryParams.includes('white')}
+                            />
                           }
-                          if (!e.target.checked) {
-                            delSelectMemory(e.target.name);
+                          label="White"
+                          style={{ marginLeft: '0px' }}
+                        />
+                      </span>
+                      <span>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              name="other"
+                              inputProps={{ 'aria-label': 'Checkbox demo' }}
+                              onChange={e => {
+                                if (e.target.checked) {
+                                  setSelectColor([
+                                    ...selectColor,
+                                    e.target.name,
+                                  ]);
+                                  setPageOne();
+                                }
+                                if (!e.target.checked) {
+                                  delSelectColor(e.target.name);
+                                }
+                              }}
+                              checked={queryParams.includes('other')}
+                            />
                           }
-                        }}
-                        checked={queryParams.includes('501-1000')}
-                      />
-                      512GB-1TB
-                    </span>
-                  </div>
-                </AccordionDetails>
-              </Accordion>
-              <Accordion className={style.accordion}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography>Display</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <div className={style.checkbox}>
-                    <span>
-                      <Checkbox
-                        name="LCD"
-                        inputProps={{ 'aria-label': 'Checkbox demo' }}
-                        onChange={e => {
-                          if (e.target.checked) {
-                            setSelectDisplay([...selectDisplay, e.target.name]);
-                            setPageOne();
-                          }
-                          if (!e.target.checked) {
-                            delSelectDisplay(e.target.name);
-                          }
-                        }}
-                        checked={queryParams.includes('LCD')}
-                      />
-                      LCD
-                    </span>
-                    <span>
-                      <Checkbox
-                        name="Organic"
-                        inputProps={{ 'aria-label': 'Checkbox demo' }}
-                        onChange={e => {
-                          if (e.target.checked) {
-                            setSelectDisplay([...selectDisplay, e.target.name]);
-                            setPageOne();
-                          }
-                          if (!e.target.checked) {
-                            delSelectDisplay(e.target.name);
-                          }
-                        }}
-                        checked={queryParams.includes('Organic')}
-                      />
-                      OLED
-                    </span>
-                    <span>
-                      <Checkbox
-                        name="AMOLED"
-                        inputProps={{ 'aria-label': 'Checkbox demo' }}
-                        onChange={e => {
-                          if (e.target.checked) {
-                            setSelectDisplay([...selectDisplay, e.target.name]);
-                            setPageOne();
-                          }
-                          if (!e.target.checked) {
-                            delSelectDisplay(e.target.name);
-                          }
-                        }}
-                        checked={queryParams.includes('AMOLED')}
-                      />
-                      AMOLED
-                    </span>
-                    <span>
-                      <Checkbox
-                        name="Retina"
-                        inputProps={{ 'aria-label': 'Checkbox demo' }}
-                        onChange={e => {
-                          if (e.target.checked) {
-                            setSelectDisplay([...selectDisplay, e.target.name]);
-                            setPageOne();
-                          }
-                          if (!e.target.checked) {
-                            delSelectDisplay(e.target.name);
-                          }
-                        }}
-                        checked={queryParams.includes('Retina')}
-                      />
-                      Retina
-                    </span>
-                  </div>
-                </AccordionDetails>
-              </Accordion>
-              <Accordion className={style.accordion}>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                  <Typography>Color</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <div className={style.checkbox}>
-                    <span>
-                      <Checkbox
-                        name="black"
-                        inputProps={{ 'aria-label': 'Checkbox demo' }}
-                        onChange={e => {
-                          if (e.target.checked) {
-                            setSelectColor([...selectColor, e.target.name]);
-                            setPageOne();
-                          }
-                          if (!e.target.checked) {
-                            delSelectColor(e.target.name);
-                          }
-                        }}
-                        checked={queryParams.includes('black')}
-                      />
-                      Black
-                    </span>
-                    <span>
-                      <Checkbox
-                        name="white"
-                        inputProps={{ 'aria-label': 'Checkbox demo' }}
-                        onChange={e => {
-                          if (e.target.checked) {
-                            setSelectColor([...selectColor, e.target.name]);
-                            setPageOne();
-                          }
-                          if (!e.target.checked) {
-                            delSelectColor(e.target.name);
-                          }
-                        }}
-                        checked={queryParams.includes('white')}
-                      />
-                      White
-                    </span>
-                    <span>
-                      <Checkbox
-                        name="other"
-                        inputProps={{ 'aria-label': 'Checkbox demo' }}
-                        onChange={e => {
-                          if (e.target.checked) {
-                            setSelectColor([...selectColor, e.target.name]);
-                            setPageOne();
-                          }
-                          if (!e.target.checked) {
-                            delSelectColor(e.target.name);
-                          }
-                        }}
-                        checked={queryParams.includes('other')}
-                      />
-                      Other
-                    </span>
-                  </div>
-                </AccordionDetails>
-              </Accordion>
-            </div>
-          </AccordionDetails>
-        </Accordion>
-      </div>
+                          label="Other"
+                          style={{ marginLeft: '0px' }}
+                        />
+                      </span>
+                    </div>
+                  </AccordionDetails>
+                </Accordion>
+              </div>
+            </AccordionDetails>
+          </Accordion>
+        </div>
+      </FormGroup>
       <div>
         <Accordion className={style.accordion}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
@@ -481,16 +597,31 @@ function SimpleAccordion() {
           <AccordionDetails>
             <div className={style.checkbox}>
               <span>
-                <Checkbox inputProps={{ 'aria-label': 'Checkbox demo' }} />
-                Сovers
+                <FormControlLabel
+                  control={
+                    <Checkbox inputProps={{ 'aria-label': 'Checkbox demo' }} />
+                  }
+                  label="Covers"
+                  style={{ marginLeft: '0px' }}
+                />
               </span>
               <span>
-                <Checkbox inputProps={{ 'aria-label': 'Checkbox demo' }} />
-                Headphones
+                <FormControlLabel
+                  control={
+                    <Checkbox inputProps={{ 'aria-label': 'Checkbox demo' }} />
+                  }
+                  label="Headphones"
+                  style={{ marginLeft: '0px' }}
+                />
               </span>
               <span>
-                <Checkbox inputProps={{ 'aria-label': 'Checkbox demo' }} />
-                Charger
+                <FormControlLabel
+                  control={
+                    <Checkbox inputProps={{ 'aria-label': 'Checkbox demo' }} />
+                  }
+                  label="Charger"
+                  style={{ marginLeft: '0px' }}
+                />
               </span>
             </div>
           </AccordionDetails>

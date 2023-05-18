@@ -32,16 +32,8 @@ function Navbar() {
   const [isAuth, setIsAuth] = useState(false);
   const stateDraw = useSelector(stateDrawer);
   const cartProducts = useSelector(stateSelectedProducts);
-  const { productsCartBack } = useSelector(cartBackState);
+  const { totalQuantityBack } = useSelector(cartBackState);
   const favProducts = useSelector(stateSelectedProductsFav);
-  const [cartBackLength, setCartBackLength] = useState(null);
-
-  useEffect(() => {
-    if (productsCartBack) {
-      setCartBackLength(productsCartBack.length);
-    }
-  }, [productsCartBack]);
-
   const handleLogOut = () => {
     window.localStorage.removeItem('token');
     setIsAuth(false);
@@ -68,19 +60,30 @@ function Navbar() {
 
   const isMobile = useMediaQuery('(max-width:768px)');
 
+  const totalQuantity = cartProducts.reduce(
+    (total, item) => total + item.quantityCart,
+    0,
+  );
+
+  const isTab = useMediaQuery('(max-width:940px)');
+
+
   return (
     <div>
       {!isMobile ? (
         <AppBar position="static" className={style.root}>
-          <Toolbar>
-            <Typography variant="h6">
+          <Toolbar style={{ padding: '0' }}>
+            <Typography
+              style={isTab ? { marginRight: '-30px', marginLeft: '-30px' } : {}}
+              variant="h6"
+            >
               <Logo />
             </Typography>
             <NavLinks />
             <InputNav />
             <NavIcon
               favCount={favProducts.length}
-              cartCount={isAuth ? cartBackLength : cartProducts.length}
+              cartCount={isAuth ? totalQuantityBack : totalQuantity}
               nameAvatar="Artur Tech"
               isAuth={isAuth}
               onClickLogOut={handleLogOut}
@@ -99,7 +102,7 @@ function Navbar() {
             </Typography>
             <NavLinks
               favCount={favProducts.length}
-              cartCount={isAuth ? cartBackLength : cartProducts.length}
+              cartCount={isAuth ? totalQuantityBack  : totalQuantity}
               nameAvatar="Artur Tech"
               isAuth={isAuth}
               onClickLogOut={handleLogOut}

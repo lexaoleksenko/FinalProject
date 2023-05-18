@@ -23,7 +23,7 @@ function NavIcon({
     <div className={style.root}>
       <div className={style.containerIcon}>
         <div className={style.link}>
-          <IconButton>
+          <IconButton onClick={onClickOpenDrawer}>
             <Badge badgeContent={cartCount} className={style.badge}>
               <ShoppingCartIcon
                 className={style.icon}

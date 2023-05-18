@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Grid, Stack, Typography, Divider } from '@mui/material';
+import { Grid, Stack, Typography, Divider, Box } from '@mui/material';
 import ShoppingCartItem from '../ShoppingCartItem/ShoppingCartItem';
 import {
   stateSelectedProducts,
@@ -16,7 +16,7 @@ function ProductOrderInfo() {
   const selectedProducts = useSelector(stateSelectedProducts);
   const result = selectedProducts.reduce(
     (previousValue, currentItem) =>
-      previousValue + currentItem.quantity * currentItem.currentPrice,
+      previousValue + currentItem.quantityCart * currentItem.currentPrice,
     0,
   );
   const dispatch = useDispatch();
@@ -120,9 +120,23 @@ function ProductOrderInfo() {
     deliveryPaymentStatus && contactsFormStatus,
   );
 
+  // Logic small Screen
+
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const handleScreenSize = () => {
+    setIsSmallScreen(window.innerWidth <= 768);
+  };
+
+  useEffect(() => {
+    handleScreenSize();
+    window.addEventListener('resize', handleScreenSize);
+    return () => {
+      window.removeEventListener('resize', handleScreenSize);
+    };
+  }, []);
   return (
-    <Grid spacing={2} container>
-      <Grid item xs={6} className={[style.box, style.boxes].join(' ')}>
+    <Grid container className={style.container}>
+      <Grid item xs={isSmallScreen ? 12 : 6} className={style.ItemContainer}>
         <Typography variant="h6" className={style.title}>
           Cart Products
         </Typography>
@@ -134,95 +148,68 @@ function ProductOrderInfo() {
         />
         <FooterShoppingCart amount={result} />
       </Grid>
-      <Grid item xs={6} className={[style.box, style.boxes]}>
+      <Grid item xs={isSmallScreen ? 12 : 6} className={style.ItemContainer}>
         <Typography variant="h6" className={style.title}>
           Order Information
         </Typography>
         <Divider />
-        <Typography variant="p" className={style.info}>
-          <div>
-            <p>Contacts:</p>
-            <p>
-              <span>Name: </span>
-              <span>
-                {contactsForm.firstName.length > 0
-                  ? contactsForm.firstName
-                  : 'Not entered'}
-              </span>
-            </p>
-            <p>
-              <span>Surname: </span>
-              <span>
-                {contactsForm.lastName.length > 0
-                  ? contactsForm.lastName
-                  : 'Not entered'}
-              </span>
-            </p>
-            <p>
-              <span>Email: </span>
-              <span>
-                {contactsForm.email.length > 0
-                  ? contactsForm.email
-                  : 'Not entered'}
-              </span>
-            </p>
-            <p>
-              <span>PhoneNumber: </span>
-              <span>
-                {contactsForm.phoneNumber.length > 0
-                  ? contactsForm.phoneNumber
-                  : 'Not entered'}
-              </span>
-            </p>
-          </div>
-          <Divider />
-          <div>
-            <p>Deliveri and Payment:</p>
-            <p>
-              <span>Country: </span>
-              <span>
-                {deliveryAddress.country
-                  ? deliveryAddress.country
-                  : 'Not entered'}
-              </span>
-            </p>
-            <p>
-              <span>City: </span>
-              <span>
-                {deliveryAddress.city
-                  ? deliveryAddress.city.split(' ').shift()
-                  : 'Not entered'}
-              </span>
-            </p>
-            <p>
-              <span>Address: </span>
-              <span>
-                {deliveryAddress.address
-                  ? deliveryAddress.address
-                  : 'Not entered'}
-              </span>
-            </p>
-            <p>
-              <span>Postal: </span>
-              <span>
-                {deliveryAddress.postal
-                  ? deliveryAddress.postal
-                  : 'Not entered'}
-              </span>
-            </p>
-            <p>
-              <span>Delivery method: </span>
-              <span>{deliveryMethod ?? 'Not entered'}</span>
-            </p>
-            <p>
-              <span>Payment method: </span>
-              <span>{paymentMethod ?? 'Not entered'}</span>
-            </p>
-          </div>
-        </Typography>
+        <Box className={style.section__contacts}>
+          <Typography variant="h6" className={style.section__contacts__tittle}>
+            Contacts:
+          </Typography>
+          <Typography className={style.section__contacts__info} variant="p">
+            Name: {contactsForm ? contactsForm.firstName : 'Not entered'}
+          </Typography>
+          <Typography className={style.section__contacts__info} variant="p">
+            Surname: {contactsForm ? contactsForm.lastName : 'Not entered'}
+          </Typography>
+          <Typography className={style.section__contacts__info} variant="p">
+            Email: {contactsForm ? contactsForm.email : 'Not entered'}
+          </Typography>
+          <Typography className={style.section__contacts__info} variant="p">
+            PhoneNumber:
+            {contactsForm ? contactsForm.phoneNumber : 'Not entered'}
+          </Typography>
+        </Box>
+        <Divider />
+        <Box className={style.section__delivery}>
+          <Typography variant="h6" className={style.section__delivery__tittle}>
+            Delivery and Payment:
+          </Typography>
+          <Typography className={style.section__delivery__info} variant="p">
+            Country: {deliveryAddress ? deliveryAddress.country : 'Not entered'}
+          </Typography>
+          <Typography className={style.section__delivery__info} variant="p">
+            City:{' '}
+            {deliveryAddress
+              ? deliveryAddress.city.split(' ').shift()
+              : 'Not entered'}
+          </Typography>
+          <Typography className={style.section__delivery__info} variant="p">
+            Address: {deliveryAddress ? deliveryAddress.address : 'Not entered'}
+          </Typography>
+          <Typography className={style.section__delivery__info} variant="p">
+            Postal:
+            {deliveryAddress ? deliveryAddress.postal : 'Not entered'}
+          </Typography>
+          <Typography className={style.section__delivery__info} variant="p">
+            Delivery method:
+            {deliveryMethod ?? 'Not entered'}
+          </Typography>
+          <Typography className={style.section__delivery__info} variant="p">
+            Payment method:
+            {paymentMethod ?? 'Not entered'}
+          </Typography>
+        </Box>
       </Grid>
       <Grid item xs={12}>
-        <Stack style={{ padding: '50px 20px' }} direction="column" spacing={3}>
+        <Stack
+          sx={{
+            padding: isSmallScreen ? '30px 20px' : '50px 20px',
+          }}
+          direction="column"
+          spacing={3}
+        >
           <ButtonsCheckoutPage
             label="Confirm order"
             variant="contained"

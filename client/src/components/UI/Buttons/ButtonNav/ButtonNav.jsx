@@ -9,9 +9,10 @@ function ButtonNav({ label, color, variant, disabled, style }) {
       color={color}
       disabled={disabled}
       style={{
-        minWidth: 150,
+        minWidth: 120,
         borderRadius: 2,
         fontFamily: 'montserrat',
+        marginLeft: -25,
         ...style,
       }}
     >
@@ -33,7 +34,7 @@ ButtonNav.propTypes = {
   color: PropTypes.string,
   variant: PropTypes.string,
   disabled: PropTypes.bool,
-  style: PropTypes.string,
+  style: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 };
 
 export default ButtonNav;

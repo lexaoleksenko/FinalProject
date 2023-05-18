@@ -46,15 +46,18 @@ click...click...click...
   3. Git Merge
   4. Trello task managment
 
-# 2. Maksim Lazarenko
+# 2. Leus Olga
 
 -Implemented Website layout:
-  1.
+  1. `Checkout Page` (Responsiveness, and all components)
+  2. `Main Card` (Responsiveness, and all components)
+  3. `Shopping Cart` (Responsiveness, and all components)
 
 -Implemented Website functionality:
-  1.
+  1. Logic for adding products to cart
+  2. Logic for adding products to wishlist
 
 -Organizational tasks:
-  1.
+  1.  Filling database with products
 
 # 3. .....

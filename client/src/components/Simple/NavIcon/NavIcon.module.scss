@@ -30,4 +30,30 @@
   margin-top: auto;
   margin-bottom: auto;
   margin-right: 10px;
+  display: flex;
+}
+
+@media (max-width: 940px) {
+  .root {
+    margin-right: 2px;
+    margin-left: 2px;
+  }
+  .link {
+    margin-right: 2px;
+  }
+  .containerIcon {
+    margin-right: 2px;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .root {
+    margin-right: auto;
+    margin-left: auto;
+  }
+  .containerIcon {
+    margin-right: 20px;
+  }
 }

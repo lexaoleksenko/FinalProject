@@ -13,7 +13,7 @@ import { fetchAddProductsCart } from '../../../redux/slices/cartBack';
 function InputNav({ label }) {
   const dispatch = useDispatch();
   const [prodArr, setProdArr] = useState([]);
-  const prodQuantity = prodArr <= 0;
+  const prodQuantity = prodArr.length <= 0;
 
   const [searchStatusLocal, setSearchStatus] = useState(false);
   const { searchStatus, searchProducts } = useSelector(searchState);
@@ -21,7 +21,17 @@ function InputNav({ label }) {
 
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleFetchSearch = event => {
+  const debounce = (func, delay) => {
+    let timeoutId;
+    return (...args) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
+
+  const handleFetchSearch = debounce(event => {
     const inputElement = event.target;
     const inputValue = inputElement.value;
     if (inputValue) {
@@ -31,10 +41,10 @@ function InputNav({ label }) {
       dispatch(fetchSearchProduct(data));
       setSearchStatus(false);
     }
-    if (inputValue === false) {
+    if (inputValue === '') {
       setSearchStatus(true);
     }
-  };
+  }, 1500);
 
   const handleInputClick = event => {
     if (!searchStatusLocal) {
@@ -91,7 +101,7 @@ function InputNav({ label }) {
           />
           <span className={style.bar}>{}</span>
           <label className={style.label}>
-            {searchStatusLocal ? 'Input goods' : label}
+            {searchStatusLocal ? 'Search' : label}
           </label>
         </div>
       </form>
