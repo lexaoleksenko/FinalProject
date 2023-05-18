@@ -67,7 +67,6 @@ function Navbar() {
 
   const isTab = useMediaQuery('(max-width:940px)');
 
-
   return (
     <div>
       {!isMobile ? (
@@ -102,7 +101,7 @@ function Navbar() {
             </Typography>
             <NavLinks
               favCount={favProducts.length}
-              cartCount={isAuth ? totalQuantityBack  : totalQuantity}
+              cartCount={isAuth ? totalQuantityBack : totalQuantity}
               nameAvatar="Artur Tech"
               isAuth={isAuth}
               onClickLogOut={handleLogOut}
