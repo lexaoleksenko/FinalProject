@@ -2,11 +2,9 @@ import { React, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 
-// import { Container } from '@mui/material';
 import style from './Home.module.scss';
 
 import MainSlider from '../../components/Smart/MainSlider/MainSlider';
-import Marquee from '../../components/Simple/Marquee/Marquee';
 import MobiStoreInfo from '../../components/Simple/MobiStoreInfoSection/MobiStoreInfo';
 import SpecialOfferSec from '../../components/Simple/SpecialOfferSection/SpecialOfferSec';
 import AccessoriesInfo from '../../components/Simple/AccessoriesInfoSection/AccessoriesInfo';
@@ -28,9 +26,7 @@ function HomePage({ aboutUs }) {
 
   return (
     <div className={style.homePage}>
-      <Marquee content="Sell-out!!!" />
       <MainSlider />
-      <Marquee stream="right" content="Sell-out!!!" />
       <TradeInSec />
       <VideoSec />
       <AccessoriesInfo />
