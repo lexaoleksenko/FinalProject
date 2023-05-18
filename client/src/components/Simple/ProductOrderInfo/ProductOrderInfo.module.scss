@@ -2,7 +2,7 @@
   background-color: #ffffff;
 
   padding: 0 5px;
-  .ItemContainer{
+  .ItemContainer {
     padding: 10px 5px 30px;
     .title {
       text-align: center;
@@ -10,26 +10,21 @@
       font-size: 18px;
     }
     .section__contacts,
-    .section__delivery{
+    .section__delivery {
       display: flex;
       flex-direction: column;
       padding: 10px 5px;
     }
     .section__contacts__tittle,
-    .section__delivery__tittle{
+    .section__delivery__tittle {
       font-size: 16px;
       font-weight: 600;
       padding: 5px;
     }
     .section__contacts__info,
-    .section__delivery__info{
+    .section__delivery__info {
       font-size: 14px;
       padding: 5px;
     }
   }
-  }
 }
-
-
-
-
