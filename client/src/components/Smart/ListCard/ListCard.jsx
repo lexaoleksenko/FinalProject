@@ -24,7 +24,10 @@ import {
   stateSelectedProductsFav,
 } from '../../../redux/slices/wishList';
 
-import { fetchAddProductsCart } from '../../../redux/slices/cartBack';
+import {
+  fetchAddProductsCart,
+  increaseTotalQuantity,
+} from '../../../redux/slices/cartBack';
 
 function ListCard({
   product,
@@ -108,6 +111,7 @@ function ListCard({
 
   const handleBuyCartBack = (e, prodId) => {
     dispatch(fetchAddProductsCart({ token: bearer, productId: prodId }));
+    dispatch(increaseTotalQuantity());
   };
 
   return (

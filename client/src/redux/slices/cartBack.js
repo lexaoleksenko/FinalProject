@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const fetchCartProducts = createAsyncThunk(
-  'cartBack/fetchCartProducts',
+  'cartBackEnd/fetchCartProducts',
   async token => {
     try {
       const { data } = await axios.get(`/api/cart`, {
@@ -19,7 +19,7 @@ export const fetchCartProducts = createAsyncThunk(
 );
 
 export const fetchAddProductsCart = createAsyncThunk(
-  'cartBack/fetchAddProductsCart',
+  'cartBackEnd/fetchAddProductsCart',
   async ({ token, productId }) => {
     try {
       const { data } = await axios.put(`/api/cart/${productId}`, null, {
@@ -35,7 +35,7 @@ export const fetchAddProductsCart = createAsyncThunk(
 );
 
 export const fetchDelProductsCart = createAsyncThunk(
-  'cartBack/fetchDelProductsCart',
+  'cartBackEnd/fetchDelProductsCart',
   async ({ token, productId }) => {
     try {
       const { data } = await axios.delete(`/api/cart/${productId}`, {
@@ -50,8 +50,24 @@ export const fetchDelProductsCart = createAsyncThunk(
   },
 );
 
+export const fetchAddProductQuant = createAsyncThunk(
+  'cartBackEnd/fetchAddProductsQuant',
+  async ({ token, productId }) => {
+    try {
+      const { data } = await axios.put(`/api/cart/${productId}`, null, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      return data;
+    } catch (error) {
+      console.warn(error);
+    }
+  },
+);
+
 export const fetchDelProductQuant = createAsyncThunk(
-  'cartBack/fetchDelProductQuant',
+  'cartBackEnd/fetchDelProductQuant',
   async ({ token, productId }) => {
     try {
       const { data } = await axios.delete(`/api/cart/product/${productId}`, {
@@ -69,11 +85,28 @@ export const fetchDelProductQuant = createAsyncThunk(
 const initialState = {
   productsCartBack: null,
   statusCartBack: 'loading',
+  totalQuantityBack: null,
 };
 
 export const cartBack = createSlice({
   name: 'cartBackEnd',
   initialState,
+  reducers: {
+    increaseTotalQuantity: state => {
+      const newState = {
+        ...state,
+        totalQuantityBack: state.totalQuantityBack + 1,
+      };
+      return newState;
+    },
+    decreaseTotalQuantity: state => {
+      const newState = {
+        ...state,
+        totalQuantityBack: state.totalQuantityBack - 1,
+      };
+      return newState;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(fetchCartProducts.pending, state => {
@@ -85,10 +118,16 @@ export const cartBack = createSlice({
         return newState;
       })
       .addCase(fetchCartProducts.fulfilled, (state, action) => {
+        const prodArr = action.payload;
+        const totalQuantity = prodArr
+          ? prodArr.reduce((total, prod) => total + prod.cartQuantity, 0)
+          : null;
+
         const newState = {
           ...state,
           statusCartBack: 'loaded',
           productsCartBack: action.payload,
+          totalQuantityBack: totalQuantity,
         };
         return newState;
       })
@@ -128,15 +167,20 @@ export const cartBack = createSlice({
         const newState = {
           ...state,
           statusCartBack: 'loading',
-          productsCartBack: null,
         };
         return newState;
       })
       .addCase(fetchDelProductsCart.fulfilled, (state, action) => {
+        const prodArr = action.payload.products;
+        const totalQuantity = prodArr.reduce(
+          (total, prod) => total + prod.cartQuantity,
+          0,
+        );
         const newState = {
           ...state,
           statusCartBack: 'loaded',
           productsCartBack: action.payload.products,
+          totalQuantityBack: totalQuantity,
         };
         return newState;
       })
@@ -152,15 +196,13 @@ export const cartBack = createSlice({
         const newState = {
           ...state,
           statusCartBack: 'loading',
-          productsCartBack: null,
         };
         return newState;
       })
-      .addCase(fetchDelProductQuant.fulfilled, (state, action) => {
+      .addCase(fetchDelProductQuant.fulfilled, state => {
         const newState = {
           ...state,
           statusCartBack: 'loaded',
-          productsCartBack: action.payload.products,
         };
         return newState;
       })
@@ -171,9 +213,34 @@ export const cartBack = createSlice({
           productsCartBack: null,
         };
         return newState;
+      })
+      .addCase(fetchAddProductQuant.pending, state => {
+        const newState = {
+          ...state,
+          statusCartBack: 'loading',
+        };
+        return newState;
+      })
+      .addCase(fetchAddProductQuant.fulfilled, state => {
+        const newState = {
+          ...state,
+          statusCartBack: 'loaded',
+        };
+        return newState;
+      })
+      .addCase(fetchAddProductQuant.rejected, state => {
+        const newState = {
+          ...state,
+          statusCartBack: 'error',
+          productsCartBack: null,
+        };
+        return newState;
       });
   },
 });
+
+export const { increaseTotalQuantity, decreaseTotalQuantity } =
+  cartBack.actions;
 
 export const cartBackReducer = cartBack.reducer;
 export const cartBackState = state => state.cartBackEnd;

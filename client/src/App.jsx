@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+// eslint-disable-next-line no-unused-vars
+import { Routes, Route, useLocation } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
 import Navbar from './components/Smart/Navbar/Navbar';
@@ -20,6 +21,7 @@ import { setSelectedProductsFav } from './redux/slices/wishList';
 import { fetchCartProducts } from './redux/slices/cartBack';
 
 function App() {
+  // const location = useLocation();
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const isAuth = Boolean(localStorage.getItem('token'));
