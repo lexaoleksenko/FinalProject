@@ -8,6 +8,7 @@ import {
   Typography,
   Grid,
   Stack,
+  useMediaQuery,
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useDispatch, useSelector } from 'react-redux';
@@ -114,6 +115,8 @@ function ListCard({
     dispatch(increaseTotalQuantity());
   };
 
+  const isMobile = useMediaQuery('(max-width:1170px)');
+
   return (
     <Grid
       item
@@ -121,7 +124,7 @@ function ListCard({
       sm={sm}
       md={md}
       lg={lg}
-      style={{ maxHeight: '440px', marginBottom: '5px' }}
+      style={isMobile ? {} : { maxHeight: '440px', marginBottom: '5px' }}
     >
       {' '}
       <Stack spacing={4}>

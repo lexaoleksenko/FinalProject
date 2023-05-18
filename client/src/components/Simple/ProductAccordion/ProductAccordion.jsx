@@ -1,6 +1,7 @@
 import { React, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useMediaQuery } from '@mui/material';
 
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -24,7 +25,8 @@ function SimpleAccordion() {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [expanded, setExpanded] = useState(0);
+  const isMobile = useMediaQuery('(max-width:1170px)');
+  const [expanded, setExpanded] = useState(isMobile ? 1 : 0);
 
   // Getting current search parameters
   const queryParams = location.search.substring(1);

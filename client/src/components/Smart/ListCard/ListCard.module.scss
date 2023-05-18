@@ -5,7 +5,7 @@
 
 .card {
   .cardMedia {
-    height: 300px;
+    height: 100%;
   }
 
   .cardContent {
@@ -14,6 +14,7 @@
       align-items: center;
       justify-content: center;
       font-family: 'montserrat', sans-serif;
+
       span {
         font-weight: 600;
         font-size: 13px;
@@ -80,16 +81,18 @@
 
 .cardSkeleton {
   padding: 15px;
-  height: 440px;
+  height: 420px;
   background-color: #ffffff;
 
   .cardContentSkeleton {
     display: flex;
   }
+
   .cardContentSkeleton span:last-child {
     margin-left: auto;
     margin-right: 0px;
   }
+
   .cardButtonSkeleton {
     display: flex;
   }
