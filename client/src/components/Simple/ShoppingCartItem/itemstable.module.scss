@@ -3,6 +3,8 @@
   flex-direction: column;
   justify-content: space-between;
   padding: 20px 5px;
+  max-width: 410px;
+  margin-right: 15px;
 
   .items {
     display: flex;
@@ -37,9 +39,8 @@
 
           @media (max-width: 375px) {
             & {
-              font-size: 13px
+              font-size: 13px;
             }
-          ;
           }
         }
 
@@ -47,7 +48,6 @@
           padding: 5px 5px;
           margin: 0;
         }
-
       }
     }
   }
@@ -88,11 +88,11 @@
     align-items: center;
   }
 
-  .location, .delete {
+  .location,
+  .delete {
     display: flex;
     padding: 5px;
     justify-content: space-between;
     align-items: center;
   }
 }
-

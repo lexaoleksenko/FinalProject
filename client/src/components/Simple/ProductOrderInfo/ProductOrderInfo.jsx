@@ -158,17 +158,17 @@ function ProductOrderInfo() {
             Contacts:
           </Typography>
           <Typography className={style.section__contacts__info} variant="p">
-            Name: {contactsInfo ? contactsInfo.firstName : 'Not entered'}
+            Name: {contactsForm ? contactsForm.firstName : 'Not entered'}
           </Typography>
           <Typography className={style.section__contacts__info} variant="p">
-            Surname: {contactsInfo ? contactsInfo.lastName : 'Not entered'}
+            Surname: {contactsForm ? contactsForm.lastName : 'Not entered'}
           </Typography>
           <Typography className={style.section__contacts__info} variant="p">
-            Email: {contactsInfo ? contactsInfo.email : 'Not entered'}
+            Email: {contactsForm ? contactsForm.email : 'Not entered'}
           </Typography>
           <Typography className={style.section__contacts__info} variant="p">
             PhoneNumber:
-            {contactsInfo ? contactsInfo.phoneNumber : 'Not entered'}
+            {contactsForm ? contactsForm.phoneNumber : 'Not entered'}
           </Typography>
         </Box>
         <Divider />
@@ -177,20 +177,20 @@ function ProductOrderInfo() {
             Delivery and Payment:
           </Typography>
           <Typography className={style.section__delivery__info} variant="p">
-            Country: {deliveryInfo ? deliveryInfo.country : 'Not entered'}
+            Country: {deliveryAddress ? deliveryAddress.country : 'Not entered'}
           </Typography>
           <Typography className={style.section__delivery__info} variant="p">
             City:{' '}
-            {deliveryInfo
-              ? deliveryInfo.city.split(' ').shift()
+            {deliveryAddress
+              ? deliveryAddress.city.split(' ').shift()
               : 'Not entered'}
           </Typography>
           <Typography className={style.section__delivery__info} variant="p">
-            Address: {deliveryInfo ? deliveryInfo.address : 'Not entered'}
+            Address: {deliveryAddress ? deliveryAddress.address : 'Not entered'}
           </Typography>
           <Typography className={style.section__delivery__info} variant="p">
             Postal:
-            {deliveryInfo ? deliveryInfo.postal : 'Not entered'}
+            {deliveryAddress ? deliveryAddress.postal : 'Not entered'}
           </Typography>
           <Typography className={style.section__delivery__info} variant="p">
             Delivery method:

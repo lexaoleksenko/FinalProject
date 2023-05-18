@@ -137,7 +137,11 @@ function ShoppingCart() {
           decrease={handleDecreaseCount}
           addItemBack={handleIncreaseCountBack}
         />
-        <Box sx={{ display: 'flex', justifyContent: 'space-around' }}>
+        <Box
+          sx={{ display: 'flex', justifyContent: 'space-around' }}
+          marginRight="25px"
+          marginBottom="25px"
+        >
           <FooterShoppingCart amount={result} />
           <NavLink to="/checkout">
             <ButtonDark label="CHECKOUT" onClick={handleCheckout} />
@@ -161,8 +165,11 @@ function ShoppingCart() {
             decreaseBack={handleDecreaseCountBack}
           />
         ))}
-
-        <Box>
+        <Box
+          sx={{ display: 'flex', justifyContent: 'space-around' }}
+          marginRight="25px"
+          marginBottom="25px"
+        >
           <FooterShoppingCart amount={cartBackTotal} />
           <NavLink to="/checkout">
             <ButtonDark label="CHECKOUT" onClick={handleCheckout} />
