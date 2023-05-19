@@ -17,22 +17,27 @@ function LogInPage() {
   const navigate = useNavigate();
 
   const [passError, setPassError] = useState([]);
+  const [status, setStatus] = useState(false);
 
   const onSubmit = async values => {
+    setStatus(true);
     const data = await dispatch(fetchUserToken(values));
     if (!data.payload) {
+      setStatus(false);
       return setPassError(
         'Oooops,something went wrong, please try again later.',
       );
     }
 
     if (data.payload && data.payload.name === 'AxiosError') {
+      setStatus(false);
       return setPassError('Invalid Login, Email or Password');
     }
 
     if (data.payload) {
       dispatch(fetchCartProducts(data.payload));
       navigate('/');
+      setStatus(false);
       return window.localStorage.setItem('token', data.payload);
     }
   };
@@ -88,7 +93,7 @@ function LogInPage() {
             size="large"
             variant="contained"
             fullWidth
-            disabled={!isValid}
+            disabled={!isValid || status}
           >
             Log In
           </Button>

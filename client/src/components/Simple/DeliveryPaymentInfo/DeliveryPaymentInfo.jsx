@@ -349,7 +349,7 @@ function DeliveryPaymentInfo({ handelContinue }) {
         spacing={3}
       >
         <ButtonsCheckoutPage
-          label="Save & continue"
+          label="Continue"
           variant="contained"
           size="large"
           disabled={!mainStatus}

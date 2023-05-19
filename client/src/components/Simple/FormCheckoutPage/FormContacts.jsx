@@ -115,7 +115,7 @@ function FormContacts({ handelContinue }) {
         spacing={3}
       >
         <ButtonsCheckoutPage
-          label="Saved & Continue"
+          label="Continue"
           variant="contained"
           size="large"
           type="submit"

@@ -156,7 +156,9 @@ function ShoppingCartItem({
                 <div>
                   <Box className={style.buttons}>
                     <Button
-                      className={style.button}
+                      className={`${
+                        buttonDisplay ? style.buttonsNone : style.button
+                      }`}
                       sx={{
                         backgroundColor: '#A9A9A9',
                         fontSize: 20,
@@ -169,10 +171,16 @@ function ShoppingCartItem({
                       -
                     </Button>
                     <p className={searchSettings ? style.itemNone : style.item}>
-                      {cartBackQuantity}
+                      {quantityDisplay
+                        ? `Qty: ${cartBackQuantity}`
+                        : cartBackQuantity}
                     </p>
                     <Button
-                      className={style.button}
+                      className={`${
+                        buttonDisplay || searchSettings
+                          ? style.buttonsNone
+                          : style.button
+                      }`}
                       sx={{
                         backgroundColor: '#A9A9A9',
                         fontSize: 25,
@@ -185,7 +193,11 @@ function ShoppingCartItem({
                 </div>
                 <div className={style.delete}>
                   <Button
-                    className={style.button}
+                    className={`${
+                      buttonDisplay || searchSettings
+                        ? style.buttonsNone
+                        : style.button
+                    }`}
                     sx={{ fontSize: 15 }}
                     onClick={() => removeBack(itemBack._id)}
                   >

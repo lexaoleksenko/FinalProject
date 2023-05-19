@@ -11,14 +11,25 @@ import FooterShoppingCart from '../FooterShoppingCart/FooterShoppingCart';
 import style from './ProductOrderInfo.module.scss';
 import ButtonsCheckoutPage from '../../UI/Buttons/ButtonsCheckoutPage/ButtonsCheckoutPage';
 import { checkoutState, fetchNewOrder } from '../../../redux/slices/checkout';
+import { cartBackState } from '../../../redux/slices/cartBack';
 
 function ProductOrderInfo() {
+  const isAuth = Boolean(localStorage.getItem('token'));
+  const { productsCartBack } = useSelector(cartBackState);
   const selectedProducts = useSelector(stateSelectedProducts);
-  const result = selectedProducts.reduce(
-    (previousValue, currentItem) =>
-      previousValue + currentItem.quantityCart * currentItem.currentPrice,
-    0,
-  );
+
+  const result = isAuth
+    ? productsCartBack &&
+      productsCartBack.reduce((acc, prod) => {
+        return acc + prod.product.currentPrice * prod.cartQuantity;
+      }, 0)
+    : selectedProducts &&
+      selectedProducts.reduce(
+        (previousValue, currentItem) =>
+          previousValue + currentItem.quantityCart * currentItem.currentPrice,
+        0,
+      );
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -33,6 +44,14 @@ function ProductOrderInfo() {
   //  Logic OrderInfo
   // Contact Form
   const { contactsForm, contactsFormStatus } = useSelector(checkoutState);
+  useEffect(() => {
+    console.log('contactsForm', contactsForm);
+  }, [contactsForm]);
+
+  const nameBool = Boolean(contactsForm.firstName.length > 0);
+  const surnameBool = Boolean(contactsForm.lastName.length > 0);
+  const emailBool = Boolean(contactsForm.email.length > 0);
+  const phoneBool = Boolean(contactsForm.phoneNumber.length > 0);
 
   // Delivery and payment
 
@@ -40,6 +59,11 @@ function ProductOrderInfo() {
     useSelector(checkoutState);
   const [deliveryMethod, setDeliveryMethod] = useState(null);
   const [paymentMethod, setPaymentMethod] = useState(null);
+
+  const countryBool = Boolean(deliveryAddress.country.length > 0);
+  const cityBool = Boolean(deliveryAddress.city.length > 0);
+  const addressBool = Boolean(deliveryAddress.address.length > 0);
+  const postalBool = Boolean(deliveryAddress.postal.length > 0);
 
   useEffect(() => {
     if (shipping === 'CourierDeliveryKyiv') {
@@ -91,14 +115,17 @@ function ProductOrderInfo() {
         status: 'not shipped',
         email: contactsForm.email,
         mobile: contactsForm.phoneNumber,
-        letterSubject: 'Thank you for order! You are welcome!',
-        letterHtml: `<h1>Your order is placed.</h1><p>City:${deliveryAddress.city
-          .split(' ')
-          .shift()}. Address: ${deliveryAddress.address}
-          Payment amount: ${result}</p>`,
-        products: selectedProducts.map(prod => {
-          return { product: prod, cartQuantity: prod.quantityCart };
-        }),
+        letterSubject: `Dear ${contactsForm.firstName} , Thank you for order!`,
+        letterHtml: `<h1>Your order is placed.</h1>
+        <p>Delivery city: ${deliveryAddress.city.split(' ').shift()}.</p> 
+        <p>Delivery Address: ${deliveryAddress.address}</p>
+        <p>Payment amount: ${result}$</p>
+        <p>We are glad that You choose us! See You soon!</p>`,
+        products: isAuth
+          ? productsCartBack && productsCartBack
+          : selectedProducts.map(prod => {
+              return { product: prod, cartQuantity: prod.quantityCart };
+            }),
       });
     }
   }, [
@@ -141,11 +168,27 @@ function ProductOrderInfo() {
           Cart Products
         </Typography>
         <Divider />
-        <ShoppingCartItem
-          items={selectedProducts}
-          buttonDisplay
-          quantityDisplay
-        />
+        {isAuth ? (
+          productsCartBack &&
+          productsCartBack.map(prod => (
+            <ShoppingCartItem
+              key={prod.product.itemNo}
+              items={null}
+              itemBack={prod.product}
+              cartBackId={prod._id}
+              cartBackQuantity={prod.cartQuantity}
+              buttonDisplay
+              quantityDisplay
+            />
+          ))
+        ) : (
+          <ShoppingCartItem
+            items={selectedProducts}
+            buttonDisplay
+            quantityDisplay
+          />
+        )}
+
         <FooterShoppingCart amount={result} />
       </Grid>
       <Grid item xs={isSmallScreen ? 12 : 6} className={style.ItemContainer}>
@@ -157,18 +200,34 @@ function ProductOrderInfo() {
           <Typography variant="h6" className={style.section__contacts__tittle}>
             Contacts:
           </Typography>
-          <Typography className={style.section__contacts__info} variant="p">
-            Name: {contactsForm ? contactsForm.firstName : 'Not entered'}
+          <Typography
+            className={style.section__contacts__info}
+            style={!nameBool ? { color: 'red' } : {}}
+            variant="p"
+          >
+            Name: {nameBool ? contactsForm.firstName : ' Not entered'}
           </Typography>
-          <Typography className={style.section__contacts__info} variant="p">
-            Surname: {contactsForm ? contactsForm.lastName : 'Not entered'}
+          <Typography
+            className={style.section__contacts__info}
+            style={!surnameBool ? { color: 'red' } : {}}
+            variant="p"
+          >
+            Surname: {surnameBool ? contactsForm.lastName : ' Not entered'}
           </Typography>
-          <Typography className={style.section__contacts__info} variant="p">
-            Email: {contactsForm ? contactsForm.email : 'Not entered'}
+          <Typography
+            className={style.section__contacts__info}
+            style={!emailBool ? { color: 'red' } : {}}
+            variant="p"
+          >
+            Email: {emailBool ? contactsForm.email : ' Not entered'}
           </Typography>
-          <Typography className={style.section__contacts__info} variant="p">
+          <Typography
+            className={style.section__contacts__info}
+            style={!phoneBool ? { color: 'red' } : {}}
+            variant="p"
+          >
             PhoneNumber:
-            {contactsForm ? contactsForm.phoneNumber : 'Not entered'}
+            {phoneBool ? contactsForm.phoneNumber : ' Not entered'}
           </Typography>
         </Box>
         <Divider />
@@ -176,29 +235,45 @@ function ProductOrderInfo() {
           <Typography variant="h6" className={style.section__delivery__tittle}>
             Delivery and Payment:
           </Typography>
-          <Typography className={style.section__delivery__info} variant="p">
-            Country: {deliveryAddress ? deliveryAddress.country : 'Not entered'}
+          <Typography
+            className={style.section__delivery__info}
+            style={!countryBool ? { color: 'red' } : {}}
+            variant="p"
+          >
+            Country: {countryBool ? deliveryAddress.country : ' Not entered'}
           </Typography>
-          <Typography className={style.section__delivery__info} variant="p">
+          <Typography
+            className={style.section__delivery__info}
+            style={!cityBool ? { color: 'red' } : {}}
+            variant="p"
+          >
             City:{' '}
-            {deliveryAddress
+            {cityBool
               ? deliveryAddress.city.split(' ').shift()
-              : 'Not entered'}
+              : ' Not entered'}
           </Typography>
-          <Typography className={style.section__delivery__info} variant="p">
-            Address: {deliveryAddress ? deliveryAddress.address : 'Not entered'}
+          <Typography
+            className={style.section__delivery__info}
+            style={!addressBool ? { color: 'red' } : {}}
+            variant="p"
+          >
+            Address: {addressBool ? deliveryAddress.address : ' Not entered'}
           </Typography>
-          <Typography className={style.section__delivery__info} variant="p">
+          <Typography
+            className={style.section__delivery__info}
+            style={!postalBool ? { color: 'red' } : {}}
+            variant="p"
+          >
             Postal:
-            {deliveryAddress ? deliveryAddress.postal : 'Not entered'}
+            {postalBool ? deliveryAddress.postal : ' Not entered'}
           </Typography>
           <Typography className={style.section__delivery__info} variant="p">
             Delivery method:
-            {deliveryMethod ?? 'Not entered'}
+            {deliveryMethod ?? ' Not entered'}
           </Typography>
           <Typography className={style.section__delivery__info} variant="p">
             Payment method:
-            {paymentMethod ?? 'Not entered'}
+            {paymentMethod ?? ' Not entered'}
           </Typography>
         </Box>
       </Grid>
