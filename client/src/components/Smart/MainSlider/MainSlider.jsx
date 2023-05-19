@@ -31,17 +31,12 @@ function MainSlider() {
   };
 
   useEffect(() => {
-    console.log('isAuto', isAutoplay);
-  }, [isAutoplay]);
-
-  useEffect(() => {
     if (endStatus && mouseEnter) {
       setIsAutoplay(true);
     }
     if (!mouseEnter) {
       setIsAutoplay(false);
     }
-    console.log('isAuto', isAutoplay);
   }, [endStatus, mouseEnter]);
 
   return (

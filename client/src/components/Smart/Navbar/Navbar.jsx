@@ -24,12 +24,16 @@ import NavIcon from '../../Simple/NavIcon/NavIcon';
 import InputNav from '../InputNav/InputNav';
 import CartList from '../CartList/CartList';
 import { stateSelectedProductsFav } from '../../../redux/slices/wishList';
-import { cartBackState } from '../../../redux/slices/cartBack';
+import {
+  cartBackState,
+  fetchCartProducts,
+} from '../../../redux/slices/cartBack';
 
 function Navbar() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [isAuth, setIsAuth] = useState(false);
+  const bearer = localStorage.getItem('token');
   const stateDraw = useSelector(stateDrawer);
   const cartProducts = useSelector(stateSelectedProducts);
   const { totalQuantityBack } = useSelector(cartBackState);
@@ -56,6 +60,11 @@ function Navbar() {
 
   const handleDrawerClose = () => {
     dispatch(toggleDrawer(false));
+    setTimeout(() => {
+      if (isAuth) {
+        dispatch(fetchCartProducts(bearer));
+      }
+    }, 50);
   };
 
   const isMobile = useMediaQuery('(max-width:768px)');

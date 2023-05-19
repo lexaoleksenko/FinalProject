@@ -16,7 +16,6 @@ import EmptyCart from '../EmptyCart/EmptyCart';
 
 import {
   cartBackState,
-  fetchCartProducts,
   fetchDelProductsCart,
   fetchAddProductQuant,
   fetchDelProductQuant,
@@ -64,12 +63,6 @@ function ShoppingCart() {
   const { productsCartBack, statusCartBack } = useSelector(cartBackState);
   const bearer = localStorage.getItem('token');
   const backStatus = statusCartBack && productsCartBack && isAuth;
-
-  useEffect(() => {
-    if (isAuth && bearer) {
-      dispatch(fetchCartProducts(bearer));
-    }
-  }, []);
 
   useEffect(() => {
     if (productsCartBack) {
