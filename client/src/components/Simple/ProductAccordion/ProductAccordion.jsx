@@ -17,6 +17,9 @@ import {
   setMaxPrice,
   setMinPrice,
   setSelectPage,
+  setViewCount,
+  setMostPrice,
+  setLeastPrice,
 } from '../../../redux/slices/filterProducts';
 
 import style from './ProductAccordion.module.scss';
@@ -76,6 +79,9 @@ function SimpleAccordion() {
     setPageOne();
   };
 
+  // filter ViewProducts
+  const { viewCount, sortPrice } = useSelector(filterProdState);
+
   // create filter URL params
   const urlParams = new URLSearchParams();
 
@@ -107,7 +113,15 @@ function SimpleAccordion() {
     urlParams.set('memoryStorage', selectMemory);
   }
 
-  const url = urlParams.toString().replace(/%2C/g, ',');
+  if (viewCount) {
+    urlParams.set('perPage', viewCount);
+  }
+
+  if (sortPrice) {
+    urlParams.set('sort', sortPrice);
+  }
+
+  const url = decodeURIComponent(urlParams.toString().replace(/%2C/g, ','));
 
   // dispatch filter URL
   useEffect(() => {
@@ -124,6 +138,8 @@ function SimpleAccordion() {
     filterMinPrice,
     selectPage,
     selectMemory,
+    viewCount,
+    sortPrice,
   ]);
 
   // Implemented the ability to reuse the link without
@@ -137,6 +153,8 @@ function SimpleAccordion() {
     const maxPrice = params.get('maxPrice');
     const startPage = params.get('startPage');
     const memoryStorage = params.get('memoryStorage');
+    const viewProd = params.get('perPage');
+    const sortView = params.get('sort');
     if (color) {
       const colorArr = color.split(',');
       setSelectColor(prevColorArr => prevColorArr.concat(colorArr));
@@ -161,6 +179,17 @@ function SimpleAccordion() {
     if (memoryStorage) {
       const memoryArr = memoryStorage.split(',');
       setSelectMemory(prevMemoryArr => prevMemoryArr.concat(memoryArr));
+    }
+    if (viewProd) {
+      dispatch(setViewCount(viewProd));
+    }
+    if (sortView) {
+      if (sortView === '-currentPrice') {
+        dispatch(setLeastPrice());
+      }
+      if (sortView === '+currentPrice') {
+        dispatch(setMostPrice());
+      }
     }
   }, []);
 

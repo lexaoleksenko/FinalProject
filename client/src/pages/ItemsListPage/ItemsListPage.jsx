@@ -2,8 +2,15 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Grid, Container, useMediaQuery } from '@mui/material';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
-import { useSelector } from 'react-redux';
-import { filterProdState } from '../../redux/slices/filterProducts';
+import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  filterProdState,
+  setMostPrice,
+  setLeastPrice,
+  setViewCount,
+} from '../../redux/slices/filterProducts';
 
 // import { searchState } from '../../redux/slices/search';
 
@@ -16,6 +23,7 @@ import { stateSelectedProducts } from '../../redux/slices/shopping-cart';
 import { stateSelectedProductsFav } from '../../redux/slices/wishList';
 
 function ItemsListPage() {
+  const dispatch = useDispatch();
   // ALL FILTER LOGIC IS IN THE ACCORDION COMPONENT
 
   const [prodArr, setProdArr] = useState([]);
@@ -39,13 +47,91 @@ function ItemsListPage() {
     }
   }, [status]);
 
+  // Set View Setting
+  const { viewCount } = useSelector(filterProdState);
+  const [currentView, setCurrentView] = React.useState('9');
+
+  React.useEffect(() => {
+    if (viewCount) {
+      setCurrentView(viewCount);
+    }
+  }, [viewCount]);
+
+  const setViewProducts = e => {
+    const value = e.target.textContent.trim();
+    dispatch(setViewCount(value));
+    setCurrentView(value);
+  };
+
+  const handleMostPrice = () => {
+    dispatch(setMostPrice());
+  };
+
+  const handleLeastPrice = () => {
+    dispatch(setLeastPrice());
+  };
+
   const isMobile = useMediaQuery('(max-width:1170px)');
 
   return (
     <Container maxWidth="lg">
       {' '}
       <div className={style.root}>
-        <h2 className={style.title}>All categories</h2>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: isMobile ? 'column' : 'row',
+            justifyContent: 'space-between',
+          }}
+        >
+          <h2 className={style.title}>All categories</h2>
+          <div className={style.viewProdSetting}>
+            <div>
+              <span>View:</span>
+              <button
+                type="button"
+                onClick={setViewProducts}
+                style={{
+                  textDecoration: currentView === '9' ? 'underline' : '',
+                }}
+              >
+                9
+              </button>
+              <button
+                type="button"
+                onClick={setViewProducts}
+                style={{
+                  textDecoration: currentView === '15' ? 'underline' : '',
+                }}
+              >
+                15
+              </button>
+              <button
+                type="button"
+                onClick={setViewProducts}
+                style={{
+                  textDecoration: currentView === '21' ? 'underline' : '',
+                }}
+              >
+                21
+              </button>
+              <button
+                type="button"
+                onClick={setViewProducts}
+                style={{
+                  textDecoration: currentView === 'all' ? 'underline' : '',
+                }}
+              >
+                all
+              </button>
+            </div>
+            <div>
+              <KeyboardDoubleArrowUpIcon onClick={handleMostPrice} />
+              <span>Price</span>
+              <KeyboardDoubleArrowDownIcon onClick={handleLeastPrice} />
+            </div>
+          </div>
+        </div>
         <Grid display="flex" flexDirection={isMobile ? 'column' : 'row'}>
           <Grid marginRight={isMobile ? '' : 1} marginTop={1}>
             <SimpleAccordion />

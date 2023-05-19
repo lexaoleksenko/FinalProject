@@ -12,7 +12,8 @@ import {
 function PaginationRounded() {
   const dispatch = useDispatch();
   const [pageTotal, setPageTotal] = useState(null);
-  const { products, status, selectPage } = useSelector(filterProdState);
+  const { products, status, selectPage, viewCount } =
+    useSelector(filterProdState);
 
   const handlePageChange = (event, value) => {
     dispatch(setSelectPage(value));
@@ -20,7 +21,10 @@ function PaginationRounded() {
 
   useEffect(() => {
     if (status === 'loaded') {
-      const pageQuantity = Math.ceil(products.productsQuantity / 9);
+      const pageQuantity =
+        viewCount === 'all'
+          ? 1
+          : Math.ceil(products.productsQuantity / viewCount);
       setPageTotal(pageQuantity);
     }
   }, [status]);
@@ -36,7 +40,12 @@ function PaginationRounded() {
         size="small"
         showFirstButton
         showLastButton
-        style={{ marginLeft: 'auto', marginRight: 'auto', marginBottom: 20 }}
+        style={{
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          marginBottom: 20,
+          display: viewCount === 'all' ? 'none' : '',
+        }}
       />
     </Stack>
   );

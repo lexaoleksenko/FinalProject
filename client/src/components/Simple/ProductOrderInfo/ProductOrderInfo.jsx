@@ -44,9 +44,6 @@ function ProductOrderInfo() {
   //  Logic OrderInfo
   // Contact Form
   const { contactsForm, contactsFormStatus } = useSelector(checkoutState);
-  useEffect(() => {
-    console.log('contactsForm', contactsForm);
-  }, [contactsForm]);
 
   const nameBool = Boolean(contactsForm.firstName.length > 0);
   const surnameBool = Boolean(contactsForm.lastName.length > 0);
