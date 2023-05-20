@@ -21,6 +21,7 @@ import SimpleAccordion from '../../components/Simple/ProductAccordion/ProductAcc
 import PaginationRounded from '../../components/Simple/Pagination/Pagination';
 import { stateSelectedProducts } from '../../redux/slices/shopping-cart';
 import { stateSelectedProductsFav } from '../../redux/slices/wishList';
+import { fetchCartProducts } from '../../redux/slices/cartBack';
 
 function ItemsListPage() {
   const dispatch = useDispatch();
@@ -50,6 +51,7 @@ function ItemsListPage() {
   // Set View Setting
   const { viewCount } = useSelector(filterProdState);
   const [currentView, setCurrentView] = React.useState('9');
+  const bearer = localStorage.getItem('token');
 
   React.useEffect(() => {
     if (viewCount) {
@@ -65,10 +67,16 @@ function ItemsListPage() {
 
   const handleMostPrice = () => {
     dispatch(setMostPrice());
+    setTimeout(() => {
+      dispatch(fetchCartProducts(bearer));
+    }, 400);
   };
 
   const handleLeastPrice = () => {
     dispatch(setLeastPrice());
+    setTimeout(() => {
+      dispatch(fetchCartProducts(bearer));
+    }, 400);
   };
 
   const isMobile = useMediaQuery('(max-width:1170px)');
