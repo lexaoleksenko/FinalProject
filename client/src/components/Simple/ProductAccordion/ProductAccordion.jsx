@@ -618,7 +618,7 @@ function SimpleAccordion() {
           </Accordion>
         </div>
       </FormGroup>
-      <div>
+      {/* <div>
         <Accordion className={style.accordion}>
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <Typography>Accessories</Typography>
@@ -655,7 +655,7 @@ function SimpleAccordion() {
             </div>
           </AccordionDetails>
         </Accordion>
-      </div>
+      </div> */}
     </>
   );
 }

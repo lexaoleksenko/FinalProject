@@ -8,7 +8,10 @@ import { stateSelectedProducts } from '../../../redux/slices/shopping-cart';
 import style from './InputNav.module.scss';
 
 import ShoppingCartItem from '../../Simple/ShoppingCartItem/ShoppingCartItem';
-import { fetchAddProductsCart } from '../../../redux/slices/cartBack';
+import {
+  fetchAddProductsCart,
+  increaseTotalQuantity,
+} from '../../../redux/slices/cartBack';
 
 function InputNav({ label }) {
   const dispatch = useDispatch();
@@ -85,6 +88,7 @@ function InputNav({ label }) {
   const bearer = localStorage.getItem('token');
   const handleIncreaseCountBack = prodId => {
     dispatch(fetchAddProductsCart({ token: bearer, productId: prodId }));
+    dispatch(increaseTotalQuantity());
   };
 
   return (
@@ -123,6 +127,7 @@ function InputNav({ label }) {
             searchSettings="false"
             sx={{ fontSize: 15 }}
             addItemBack={handleIncreaseCountBack}
+            popperClose={handlePopperClose}
           />
         )}
       </Popper>

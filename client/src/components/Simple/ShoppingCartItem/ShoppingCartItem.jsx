@@ -34,6 +34,7 @@ function ShoppingCartItem({
   removeBack,
   increaseBack,
   decreaseBack,
+  popperClose,
 }) {
   const isAuth = Boolean(localStorage.getItem('token'));
   const dispatch = useDispatch();
@@ -54,7 +55,7 @@ function ShoppingCartItem({
       <div className={style.wrapper}>
         {items?.map(item => (
           <div className={style.items} key={item.itemNo}>
-            <NavLink to={`/products/${item.itemNo}`}>
+            <NavLink to={`/products/${item.itemNo}`} onClick={popperClose}>
               <img className={style.image} src={item.imageUrls[0]} alt="img" />
             </NavLink>
             <div className={style.position}>
@@ -88,7 +89,7 @@ function ShoppingCartItem({
                             ? e =>
                                 isAuth
                                   ? addItemBack(item._id)
-                                  : handleBuyNow(e, item)
+                                  : [handleBuyNow(e, item), popperClose()]
                             : () => decrease(item.itemNo, item.quantityCart)
                         }
                       >
@@ -240,6 +241,7 @@ ShoppingCartItem.defaultProps = {
   decreaseBack: null,
   removeBack: null,
   addItemBack: null,
+  popperClose: null,
 };
 
 ShoppingCartItem.propTypes = {
@@ -256,6 +258,7 @@ ShoppingCartItem.propTypes = {
   decreaseBack: PropTypes.func,
   removeBack: PropTypes.func,
   addItemBack: PropTypes.func,
+  popperClose: PropTypes.func,
 };
 
 export default ShoppingCartItem;

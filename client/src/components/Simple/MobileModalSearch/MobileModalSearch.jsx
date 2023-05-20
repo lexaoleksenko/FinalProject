@@ -110,6 +110,7 @@ function MobileModalSearch() {
                 searchSettings="false"
                 sx={{ fontSize: 15 }}
                 addItemBack={handleIncreaseCountBack}
+                popperClose={() => setStateDrawer(false)}
               />
             )}
           </div>
