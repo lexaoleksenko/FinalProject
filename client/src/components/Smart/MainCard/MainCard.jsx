@@ -4,7 +4,7 @@ import { Card, CardContent, Typography } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import MainCardSlider from '../MainCardSlider/MainCardSlider';
+import MainCardSlider from '../../Simple/MainCardSlider/MainCardSlider';
 import ButtonDark from '../../UI/Buttons/ButtonDark/ButtonDark';
 import style from './MainCard.module.scss';
 import {

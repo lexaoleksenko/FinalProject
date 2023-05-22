@@ -17,8 +17,8 @@ import {
 import style from './ItemsList.module.scss';
 import ListCard from '../../components/Smart/ListCard/ListCard';
 import ListCardSkeleton from '../../components/Smart/ListCard/ListCardSkeleton';
-import SimpleAccordion from '../../components/Simple/ProductAccordion/ProductAccordion';
-import PaginationRounded from '../../components/Simple/Pagination/Pagination';
+import SimpleAccordion from '../../components/MultiComponentsIC/ProductAccordion/ProductAccordion';
+import PaginationRounded from '../../components/Smart/Pagination/Pagination';
 import { stateSelectedProducts } from '../../redux/slices/shopping-cart';
 import { stateSelectedProductsFav } from '../../redux/slices/wishList';
 import { fetchCartProducts } from '../../redux/slices/cartBack';
@@ -67,16 +67,20 @@ function ItemsListPage() {
 
   const handleMostPrice = () => {
     dispatch(setMostPrice());
-    setTimeout(() => {
-      dispatch(fetchCartProducts(bearer));
-    }, 400);
+    if (bearer) {
+      setTimeout(() => {
+        dispatch(fetchCartProducts(bearer));
+      }, 400);
+    }
   };
 
   const handleLeastPrice = () => {
     dispatch(setLeastPrice());
-    setTimeout(() => {
-      dispatch(fetchCartProducts(bearer));
-    }, 400);
+    if (bearer) {
+      setTimeout(() => {
+        dispatch(fetchCartProducts(bearer));
+      }, 400);
+    }
   };
 
   const isMobile = useMediaQuery('(max-width:1170px)');

@@ -7,7 +7,7 @@ import { fetchSearchProduct, searchState } from '../../../redux/slices/search';
 import { stateSelectedProducts } from '../../../redux/slices/shopping-cart';
 import style from './InputNav.module.scss';
 
-import ShoppingCartItem from '../../Simple/ShoppingCartItem/ShoppingCartItem';
+import ShoppingCartItem from '../ShoppingCartItem/ShoppingCartItem';
 import {
   fetchAddProductsCart,
   increaseTotalQuantity,
@@ -93,7 +93,12 @@ function InputNav({ label }) {
 
   return (
     <div className={style.root}>
-      <form className={style.form}>
+      <form
+        className={style.form}
+        onSubmit={e => {
+          e.preventDefault();
+        }}
+      >
         <div className={style.group}>
           <input
             className={style.input}

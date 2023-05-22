@@ -2,7 +2,7 @@ import { React, useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
-import Navbar from './components/Smart/Navbar/Navbar';
+import Navbar from './components/MultiComponentsIC/Navbar/Navbar';
 import Footer from './components/Simple/Footer/Footer';
 import HomePage from './pages/HomePage/HomePage';
 import CheckoutPage from './pages/Checkout/CheckoutPage';
