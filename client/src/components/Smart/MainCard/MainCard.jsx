@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { Card, CardContent, Typography } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import MainCardSlider from '../MainCardSlider/MainCardSlider';
+import MainCardSlider from '../../Simple/MainCardSlider/MainCardSlider';
 import ButtonDark from '../../UI/Buttons/ButtonDark/ButtonDark';
 import style from './MainCard.module.scss';
 import {
@@ -15,6 +15,12 @@ import {
   setSelectedProductsFav,
   stateSelectedProductsFav,
 } from '../../../redux/slices/wishList';
+import {
+  // eslint-disable-next-line no-unused-vars
+  cartBackState,
+  fetchAddProductsCart,
+  increaseTotalQuantity,
+} from '../../../redux/slices/cartBack';
 
 function MainCard({
   product,
@@ -25,18 +31,13 @@ function MainCard({
   description,
 }) {
   const dispatch = useDispatch();
+
+  // *** Not authorized logic ***
+
   const selectedProducts = useSelector(stateSelectedProducts);
   const selectedProductsFav = useSelector(stateSelectedProductsFav);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(
-    JSON.parse(localStorage.getItem(product.itemNo)) || false,
-  );
-
-  useEffect(() => {
-    setIsDisabled(
-      selectedProducts.some(item => item.itemNo === product.itemNo),
-    );
-  }, [selectedProducts, product.itemNo]);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
     localStorage.setItem('products', JSON.stringify(selectedProducts));
@@ -90,6 +91,37 @@ function MainCard({
       localStorage.setItem('favorites', JSON.stringify(product));
     }
   };
+
+  // *** AUTHORIZED logic ***
+
+  const isAuth = Boolean(localStorage.getItem('token'));
+  const bearer = localStorage.getItem('token');
+  const location = useLocation();
+
+  const handleBuyCartBack = () => {
+    dispatch(fetchAddProductsCart({ token: bearer, productId: product._id }));
+    dispatch(increaseTotalQuantity());
+    setIsDisabled(true);
+  };
+
+  // logic isDisabled button
+
+  const { productsCartBack } = useSelector(cartBackState);
+
+  useEffect(() => {
+    if (isAuth) {
+      if (productsCartBack) {
+        setIsDisabled(
+          productsCartBack.some(item => item.product.itemNo === product.itemNo),
+        );
+      }
+    } else {
+      setIsDisabled(
+        selectedProducts.some(item => item.itemNo === product.itemNo),
+      );
+    }
+  }, [selectedProducts, isAuth, productsCartBack, location.pathname]);
+
   return (
     <Card className={style.card}>
       <MainCardSlider imageUrls={imageUrls} />
@@ -103,7 +135,7 @@ function MainCard({
           <Typography variant="p">{description}</Typography>
         </div>
         <div className={style.cardIcon}>
-          <NavLink onClick={handleBuyNow}>
+          <NavLink onClick={isAuth ? handleBuyCartBack : handleBuyNow}>
             <ButtonDark
               label={isDisabled ? 'Added' : 'BUY NOW'}
               disabled={isDisabled}

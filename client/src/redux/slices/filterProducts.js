@@ -4,7 +4,7 @@ import axios from 'axios';
 export const fetchFilterProducts = createAsyncThunk(
   'filterProducts/fetchFilterProducts',
   async params => {
-    const filterParams = `${params}&perPage=9&` ?? '';
+    const filterParams = `${params}` ?? '';
     try {
       const { data } = await axios.get(`/api/products/filter?${filterParams}`);
       return data;
@@ -20,6 +20,8 @@ const initialState = {
   filterMinPrice: 600,
   filterMaxPrice: 2000,
   selectPage: 1,
+  viewCount: '9',
+  sortPrice: null,
 };
 
 export const getFilterProd = createSlice({
@@ -44,6 +46,27 @@ export const getFilterProd = createSlice({
       const newState = {
         ...state,
         selectPage: action.payload,
+      };
+      return newState;
+    },
+    setViewCount: (state, action) => {
+      const newState = {
+        ...state,
+        viewCount: action.payload,
+      };
+      return newState;
+    },
+    setLeastPrice: state => {
+      const newState = {
+        ...state,
+        sortPrice: '-currentPrice',
+      };
+      return newState;
+    },
+    setMostPrice: state => {
+      const newState = {
+        ...state,
+        sortPrice: '+currentPrice',
       };
       return newState;
     },
@@ -83,8 +106,9 @@ export const {
   setMinPrice,
   setMaxPrice,
   setSelectPage,
-  setQueryString,
-  setStartQueryString,
+  setViewCount,
+  setLeastPrice,
+  setMostPrice,
 } = getFilterProd.actions;
 
 export const filterProdState = state => state.filterProducts;

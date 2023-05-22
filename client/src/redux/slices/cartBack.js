@@ -10,8 +10,10 @@ export const fetchCartProducts = createAsyncThunk(
           Authorization: token,
         },
       });
-      const { products } = data;
-      return products;
+      if (data) {
+        const { products } = data;
+        return products;
+      }
     } catch (error) {
       console.warn(error);
     }

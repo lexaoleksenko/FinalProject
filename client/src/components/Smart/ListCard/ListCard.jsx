@@ -26,6 +26,7 @@ import {
 } from '../../../redux/slices/wishList';
 
 import {
+  cartBackState,
   fetchAddProductsCart,
   increaseTotalQuantity,
 } from '../../../redux/slices/cartBack';
@@ -47,15 +48,7 @@ function ListCard({
   const selectedProducts = useSelector(stateSelectedProducts);
   const selectedProductsFav = useSelector(stateSelectedProductsFav);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(
-    JSON.parse(localStorage.getItem(product.itemNo)) || false,
-  );
-
-  useEffect(() => {
-    setIsDisabled(
-      selectedProducts.some(item => item.itemNo === product.itemNo),
-    );
-  }, [selectedProducts, product.itemNo]);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
     const isExist = selectedProductsFav.find(
@@ -113,7 +106,26 @@ function ListCard({
   const handleBuyCartBack = (e, prodId) => {
     dispatch(fetchAddProductsCart({ token: bearer, productId: prodId }));
     dispatch(increaseTotalQuantity());
+    setIsDisabled(true);
   };
+
+  // logic isDisabled button
+
+  const { productsCartBack } = useSelector(cartBackState);
+
+  useEffect(() => {
+    if (isAuth) {
+      if (productsCartBack) {
+        setIsDisabled(
+          productsCartBack.some(item => item.product.itemNo === product.itemNo),
+        );
+      }
+    } else {
+      setIsDisabled(
+        selectedProducts.some(item => item.itemNo === product.itemNo),
+      );
+    }
+  }, [selectedProducts, isAuth, productsCartBack]);
 
   const isMobile = useMediaQuery('(max-width:1170px)');
 
