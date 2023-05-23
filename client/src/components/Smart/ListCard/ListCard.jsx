@@ -125,7 +125,7 @@ function ListCard({
         selectedProducts.some(item => item.itemNo === product.itemNo),
       );
     }
-  }, [selectedProducts, isAuth, productsCartBack]);
+  }, [selectedProducts, isAuth, productsCartBack, product.itemNo]);
 
   const isMobile = useMediaQuery('(max-width:1170px)');
 
