@@ -150,7 +150,7 @@ function ListCard({
             />
           </NavLink>
           <CardContent className={style.cardContent}>
-            <NavLink to={`/product/${itemNo}`} className={style.mainLink}>
+            <NavLink to={`/products/${itemNo}`} className={style.mainLink}>
               <div className={style.typography}>
                 <Typography variant="p">{name}</Typography>
                 <Typography variant="p">{currentPrice}$</Typography>
