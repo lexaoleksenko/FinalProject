@@ -5,9 +5,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSearchProduct, searchState } from '../../../redux/slices/search';
-import { fetchAddProductsCart } from '../../../redux/slices/cartBack';
+import { fetchAddProductsCart } from '../../../redux/slices/cartBackEnd';
 import ShoppingCartItem from '../../Smart/ShoppingCartItem/ShoppingCartItem';
-import { stateSelectedProducts } from '../../../redux/slices/shopping-cart';
+import { stateSelectedProducts } from '../../../redux/slices/cartLocal';
 
 function MobileModalSearch() {
   const dispatch = useDispatch();
@@ -41,9 +41,8 @@ function MobileModalSearch() {
     setStateDrawer(true);
   };
 
-  const bearer = localStorage.getItem('token');
   const handleIncreaseCountBack = prodId => {
-    dispatch(fetchAddProductsCart({ token: bearer, productId: prodId }));
+    dispatch(fetchAddProductsCart({ productId: prodId }));
   };
 
   useEffect(() => {

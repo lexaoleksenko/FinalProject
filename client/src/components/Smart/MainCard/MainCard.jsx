@@ -10,7 +10,7 @@ import style from './MainCard.module.scss';
 import {
   setSelectedProducts,
   stateSelectedProducts,
-} from '../../../redux/slices/shopping-cart';
+} from '../../../redux/slices/cartLocal';
 import {
   setSelectedProductsFav,
   stateSelectedProductsFav,
@@ -20,7 +20,9 @@ import {
   cartBackState,
   fetchAddProductsCart,
   increaseTotalQuantity,
-} from '../../../redux/slices/cartBack';
+} from '../../../redux/slices/cartBackEnd';
+
+import { isAuthenticated } from '../../../helpers/authentication/authentication';
 
 function MainCard({
   product,
@@ -94,12 +96,11 @@ function MainCard({
 
   // *** AUTHORIZED logic ***
 
-  const isAuth = Boolean(localStorage.getItem('token'));
-  const bearer = localStorage.getItem('token');
+  const isAuth = isAuthenticated();
   const location = useLocation();
 
   const handleBuyCartBack = () => {
-    dispatch(fetchAddProductsCart({ token: bearer, productId: product._id }));
+    dispatch(fetchAddProductsCart({ productId: product._id }));
     dispatch(increaseTotalQuantity());
     setIsDisabled(true);
   };

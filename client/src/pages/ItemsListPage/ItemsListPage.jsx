@@ -19,9 +19,9 @@ import ListCard from '../../components/Smart/ListCard/ListCard';
 import ListCardSkeleton from '../../components/Smart/ListCard/ListCardSkeleton';
 import SimpleAccordion from '../../components/MultiComponentsIC/ProductAccordion/ProductAccordion';
 import PaginationRounded from '../../components/Smart/Pagination/Pagination';
-import { stateSelectedProducts } from '../../redux/slices/shopping-cart';
+import { stateSelectedProducts } from '../../redux/slices/cartLocal';
 import { stateSelectedProductsFav } from '../../redux/slices/wishList';
-import { fetchCartProducts } from '../../redux/slices/cartBack';
+import { fetchCartProducts } from '../../redux/slices/cartBackEnd';
 
 function ItemsListPage() {
   const dispatch = useDispatch();
@@ -51,7 +51,6 @@ function ItemsListPage() {
   // Set View Setting
   const { viewCount } = useSelector(filterProdState);
   const [currentView, setCurrentView] = React.useState('9');
-  const bearer = localStorage.getItem('token');
 
   React.useEffect(() => {
     if (viewCount) {
@@ -67,20 +66,17 @@ function ItemsListPage() {
 
   const handleMostPrice = () => {
     dispatch(setMostPrice());
-    if (bearer) {
-      setTimeout(() => {
-        dispatch(fetchCartProducts(bearer));
-      }, 400);
-    }
+    setTimeout(() => {
+      dispatch(fetchCartProducts());
+    }, 400);
   };
 
   const handleLeastPrice = () => {
     dispatch(setLeastPrice());
-    if (bearer) {
-      setTimeout(() => {
-        dispatch(fetchCartProducts(bearer));
-      }, 400);
-    }
+
+    setTimeout(() => {
+      dispatch(fetchCartProducts());
+    }, 400);
   };
 
   const isMobile = useMediaQuery('(max-width:1170px)');

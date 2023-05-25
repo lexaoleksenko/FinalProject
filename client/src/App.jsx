@@ -15,19 +15,20 @@ import LoadingPage from './pages/LoadingPage/LoadingPage';
 import ContactPage from './pages/ContactPage/ContactPage';
 import SuccessfulOrder from './pages/SuccessfulOrderPage/SuccessfulOrder';
 
-import { setSelectedProducts } from './redux/slices/shopping-cart';
+import { setSelectedProducts } from './redux/slices/cartLocal';
 import { setSelectedProductsFav } from './redux/slices/wishList';
-import { fetchCartProducts } from './redux/slices/cartBack';
+import { fetchCartProducts } from './redux/slices/cartBackEnd';
+
+import { isAuthenticated } from './helpers/authentication/authentication';
 
 function App() {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const isAuth = Boolean(localStorage.getItem('token'));
-  const bearer = localStorage.getItem('token');
+  const isAuth = isAuthenticated();
 
   useEffect(() => {
-    if (isAuth && bearer) {
-      dispatch(fetchCartProducts(bearer));
+    if (isAuth) {
+      dispatch(fetchCartProducts());
     }
   }, []);
 

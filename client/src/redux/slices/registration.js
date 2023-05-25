@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { createAsyncReducer } from '../../helpers/toolkit/extraReducers';
 
 export const fetchUserData = createAsyncThunk(
   'registration/fetchUserData',
@@ -27,30 +28,9 @@ const registSlice = createSlice({
   initialState,
   extraReducers: builder => {
     builder
-      .addCase(fetchUserData.pending, state => {
-        const newState = {
-          ...state,
-          status: 'loading',
-          data: null,
-        };
-        return newState;
-      })
-      .addCase(fetchUserData.fulfilled, (state, action) => {
-        const newState = {
-          ...state,
-          status: 'loaded',
-          data: [action.payload],
-        };
-        return newState;
-      })
-      .addCase(fetchUserData.rejected, state => {
-        const newState = {
-          ...state,
-          status: 'error',
-          data: null,
-        };
-        return newState;
-      });
+      .addCase(fetchUserData.pending, createAsyncReducer('data').pending)
+      .addCase(fetchUserData.fulfilled, createAsyncReducer('data').fulfilled)
+      .addCase(fetchUserData.rejected, createAsyncReducer('data').rejected);
   },
 });
 

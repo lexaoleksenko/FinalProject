@@ -18,7 +18,7 @@ import style from './ListCard.module.scss';
 import {
   setSelectedProducts,
   stateSelectedProducts,
-} from '../../../redux/slices/shopping-cart';
+} from '../../../redux/slices/cartLocal';
 
 import {
   setSelectedProductsFav,
@@ -29,7 +29,9 @@ import {
   cartBackState,
   fetchAddProductsCart,
   increaseTotalQuantity,
-} from '../../../redux/slices/cartBack';
+} from '../../../redux/slices/cartBackEnd';
+
+import { isAuthenticated } from '../../../helpers/authentication/authentication';
 
 function ListCard({
   product,
@@ -100,11 +102,10 @@ function ListCard({
   };
 
   // *** AUTHORIZED logic ***
-  const isAuth = Boolean(localStorage.getItem('token'));
-  const bearer = localStorage.getItem('token');
+  const isAuth = isAuthenticated();
 
   const handleBuyCartBack = (e, prodId) => {
-    dispatch(fetchAddProductsCart({ token: bearer, productId: prodId }));
+    dispatch(fetchAddProductsCart({ productId: prodId }));
     dispatch(increaseTotalQuantity());
     setIsDisabled(true);
   };

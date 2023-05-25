@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import InputCheckoutPage from '../../Smart/InputCheckoutPage/InputCheckoutPage';
 import ButtonsCheckoutPage from '../../UI/Buttons/ButtonsCheckoutPage/ButtonsCheckoutPage';
-import { toggleDrawer } from '../../../redux/slices/shopping-cart';
+import { toggleDrawer } from '../../../redux/slices/cartLocal';
 import {
   checkoutState,
   updateFormStatus,

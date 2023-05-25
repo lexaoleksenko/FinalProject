@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { createAsyncReducer } from '../../helpers/toolkit/extraReducers';
 
 export const fetchFilterProducts = createAsyncThunk(
   'filterProducts/fetchFilterProducts',
@@ -73,30 +74,18 @@ export const getFilterProd = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(fetchFilterProducts.pending, state => {
-        const newState = {
-          ...state,
-          status: 'loading',
-          products: null,
-        };
-        return newState;
-      })
-      .addCase(fetchFilterProducts.fulfilled, (state, action) => {
-        const newState = {
-          ...state,
-          status: 'loaded',
-          products: action.payload,
-        };
-        return newState;
-      })
-      .addCase(fetchFilterProducts.rejected, state => {
-        const newState = {
-          ...state,
-          status: 'error',
-          products: null,
-        };
-        return newState;
-      });
+      .addCase(
+        fetchFilterProducts.pending,
+        createAsyncReducer('products').pending,
+      )
+      .addCase(
+        fetchFilterProducts.fulfilled,
+        createAsyncReducer('products').fulfilled,
+      )
+      .addCase(
+        fetchFilterProducts.rejected,
+        createAsyncReducer('products').rejected,
+      );
   },
 });
 

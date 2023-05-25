@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { createAsyncReducer } from '../../helpers/toolkit/extraReducers';
 
 export const fetchCardProduct = createAsyncThunk(
   'cardProduct/fetchCardProduct',
@@ -23,30 +24,15 @@ export const getCardProduct = createSlice({
   initialState,
   extraReducers: builder => {
     builder
-      .addCase(fetchCardProduct.pending, state => {
-        const newState = {
-          ...state,
-          status: 'loading',
-          product: null,
-        };
-        return newState;
-      })
-      .addCase(fetchCardProduct.fulfilled, (state, action) => {
-        const newState = {
-          ...state,
-          status: 'loaded',
-          product: action.payload,
-        };
-        return newState;
-      })
-      .addCase(fetchCardProduct.rejected, state => {
-        const newState = {
-          ...state,
-          status: 'error',
-          product: null,
-        };
-        return newState;
-      });
+      .addCase(fetchCardProduct.pending, createAsyncReducer('product').pending)
+      .addCase(
+        fetchCardProduct.fulfilled,
+        createAsyncReducer('product').fulfilled,
+      )
+      .addCase(
+        fetchCardProduct.rejected,
+        createAsyncReducer('product').rejected,
+      );
   },
 });
 

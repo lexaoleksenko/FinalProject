@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { createAsyncReducer } from '../../helpers/toolkit/extraReducers';
 
 export const fetchUserToken = createAsyncThunk(
   'authorization/fetchUserData',
@@ -38,34 +39,12 @@ const authSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(fetchUserToken.pending, state => {
-        const newState = {
-          ...state,
-          status: 'loading',
-          token: null,
-        };
-        return newState;
-      })
-      .addCase(fetchUserToken.fulfilled, (state, action) => {
-        const newState = {
-          ...state,
-          status: 'loaded',
-          token: [action.payload],
-        };
-        return newState;
-      })
-      .addCase(fetchUserToken.rejected, state => {
-        const newState = {
-          ...state,
-          status: 'error',
-          token: null,
-        };
-        return newState;
-      });
+      .addCase(fetchUserToken.pending, createAsyncReducer('token').pending)
+      .addCase(fetchUserToken.fulfilled, createAsyncReducer('token').fulfilled)
+      .addCase(fetchUserToken.rejected, createAsyncReducer('token').rejected);
   },
 });
 
-export const selectIsAuth = state => Boolean(state.authorization.token);
 export const token = state => state.authorization.token;
 export const { logout } = authSlice.actions;
 export const authReducer = authSlice.reducer;

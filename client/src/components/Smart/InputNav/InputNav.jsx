@@ -4,14 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Popper, Backdrop } from '@mui/material';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import { fetchSearchProduct, searchState } from '../../../redux/slices/search';
-import { stateSelectedProducts } from '../../../redux/slices/shopping-cart';
+import { stateSelectedProducts } from '../../../redux/slices/cartLocal';
 import style from './InputNav.module.scss';
 
 import ShoppingCartItem from '../ShoppingCartItem/ShoppingCartItem';
 import {
   fetchAddProductsCart,
   increaseTotalQuantity,
-} from '../../../redux/slices/cartBack';
+} from '../../../redux/slices/cartBackEnd';
 
 function InputNav({ label }) {
   const dispatch = useDispatch();
@@ -85,9 +85,9 @@ function InputNav({ label }) {
   }, [open]);
 
   // Auth addCartBack
-  const bearer = localStorage.getItem('token');
+
   const handleIncreaseCountBack = prodId => {
-    dispatch(fetchAddProductsCart({ token: bearer, productId: prodId }));
+    dispatch(fetchAddProductsCart({ productId: prodId }));
     dispatch(increaseTotalQuantity());
   };
 
