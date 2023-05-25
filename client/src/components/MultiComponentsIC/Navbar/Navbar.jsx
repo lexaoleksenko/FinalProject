@@ -6,7 +6,7 @@ import {
   Drawer,
   useMediaQuery,
 } from '@mui/material';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../../redux/slices/authorization';
@@ -37,7 +37,11 @@ function Navbar() {
   const cartProducts = useSelector(stateSelectedProducts);
   const { totalQuantityBack } = useSelector(cartBackState);
   const favProducts = useSelector(stateSelectedProductsFav);
+  const navigate = useNavigate();
+
   const handleLogOut = () => {
+    navigate('/');
+    window.location.reload();
     window.localStorage.removeItem('token');
     window.localStorage.removeItem('customer');
     setIsAuth(false);

@@ -35,4 +35,5 @@ const customerSlice = createSlice({
   },
 });
 
+export const customerState = state => state.customer;
 export const customerReducer = customerSlice.reducer;
