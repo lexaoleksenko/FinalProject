@@ -7,8 +7,10 @@ import { NavLink } from 'react-router-dom';
 import {
   setSelectedProducts,
   stateSelectedProducts,
-} from '../../../redux/slices/shopping-cart';
+} from '../../../redux/slices/cartLocal';
 import style from './ShoppingCartItem.module.scss';
+
+import { isAuthenticated } from '../../../helpers/authentication/authentication';
 
 const itemPropType = PropTypes.shape({
   _id: PropTypes.string,
@@ -36,7 +38,7 @@ function ShoppingCartItem({
   decreaseBack,
   popperClose,
 }) {
-  const isAuth = Boolean(localStorage.getItem('token'));
+  const isAuth = isAuthenticated();
   const dispatch = useDispatch();
   const selectedProducts = useSelector(stateSelectedProducts);
   const handleBuyNow = (e, params) => {

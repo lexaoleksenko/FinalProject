@@ -7,10 +7,10 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, NavLink } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
-import { fetchUserToken } from '../../redux/slices/auth';
+import { fetchUserToken } from '../../redux/slices/authorization';
 
 import style from './LogInpage.module.scss';
-import { fetchCartProducts } from '../../redux/slices/cartBack';
+import { fetchCartProducts } from '../../redux/slices/cartBackEnd';
 
 function LogInPage() {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ function LogInPage() {
     }
 
     if (data.payload) {
-      dispatch(fetchCartProducts(data.payload));
+      dispatch(fetchCartProducts());
       navigate('/');
       setStatus(false);
       return window.localStorage.setItem('token', data.payload);

@@ -15,7 +15,7 @@ import {
   Divider,
   Stack,
 } from '@mui/material';
-import { toggleDrawer } from '../../../redux/slices/shopping-cart';
+import { toggleDrawer } from '../../../redux/slices/cartLocal';
 import {
   updateDeliveryAddress,
   updateDeliveryPaymentStatus,

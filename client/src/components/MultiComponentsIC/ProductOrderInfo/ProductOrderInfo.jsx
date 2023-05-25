@@ -6,15 +6,17 @@ import ShoppingCartItem from '../../Smart/ShoppingCartItem/ShoppingCartItem';
 import {
   stateSelectedProducts,
   toggleDrawer,
-} from '../../../redux/slices/shopping-cart';
+} from '../../../redux/slices/cartLocal';
 import FooterShoppingCart from '../../Simple/FooterShoppingCart/FooterShoppingCart';
 import style from './ProductOrderInfo.module.scss';
 import ButtonsCheckoutPage from '../../UI/Buttons/ButtonsCheckoutPage/ButtonsCheckoutPage';
 import { checkoutState, fetchNewOrder } from '../../../redux/slices/checkout';
-import { cartBackState } from '../../../redux/slices/cartBack';
+import { cartBackState } from '../../../redux/slices/cartBackEnd';
+
+import { isAuthenticated } from '../../../helpers/authentication/authentication';
 
 function ProductOrderInfo() {
-  const isAuth = Boolean(localStorage.getItem('token'));
+  const isAuth = isAuthenticated();
   const { productsCartBack } = useSelector(cartBackState);
   const selectedProducts = useSelector(stateSelectedProducts);
 

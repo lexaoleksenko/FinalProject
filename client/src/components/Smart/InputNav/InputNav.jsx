@@ -4,14 +4,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Popper, Backdrop } from '@mui/material';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import { fetchSearchProduct, searchState } from '../../../redux/slices/search';
-import { stateSelectedProducts } from '../../../redux/slices/shopping-cart';
+import { stateSelectedProducts } from '../../../redux/slices/cartLocal';
 import style from './InputNav.module.scss';
 
 import ShoppingCartItem from '../ShoppingCartItem/ShoppingCartItem';
 import {
   fetchAddProductsCart,
   increaseTotalQuantity,
-} from '../../../redux/slices/cartBack';
+} from '../../../redux/slices/cartBackEnd';
 
 function InputNav({ label }) {
   const dispatch = useDispatch();
@@ -19,7 +19,7 @@ function InputNav({ label }) {
   const prodQuantity = prodArr.length <= 0;
 
   const [searchStatusLocal, setSearchStatus] = useState(false);
-  const { searchStatus, searchProducts } = useSelector(searchState);
+  const { status, searchProducts } = useSelector(searchState);
   const selectedProducts = useSelector(stateSelectedProducts);
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -64,10 +64,10 @@ function InputNav({ label }) {
   const open = Boolean(anchorEl);
 
   useEffect(() => {
-    if (searchStatus === 'loaded') {
+    if (status === 'loaded') {
       setProdArr(searchProducts);
     }
-  }, [searchStatus]);
+  }, [status]);
 
   useEffect(() => {
     localStorage.setItem('products', JSON.stringify(selectedProducts));
@@ -85,9 +85,9 @@ function InputNav({ label }) {
   }, [open]);
 
   // Auth addCartBack
-  const bearer = localStorage.getItem('token');
+
   const handleIncreaseCountBack = prodId => {
-    dispatch(fetchAddProductsCart({ token: bearer, productId: prodId }));
+    dispatch(fetchAddProductsCart({ productId: prodId }));
     dispatch(increaseTotalQuantity());
   };
 
@@ -120,7 +120,7 @@ function InputNav({ label }) {
         anchorEl={anchorEl}
         placement="bottom-end"
       >
-        {searchStatus === 'loading' || prodQuantity ? (
+        {status === 'loading' || prodQuantity ? (
           <div className={style.wrapper}>
             <p>Ooops...</p>
             <p>Product not found</p>

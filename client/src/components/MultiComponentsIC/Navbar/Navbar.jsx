@@ -9,12 +9,12 @@ import {
 import { useLocation } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../../redux/slices/auth';
+import { logout } from '../../../redux/slices/authorization';
 import {
   toggleDrawer,
   stateDrawer,
   stateSelectedProducts,
-} from '../../../redux/slices/shopping-cart';
+} from '../../../redux/slices/cartLocal';
 
 import Logo from '../../UI/Logo/Logo';
 import NavLinks from '../../Ordinary/NavLinks/NavLinks';
@@ -25,13 +25,14 @@ import { stateSelectedProductsFav } from '../../../redux/slices/wishList';
 import {
   cartBackState,
   fetchCartProducts,
-} from '../../../redux/slices/cartBack';
+} from '../../../redux/slices/cartBackEnd';
+
+import { isAuthenticated } from '../../../helpers/authentication/authentication';
 
 function Navbar() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [isAuth, setIsAuth] = useState(false);
-  const bearer = localStorage.getItem('token');
   const stateDraw = useSelector(stateDrawer);
   const cartProducts = useSelector(stateSelectedProducts);
   const { totalQuantityBack } = useSelector(cartBackState);
@@ -43,11 +44,11 @@ function Navbar() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
+    const authenticated = isAuthenticated();
+    if (!authenticated) {
       return setIsAuth(false);
     }
-    if (token) {
+    if (authenticated) {
       setIsAuth(true);
     }
   }, [location.pathname]);
@@ -60,7 +61,7 @@ function Navbar() {
     dispatch(toggleDrawer(false));
     setTimeout(() => {
       if (isAuth) {
-        dispatch(fetchCartProducts(bearer));
+        dispatch(fetchCartProducts());
       }
     }, 50);
   };

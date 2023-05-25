@@ -8,20 +8,19 @@ import {
   filterProdState,
   setSelectPage,
 } from '../../../redux/slices/filterProducts';
-import { fetchCartProducts } from '../../../redux/slices/cartBack';
+import { fetchCartProducts } from '../../../redux/slices/cartBackEnd';
 
 function PaginationRounded() {
   const dispatch = useDispatch();
   const [pageTotal, setPageTotal] = useState(null);
   const { products, status, selectPage, viewCount } =
     useSelector(filterProdState);
-  const bearer = localStorage.getItem('token');
 
   const handlePageChange = (event, value) => {
     dispatch(setSelectPage(value));
     if (status === 'loaded') {
       setTimeout(() => {
-        dispatch(fetchCartProducts(bearer));
+        dispatch(fetchCartProducts());
       }, 400);
     }
   };

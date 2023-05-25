@@ -8,7 +8,7 @@ import {
   setSelectedProducts,
   stateSelectedProducts,
   toggleDrawer,
-} from '../../../redux/slices/shopping-cart';
+} from '../../../redux/slices/cartLocal';
 import ShoppingCartItem from '../ShoppingCartItem/ShoppingCartItem';
 import FooterShoppingCart from '../../Simple/FooterShoppingCart/FooterShoppingCart';
 import ButtonDark from '../../UI/Buttons/ButtonDark/ButtonDark';
@@ -21,10 +21,12 @@ import {
   fetchDelProductQuant,
   increaseTotalQuantity,
   decreaseTotalQuantity,
-} from '../../../redux/slices/cartBack';
+} from '../../../redux/slices/cartBackEnd';
+
+import { isAuthenticated } from '../../../helpers/authentication/authentication';
 
 function ShoppingCart() {
-  const isAuth = Boolean(localStorage.getItem('token'));
+  const isAuth = isAuthenticated();
   const dispatch = useDispatch();
 
   // *** Not authorized logic ***
@@ -60,9 +62,8 @@ function ShoppingCart() {
     cartBackLocal !== null ? cartBackLocal.length : false,
   );
 
-  const { productsCartBack, statusCartBack } = useSelector(cartBackState);
-  const bearer = localStorage.getItem('token');
-  const backStatus = statusCartBack && productsCartBack && isAuth;
+  const { productsCartBack, status } = useSelector(cartBackState);
+  const backStatus = status && productsCartBack && isAuth;
 
   useEffect(() => {
     if (productsCartBack) {
@@ -80,7 +81,7 @@ function ShoppingCart() {
   }, [cartBackLocal]);
 
   const handleRemoveItemBack = prodId => {
-    dispatch(fetchDelProductsCart({ token: bearer, productId: prodId }));
+    dispatch(fetchDelProductsCart({ productId: prodId }));
     const updatedCart = cartBackLocal.filter(
       prod => prod.product._id !== prodId,
     );
@@ -88,7 +89,7 @@ function ShoppingCart() {
   };
 
   const handleIncreaseCountBack = prodId => {
-    dispatch(fetchAddProductQuant({ token: bearer, productId: prodId }));
+    dispatch(fetchAddProductQuant({ productId: prodId }));
     const updatedCart = cartBackLocal.map(prod => {
       if (prod.product._id === prodId) {
         return {
@@ -106,7 +107,7 @@ function ShoppingCart() {
     if (count < 2) {
       return;
     }
-    dispatch(fetchDelProductQuant({ token: bearer, productId: prodId }));
+    dispatch(fetchDelProductQuant({ productId: prodId }));
     const updatedCart = cartBackLocal.map(prod => {
       if (prod.product._id === prodId) {
         return {

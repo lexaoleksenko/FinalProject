@@ -1,16 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { fetchData } from '../../helpers/toolkit/fetches';
+import { createAsyncReducer } from '../../helpers/toolkit/extraReducers';
 
 export const fetchFilterProducts = createAsyncThunk(
   'filterProducts/fetchFilterProducts',
   async params => {
-    const filterParams = `${params}` ?? '';
-    try {
-      const { data } = await axios.get(`/api/products/filter?${filterParams}`);
-      return data;
-    } catch (error) {
-      console.warn(error);
-    }
+    const filterParams = `filter?${params}` ?? '';
+    return fetchData(`/api/products/${filterParams}`, 'get');
   },
 );
 
@@ -73,30 +69,18 @@ export const getFilterProd = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(fetchFilterProducts.pending, state => {
-        const newState = {
-          ...state,
-          status: 'loading',
-          products: null,
-        };
-        return newState;
-      })
-      .addCase(fetchFilterProducts.fulfilled, (state, action) => {
-        const newState = {
-          ...state,
-          status: 'loaded',
-          products: action.payload,
-        };
-        return newState;
-      })
-      .addCase(fetchFilterProducts.rejected, state => {
-        const newState = {
-          ...state,
-          status: 'error',
-          products: null,
-        };
-        return newState;
-      });
+      .addCase(
+        fetchFilterProducts.pending,
+        createAsyncReducer('products').pending,
+      )
+      .addCase(
+        fetchFilterProducts.fulfilled,
+        createAsyncReducer('products').fulfilled,
+      )
+      .addCase(
+        fetchFilterProducts.rejected,
+        createAsyncReducer('products').rejected,
+      );
   },
 });
 
