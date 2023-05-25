@@ -1,17 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { fetchData } from '../../helpers/toolkit/fetches';
 import { createAsyncReducer } from '../../helpers/toolkit/extraReducers';
 
 export const fetchFilterProducts = createAsyncThunk(
   'filterProducts/fetchFilterProducts',
   async params => {
-    const filterParams = `${params}` ?? '';
-    try {
-      const { data } = await axios.get(`/api/products/filter?${filterParams}`);
-      return data;
-    } catch (error) {
-      console.warn(error);
-    }
+    const filterParams = `filter?${params}` ?? '';
+    return fetchData(`/api/products/${filterParams}`, 'get');
   },
 );
 

@@ -13,7 +13,7 @@ function MobileModalSearch() {
   const dispatch = useDispatch();
   const [stateDraw, setStateDrawer] = useState(false);
   const [prodArr, setProdArr] = useState([]);
-  const { searchStatus, searchProducts } = useSelector(searchState);
+  const { status, searchProducts } = useSelector(searchState);
   const selectedProducts = useSelector(stateSelectedProducts);
   const prodQuantity = prodArr.length <= 0;
 
@@ -46,10 +46,10 @@ function MobileModalSearch() {
   };
 
   useEffect(() => {
-    if (searchStatus === 'loaded') {
+    if (status === 'loaded') {
       setProdArr(searchProducts);
     }
-  }, [searchStatus]);
+  }, [status]);
 
   useEffect(() => {
     localStorage.setItem('products', JSON.stringify(selectedProducts));
@@ -90,7 +90,7 @@ function MobileModalSearch() {
               overflow: 'hidden',
             }}
           >
-            {searchStatus === 'loading' || prodQuantity ? (
+            {status === 'loading' || prodQuantity ? (
               <div
                 style={{
                   marginLeft: 'auto',

@@ -1,16 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { fetchData } from '../../helpers/toolkit/fetches';
 import { createAsyncReducer } from '../../helpers/toolkit/extraReducers';
 
 export const fetchCardProduct = createAsyncThunk(
   'cardProduct/fetchCardProduct',
   async id => {
-    try {
-      const { data } = await axios.get(`/api/products/${id}`);
-      return data;
-    } catch (error) {
-      console.warn(error);
-    }
+    return fetchData(`/api/products/${id}`, 'get');
   },
 );
 

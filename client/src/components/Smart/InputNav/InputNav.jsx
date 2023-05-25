@@ -19,7 +19,7 @@ function InputNav({ label }) {
   const prodQuantity = prodArr.length <= 0;
 
   const [searchStatusLocal, setSearchStatus] = useState(false);
-  const { searchStatus, searchProducts } = useSelector(searchState);
+  const { status, searchProducts } = useSelector(searchState);
   const selectedProducts = useSelector(stateSelectedProducts);
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -64,10 +64,10 @@ function InputNav({ label }) {
   const open = Boolean(anchorEl);
 
   useEffect(() => {
-    if (searchStatus === 'loaded') {
+    if (status === 'loaded') {
       setProdArr(searchProducts);
     }
-  }, [searchStatus]);
+  }, [status]);
 
   useEffect(() => {
     localStorage.setItem('products', JSON.stringify(selectedProducts));
@@ -120,7 +120,7 @@ function InputNav({ label }) {
         anchorEl={anchorEl}
         placement="bottom-end"
       >
-        {searchStatus === 'loading' || prodQuantity ? (
+        {status === 'loading' || prodQuantity ? (
           <div className={style.wrapper}>
             <p>Ooops...</p>
             <p>Product not found</p>

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from '../../axios';
+import { fetchData } from '../../helpers/toolkit/fetches';
 import { createAsyncReducer } from '../../helpers/toolkit/extraReducers';
 
 export const fetchCartProducts = createAsyncThunk(
@@ -20,48 +21,28 @@ export const fetchCartProducts = createAsyncThunk(
 export const fetchAddProductsCart = createAsyncThunk(
   'cartBackEnd/fetchAddProductsCart',
   async ({ productId }) => {
-    try {
-      const { data } = await axios.put(`/api/cart/${productId}`, null);
-      return data;
-    } catch (error) {
-      console.warn(error);
-    }
+    return fetchData(`/api/cart/${productId}`, 'put');
   },
 );
 
 export const fetchDelProductsCart = createAsyncThunk(
   'cartBackEnd/fetchDelProductsCart',
   async ({ productId }) => {
-    try {
-      const { data } = await axios.delete(`/api/cart/${productId}`);
-      return data;
-    } catch (error) {
-      console.warn(error);
-    }
+    return fetchData(`/api/cart/${productId}`, 'delete');
   },
 );
 
 export const fetchAddProductQuant = createAsyncThunk(
   'cartBackEnd/fetchAddProductsQuant',
   async ({ productId }) => {
-    try {
-      const { data } = await axios.put(`/api/cart/${productId}`, null);
-      return data;
-    } catch (error) {
-      console.warn(error);
-    }
+    return fetchData(`/api/cart/${productId}`, 'put');
   },
 );
 
 export const fetchDelProductQuant = createAsyncThunk(
   'cartBackEnd/fetchDelProductQuant',
   async ({ productId }) => {
-    try {
-      const { data } = await axios.delete(`/api/cart/product/${productId}`);
-      return data;
-    } catch (error) {
-      console.warn(error);
-    }
+    return fetchData(`/api/cart/product/${productId}`, 'delete');
   },
 );
 
