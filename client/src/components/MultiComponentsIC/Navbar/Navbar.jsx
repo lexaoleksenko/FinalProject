@@ -39,6 +39,7 @@ function Navbar() {
   const favProducts = useSelector(stateSelectedProductsFav);
   const handleLogOut = () => {
     window.localStorage.removeItem('token');
+    window.localStorage.removeItem('customer');
     setIsAuth(false);
     return dispatch(logout());
   };

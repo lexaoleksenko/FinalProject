@@ -11,6 +11,7 @@ import { fetchUserToken } from '../../redux/slices/authorization';
 
 import style from './LogInpage.module.scss';
 import { fetchCartProducts } from '../../redux/slices/cartBackEnd';
+import { fetchCustomerData } from '../../redux/slices/customer';
 
 function LogInPage() {
   const dispatch = useDispatch();
@@ -35,10 +36,18 @@ function LogInPage() {
     }
 
     if (data.payload) {
-      dispatch(fetchCartProducts());
-      navigate('/');
       setStatus(false);
-      return window.localStorage.setItem('token', data.payload);
+      window.localStorage.setItem('token', data.payload);
+      dispatch(fetchCustomerData())
+        .then(customer => {
+          dispatch(fetchCartProducts());
+          const customerData = JSON.stringify(customer.payload._id);
+          window.localStorage.setItem('customer', customerData);
+          navigate('/');
+        })
+        .catch(error => {
+          console.warn('Error fetching customer data:', error);
+        });
     }
   };
 

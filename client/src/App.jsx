@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
 import Navbar from './components/MultiComponentsIC/Navbar/Navbar';
@@ -19,16 +19,29 @@ import { setSelectedProducts } from './redux/slices/cartLocal';
 import { setSelectedProductsFav } from './redux/slices/wishList';
 import { fetchCartProducts } from './redux/slices/cartBackEnd';
 
-import { isAuthenticated } from './helpers/authentication/authentication';
+import { isToken } from './helpers/authentication/authentication';
+import { fetchCustomerData } from './redux/slices/customer';
 
 function App() {
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isAuth = isAuthenticated();
+  const isHaveToken = isToken();
 
   useEffect(() => {
-    if (isAuth) {
-      dispatch(fetchCartProducts());
+    if (isHaveToken) {
+      dispatch(fetchCustomerData())
+        .then(customer => {
+          dispatch(fetchCartProducts());
+          const customerData = JSON.stringify(customer.payload._id);
+          window.localStorage.setItem('customer', customerData);
+        })
+        .catch(error => {
+          console.warn('Error fetching customer data:', error);
+          window.localStorage.removeItem('token');
+          window.localStorage.removeItem('customer');
+          navigate('/login');
+        });
     }
   }, []);
 
