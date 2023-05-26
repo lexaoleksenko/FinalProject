@@ -146,15 +146,6 @@ function ItemsListPage() {
               >
                 21
               </button>
-              <button
-                type="button"
-                onClick={setViewProducts}
-                style={{
-                  textDecoration: currentView === 'all' ? 'underline' : '',
-                }}
-              >
-                all
-              </button>
             </div>
             <div>
               <KeyboardDoubleArrowUpIcon onClick={handleMostPrice} />
