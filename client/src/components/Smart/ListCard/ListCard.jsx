@@ -137,7 +137,7 @@ function ListCard({
       sm={sm}
       md={md}
       lg={lg}
-      style={isMobile ? {} : { maxHeight: '440px', marginBottom: '5px' }}
+      style={isMobile ? {} : { maxHeight: '440px' }}
     >
       {' '}
       <Stack spacing={4}>
