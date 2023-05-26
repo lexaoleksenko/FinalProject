@@ -16,7 +16,6 @@ import {
   stateSelectedProductsFav,
 } from '../../../redux/slices/wishList';
 import {
-  // eslint-disable-next-line no-unused-vars
   cartBackState,
   fetchAddProductsCart,
   increaseTotalQuantity,
@@ -100,6 +99,9 @@ function MainCard({
   const location = useLocation();
 
   const handleBuyCartBack = () => {
+    if (isDisabled) {
+      return;
+    }
     dispatch(fetchAddProductsCart({ productId: product._id }));
     dispatch(increaseTotalQuantity());
     setIsDisabled(true);
@@ -121,7 +123,13 @@ function MainCard({
         selectedProducts.some(item => item.itemNo === product.itemNo),
       );
     }
-  }, [selectedProducts, isAuth, productsCartBack, location.pathname]);
+  }, [
+    selectedProducts,
+    isAuth,
+    productsCartBack,
+    location.pathname,
+    product.itemNo,
+  ]);
 
   return (
     <Card className={style.card}>
