@@ -2,10 +2,18 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchData } from '../../helpers/toolkit/fetches';
 import { createAsyncReducer } from '../../helpers/toolkit/extraReducers';
 
-export const fetchFilterProducts = createAsyncThunk(
+export const fetchFilterPhones = createAsyncThunk(
   'filterProducts/fetchFilterProducts',
   async params => {
-    const filterParams = `filter?${params}` ?? '';
+    const filterParams = `filter?categories=phons&${params}` ?? '';
+    return fetchData(`/api/products/${filterParams}`, 'get');
+  },
+);
+
+export const fetchFilterAccessories = createAsyncThunk(
+  'filterProducts/fetchFilterAccessories',
+  async params => {
+    const filterParams = `filter?categories=accessories&${params}` ?? '';
     return fetchData(`/api/products/${filterParams}`, 'get');
   },
 );
@@ -13,8 +21,8 @@ export const fetchFilterProducts = createAsyncThunk(
 const initialState = {
   products: null,
   status: 'loading',
-  filterMinPrice: 600,
-  filterMaxPrice: 2000,
+  filterMinPrice: null,
+  filterMaxPrice: null,
   selectPage: 1,
   viewCount: '9',
   sortPrice: null,
@@ -70,15 +78,27 @@ export const getFilterProd = createSlice({
   extraReducers: builder => {
     builder
       .addCase(
-        fetchFilterProducts.pending,
+        fetchFilterPhones.pending,
         createAsyncReducer('products').pending,
       )
       .addCase(
-        fetchFilterProducts.fulfilled,
+        fetchFilterPhones.fulfilled,
         createAsyncReducer('products').fulfilled,
       )
       .addCase(
-        fetchFilterProducts.rejected,
+        fetchFilterPhones.rejected,
+        createAsyncReducer('products').rejected,
+      )
+      .addCase(
+        fetchFilterAccessories.pending,
+        createAsyncReducer('products').pending,
+      )
+      .addCase(
+        fetchFilterAccessories.fulfilled,
+        createAsyncReducer('products').fulfilled,
+      )
+      .addCase(
+        fetchFilterAccessories.rejected,
         createAsyncReducer('products').rejected,
       );
   },

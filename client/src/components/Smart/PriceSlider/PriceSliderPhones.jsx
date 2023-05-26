@@ -18,12 +18,15 @@ export default function NonLinearSlider() {
 
   const [rangeValues, setRangeValues] = React.useState([]);
 
+  const categoryParams = new URLSearchParams(queryParams);
+  const category = categoryParams.get('categories');
+
   // Resetting the slider when switching to another route
   React.useEffect(() => {
     dispatch(setMinPrice(400));
     dispatch(setMaxPrice(2000));
     setRangeValues([400, 2000]);
-  }, [location.pathname]);
+  }, [location.pathname, category]);
 
   // Getting value from search parameters
   React.useEffect(() => {
