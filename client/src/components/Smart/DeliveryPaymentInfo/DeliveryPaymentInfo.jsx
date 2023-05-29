@@ -23,10 +23,49 @@ import {
   updateShipping,
   checkoutState,
 } from '../../../redux/slices/checkout';
+
+import {
+  fetchNovaPost,
+  novaPostState,
+  updateWarehousesCity,
+} from '../../../redux/slices/novaPost';
 import ButtonsCheckoutPage from '../../UI/Buttons/ButtonsCheckoutPage/ButtonsCheckoutPage';
 
 function DeliveryPaymentInfo({ handelContinue }) {
   const dispatch = useDispatch();
+
+  // NovaPost logic
+
+  const { warehouses, warehousesCity } = useSelector(novaPostState);
+  const [warehousesLocal, setWarehousesLocal] = useState(null);
+
+  useEffect(() => {
+    if (warehouses) {
+      setWarehousesLocal(warehouses);
+    }
+  }, [warehouses]);
+
+  const [viewWarehouses, setViewWarehouses] = useState(20);
+
+  const handleScroll = event => {
+    const container = event.target;
+    if (
+      container.scrollTop + container.clientHeight ===
+      container.scrollHeight
+    ) {
+      setViewWarehouses(viewWarehouses + 20);
+    }
+  };
+
+  useEffect(() => {
+    if (viewWarehouses !== 20)
+      dispatch(
+        fetchNovaPost({
+          fetchLimit: viewWarehouses,
+          fetchCity: warehousesCity,
+        }),
+      );
+  }, [viewWarehouses]);
 
   const { deliveryAddress, shipping, paymentInfo } = useSelector(checkoutState);
 
@@ -61,6 +100,36 @@ function DeliveryPaymentInfo({ handelContinue }) {
           postal: postal[0],
         }),
       );
+      if (value === 'Kyiv 01000') {
+        dispatch(fetchNovaPost({ fetchCity: 'Київ', fetchLimit: 20 }));
+        dispatch(updateWarehousesCity('Київ'));
+        setViewWarehouses(20);
+      }
+      if (value === 'Kharkiv 61000') {
+        dispatch(
+          fetchNovaPost({
+            fetchCity: 'Харків',
+            fetchLimit: 20,
+          }),
+        );
+        dispatch(updateWarehousesCity('Харків'));
+        setViewWarehouses(20);
+      }
+      if (value === 'Lviv 79000') {
+        dispatch(fetchNovaPost({ fetchCity: 'Львів', fetchLimit: 20 }));
+        dispatch(updateWarehousesCity('Львів'));
+        setViewWarehouses(20);
+      }
+      if (value === 'Dnipro 49000') {
+        dispatch(fetchNovaPost({ fetchCity: 'Дніпро', fetchLimit: 20 }));
+        dispatch(updateWarehousesCity('Дніпро'));
+        setViewWarehouses(20);
+      }
+      if (value === 'Odesa 65000') {
+        dispatch(fetchNovaPost({ fetchCity: 'Одеса', fetchLimit: 20 }));
+        dispatch(updateWarehousesCity('Одеса'));
+        setViewWarehouses(20);
+      }
     }
     if (name === 'office') {
       dispatch(
@@ -127,6 +196,7 @@ function DeliveryPaymentInfo({ handelContinue }) {
       deliveryAddress.address &&
       deliveryAddress.postal,
   );
+
   const handelBackToCart = () => {
     dispatch(toggleDrawer(true));
   };
@@ -188,7 +258,7 @@ function DeliveryPaymentInfo({ handelContinue }) {
               <FormControlLabel
                 value="PostOfficeDelivery"
                 control={<Radio />}
-                label="Delivery to the post office"
+                label="Delivery to the Nova Post Office"
               />
               <Box
                 sx={{
@@ -215,27 +285,45 @@ function DeliveryPaymentInfo({ handelContinue }) {
                   <MenuItem value="Kyiv 01000">Kyiv</MenuItem>
                   <MenuItem value="Kharkiv 61000">Kharkiv</MenuItem>
                   <MenuItem value="Lviv 79000">Lviv</MenuItem>
-                  <MenuItem value="Dnipropetrovsk 49000">
-                    Dnipropetrovsk
-                  </MenuItem>
-                  <MenuItem value="Donetsk 83000">Donetsk</MenuItem>
+                  <MenuItem value="Dnipro 49000">Dnipro</MenuItem>
                   <MenuItem value="Odesa 65000">Odesa</MenuItem>
-                  <MenuItem value="Sevastopol 99000">Sevastopol</MenuItem>
                 </Select>
                 <Select
                   name="office"
                   value={deliveryTypeStatus ? '' : deliveryAddress.address}
-                  onChange={handleDeliveryAddress}
+                  onChange={event => {
+                    handleDeliveryAddress(event);
+                  }}
                   displayEmpty
-                  sx={{ minWidth: '200px', margin: '10px 0' }}
+                  sx={{
+                    minWidth: '200px',
+                    maxWidth: '480px',
+                    width: '100%',
+                    margin: '10px 0',
+                  }}
                   disabled={deliveryTypeStatus}
+                  MenuProps={{
+                    PaperProps: {
+                      style: { maxHeight: '300px', overflowX: 'scroll' },
+                      onScroll: handleScroll,
+                    },
+                  }}
                 >
                   <MenuItem value="" disabled>
                     Post Office
                   </MenuItem>
-                  <MenuItem value="officeAdress1">Office 1</MenuItem>
-                  <MenuItem value="officeAdress2">Office 2</MenuItem>
-                  <MenuItem value="officeAdress3">Office 3</MenuItem>
+                  {warehousesLocal &&
+                    warehousesLocal.map((office, index) => {
+                      return (
+                        <MenuItem
+                          value={office.ShortAddress}
+                          style={{ maxWidth: '460px', fontSize: '13px' }}
+                          key={index}
+                        >
+                          {office.Description}
+                        </MenuItem>
+                      );
+                    })}
                 </Select>
                 <Box
                   sx={{
