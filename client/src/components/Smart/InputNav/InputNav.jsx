@@ -16,13 +16,12 @@ import {
 function InputNav({ label }) {
   const dispatch = useDispatch();
   const [prodArr, setProdArr] = useState([]);
-  const prodQuantity = prodArr.length <= 0;
-
   const [searchStatusLocal, setSearchStatus] = useState(false);
   const { status, searchProducts } = useSelector(searchState);
   const selectedProducts = useSelector(stateSelectedProducts);
 
   const [anchorEl, setAnchorEl] = useState(null);
+  const [inputValue, setInputValue] = useState('');
 
   const debounce = (func, delay) => {
     let timeoutId;
@@ -35,18 +34,17 @@ function InputNav({ label }) {
   };
 
   const handleFetchSearch = debounce(event => {
-    const inputElement = event.target;
-    const inputValue = inputElement.value;
-    if (inputValue) {
+    const { value } = event.target;
+    setInputValue(value);
+
+    if (value) {
       const data = {
-        query: inputValue,
+        query: value,
       };
       dispatch(fetchSearchProduct(data));
-      setSearchStatus(false);
     }
-    if (inputValue === '') {
-      setSearchStatus(true);
-    }
+
+    setSearchStatus(value === '');
   }, 1500);
 
   const handleInputClick = event => {
@@ -108,7 +106,7 @@ function InputNav({ label }) {
             onFocus={handleInputClick}
             onChange={event => handleFetchSearch(event)}
           />
-          <span className={style.bar}>{}</span>
+          <span className={style.bar} />
           <label className={style.label}>
             {searchStatusLocal ? 'Search' : label}
           </label>
@@ -120,13 +118,21 @@ function InputNav({ label }) {
         anchorEl={anchorEl}
         placement="bottom-end"
       >
-        {status === 'loading' || prodQuantity ? (
+        {status === 'loaded' && prodArr.length === 0 && inputValue !== '' && (
           <div className={style.wrapper}>
             <p>Ooops...</p>
             <p>Product not found</p>
             <SentimentVeryDissatisfiedIcon fontSize="large" />
           </div>
-        ) : (
+        )}
+
+        {inputValue === '' && (
+          <div className={style.wrapper}>
+            <p>Enter the desired good</p>
+          </div>
+        )}
+
+        {inputValue !== '' && prodArr.length > 0 && (
           <ShoppingCartItem
             items={prodArr}
             searchSettings="false"
@@ -136,17 +142,19 @@ function InputNav({ label }) {
           />
         )}
       </Popper>
-      <Backdrop
-        open={open}
-        onClick={handlePopperClose}
-        style={{
-          zIndex: 1,
-          backgroundColor: 'rgba(0, 0, 0, 0.5)',
-          height: '100%',
-          marginTop: '150px',
-          marginBottom: '0px',
-        }}
-      />
+      {open && (
+        <Backdrop
+          open={open}
+          onClick={handlePopperClose}
+          style={{
+            zIndex: 1,
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            height: '100%',
+            marginTop: '150px',
+            marginBottom: '0px',
+          }}
+        />
+      )}
     </div>
   );
 }
@@ -158,4 +166,5 @@ InputNav.defaultProps = {
 InputNav.propTypes = {
   label: PropTypes.string,
 };
+
 export default InputNav;
