@@ -14,6 +14,7 @@ import SigInPage from './pages/SigInPage/SigInPage';
 import LoadingPage from './pages/LoadingPage/LoadingPage';
 import ContactPage from './pages/ContactPage/ContactPage';
 import SuccessfulOrder from './pages/SuccessfulOrderPage/SuccessfulOrder';
+import PersonalAccount from './pages/PersonalAccount/PersonalAccount';
 
 import { setSelectedProducts } from './redux/slices/cartLocal';
 import { setSelectedProductsFav } from './redux/slices/wishList';
@@ -79,6 +80,7 @@ function App() {
         <Route path="/signup" element={<SigInPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/successful-order" element={<SuccessfulOrder />} />
+        <Route path="/personal-account" element={<PersonalAccount />} />
       </Routes>
       <Footer />
     </>
