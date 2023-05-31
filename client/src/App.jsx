@@ -61,7 +61,7 @@ function App() {
     const timer = setTimeout(() => {
       setLoading(false);
     }, 2000);
-    return () => clearTimeout(timer); // очищаем таймер при размонтировании компонента
+    return () => clearTimeout(timer);
   }, []);
 
   return loading ? (
