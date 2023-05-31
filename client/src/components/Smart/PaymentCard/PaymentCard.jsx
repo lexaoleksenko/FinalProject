@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Box, Grid, Stack, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Grid,
+  Stack,
+  TextField,
+  Typography,
+  useMediaQuery,
+} from '@mui/material';
 
 const CardWrapper = styled(Box)`
   width: 100%;
@@ -8,10 +15,6 @@ const CardWrapper = styled(Box)`
   height: 240px;
   margin: 20px auto;
   position: relative;
-  @media (max-width: 375px) {
-    width: 100%;
-    max-width: 375px;
-  }
 `;
 const CardBack = styled(Box)`
   width: 100%;
@@ -23,6 +26,9 @@ const CardBack = styled(Box)`
   right: 0;
   bottom: 0;
   background: #ececec;
+  @media (max-width: 570px) {
+    bottom: -55px;
+  }
 `;
 const CardBackLine = styled(Box)`
   width: 100%;
@@ -76,7 +82,7 @@ function PaymentCard() {
 
   const handleChangeMounth = value => {
     const regex = /^[0-9\b]+$/;
-    if (regex.test(value)) {
+    if (regex.test(value) && value.length === 2) {
       setIsMounthError(false);
     } else {
       setIsMounthError(true);
@@ -84,7 +90,7 @@ function PaymentCard() {
   };
   const handleChangeYear = value => {
     const regex = /^[0-9\b]+$/;
-    if (regex.test(value)) {
+    if (regex.test(value) && value.length === 2) {
       setIsYearError(false);
     } else {
       setIsYearError(true);
@@ -92,12 +98,15 @@ function PaymentCard() {
   };
   const handleChangeCvv = value => {
     const regex = /^[0-9\b]+$/;
-    if (regex.test(value)) {
+    if (regex.test(value) && value.length === 3) {
       setIsCvvError(false);
     } else {
       setIsCvvError(true);
     }
   };
+
+  const isMobile = useMediaQuery('(max-width:570px)');
+
   return (
     <CardWrapper>
       <CardBack>
@@ -127,7 +136,7 @@ function PaymentCard() {
               style: {
                 width: '91px',
                 textAlign: 'center',
-                fontSize: '12px',
+                fontSize: isMobile ? '10px' : '12px',
                 position: 'absolute',
                 top: '29px',
                 marginLeft: '0px',
@@ -168,17 +177,17 @@ function PaymentCard() {
               alignItems="center"
             >
               <img
-                style={{ width: '60px' }}
+                style={{ width: isMobile ? '30px' : '50px', margin: '0px' }}
                 src="/img_payment/mastercard.png"
                 alt="mastercard_logo"
               />
               <img
-                style={{ width: '60px' }}
+                style={{ width: isMobile ? '30px' : '50px', margin: '0px' }}
                 src="/img_payment/visa.png"
                 alt="visa_logo"
               />
               <img
-                style={{ width: '50px' }}
+                style={{ width: isMobile ? '30px' : '50px', marginLeft: '5px' }}
                 src="/img_payment/maestro.png"
                 alt="maestro_logo"
               />
@@ -196,9 +205,9 @@ function PaymentCard() {
               <TextField
                 FormHelperTextProps={{
                   style: {
-                    width: '330px',
+                    width: isMobile ? '235px' : '330px',
                     textAlign: 'center',
-                    fontSize: '12px',
+                    fontSize: isMobile ? '10px' : '12px',
                     position: 'absolute',
                     top: '29px',
                   },
@@ -338,10 +347,10 @@ function PaymentCard() {
               style: {
                 textAlign: 'center',
                 marginTop: '5px',
-                fontSize: '12px',
+                fontSize: isMobile ? '10px' : '12px',
                 width: '91px',
                 marginRight: '13px',
-                marginInline: '-13px',
+                marginInline: isMobile ? '-21px' : '-13px',
                 position: 'absolute',
                 top: '29px',
               },
@@ -385,10 +394,10 @@ function PaymentCard() {
               style: {
                 textAlign: 'center',
                 marginTop: '5px',
-                fontSize: '12px',
+                fontSize: isMobile ? '10px' : '12px',
                 width: '91px',
                 marginRight: '13px',
-                marginInline: '-13px',
+                marginInline: isMobile ? '-21px' : '-13px',
                 position: 'absolute',
                 top: '29px',
               },
