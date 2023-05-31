@@ -24,6 +24,7 @@ import {
   checkoutState,
 } from '../../../redux/slices/checkout';
 import ButtonsCheckoutPage from '../../UI/Buttons/ButtonsCheckoutPage/ButtonsCheckoutPage';
+import PaymentCard from '../PaymentCard/PaymentCard';
 
 function DeliveryPaymentInfo({ handelContinue }) {
   const dispatch = useDispatch();
@@ -114,9 +115,11 @@ function DeliveryPaymentInfo({ handelContinue }) {
   }, [shipping]);
 
   // LOGIC Payment
-
+  const [paymentMethod, setPaymentMethod] = useState('payment-upon-delivery');
   const handleChangePayment = event => {
-    dispatch(updatePaymentInfo(event.target.value));
+    const { value } = event.target;
+    setPaymentMethod(value);
+    dispatch(updatePaymentInfo(value));
   };
 
   // LOGIC Continue Button
@@ -344,6 +347,7 @@ function DeliveryPaymentInfo({ handelContinue }) {
                 </RadioGroup>
               </FormControl>
             </Box>
+            {paymentMethod === 'payment-by-card' && <PaymentCard />}
           </RadioGroup>
         </Form>
       </Formik>
