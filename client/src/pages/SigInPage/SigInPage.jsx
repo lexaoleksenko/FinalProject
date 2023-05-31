@@ -5,7 +5,7 @@ import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
 import { fetchUserData } from '../../redux/slices/registration';
@@ -157,6 +157,11 @@ function SigInPage() {
             SiGN UP
           </Button>
         </form>
+        <NavLink to="/login">
+          <Button type="button" size="small" variant="contained">
+            Log In
+          </Button>
+        </NavLink>
       </Paper>
     </div>
   );
