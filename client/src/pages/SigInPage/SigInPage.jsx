@@ -103,9 +103,18 @@ function SigInPage() {
                 console.warn('Error fetching customer data:', error);
               });
           } else if (!localCart.length > 0) {
-            dispatch(fetchCartProducts());
-            navigate('/');
-            setStatus(false);
+            dispatch(fetchCustomerData())
+              .then(customer => {
+                const customerData = JSON.stringify(customer.payload._id);
+                window.localStorage.setItem('customer', customerData);
+              })
+              .then(() => {
+                return dispatch(fetchCartProducts());
+              })
+              .then(() => {
+                navigate('/');
+                setStatus(false);
+              });
           }
         }
       };
