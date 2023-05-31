@@ -10,7 +10,10 @@ import { useDispatch } from 'react-redux';
 import { fetchUserToken } from '../../redux/slices/authorization';
 
 import style from './LogInpage.module.scss';
-import { fetchCartProducts } from '../../redux/slices/cartBackEnd';
+import {
+  fetchAddProductsCart,
+  fetchCartProducts,
+} from '../../redux/slices/cartBackEnd';
 import { fetchCustomerData } from '../../redux/slices/customer';
 
 function LogInPage() {
@@ -36,6 +39,13 @@ function LogInPage() {
     }
 
     if (data.payload) {
+      const localCart = JSON.parse(window.localStorage.getItem('products'));
+      if (localCart.length > 0) {
+        // eslint-disable-next-line array-callback-return
+        localCart.map(prod => {
+          dispatch(fetchAddProductsCart({ productId: prod._id }));
+        });
+      }
       setStatus(false);
       window.localStorage.setItem('token', data.payload);
       dispatch(fetchCustomerData())
@@ -43,6 +53,8 @@ function LogInPage() {
           dispatch(fetchCartProducts());
           const customerData = JSON.stringify(customer.payload._id);
           window.localStorage.setItem('customer', customerData);
+        })
+        .then(() => {
           navigate('/');
         })
         .catch(error => {
