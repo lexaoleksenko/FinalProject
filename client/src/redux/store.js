@@ -9,6 +9,7 @@ import { searchReducer } from './slices/search';
 import { checkoutReducer } from './slices/checkout';
 import { cartBackReducer } from './slices/cartBackEnd';
 import { customerReducer } from './slices/customer';
+import { novaPostReducer } from './slices/novaPost';
 
 export const store = configureStore({
   reducer: {
@@ -22,5 +23,6 @@ export const store = configureStore({
     search: searchReducer,
     checkout: checkoutReducer,
     customer: customerReducer,
+    novaPost: novaPostReducer,
   },
 });
