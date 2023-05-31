@@ -128,6 +128,25 @@ function ListCard({
     }
   }, [selectedProducts, isAuth, productsCartBack, product.itemNo]);
 
+  // Logic added BrowsingHistory
+
+  const handleAddBrowsingHistory = () => {
+    const prodBrowsingHistory = JSON.parse(
+      localStorage.getItem('prodBrowsingHistory') || '[]',
+    );
+
+    if (prodBrowsingHistory.length === 4) {
+      prodBrowsingHistory.pop();
+    }
+
+    prodBrowsingHistory.unshift(product);
+
+    localStorage.setItem(
+      'prodBrowsingHistory',
+      JSON.stringify(prodBrowsingHistory),
+    );
+  };
+
   const isMobile = useMediaQuery('(max-width:1170px)');
 
   return (
@@ -142,7 +161,11 @@ function ListCard({
       {' '}
       <Stack spacing={4}>
         <Card className={style.card}>
-          <NavLink to={`/products/${itemNo}`} className={style.mainLink}>
+          <NavLink
+            to={`/products/${itemNo}`}
+            className={style.mainLink}
+            onClick={isAuth && handleAddBrowsingHistory}
+          >
             <CardMedia
               className={style.cardMedia}
               component="img"
@@ -151,7 +174,11 @@ function ListCard({
             />
           </NavLink>
           <CardContent className={style.cardContent}>
-            <NavLink to={`/products/${itemNo}`} className={style.mainLink}>
+            <NavLink
+              to={`/products/${itemNo}`}
+              className={style.mainLink}
+              onClick={isAuth && handleAddBrowsingHistory}
+            >
               <div className={style.typography}>
                 <Typography variant="p">{name}</Typography>
                 <Typography variant="p">{currentPrice}$</Typography>

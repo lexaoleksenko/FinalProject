@@ -5,7 +5,7 @@ import Profile from '../../components/Smart/Profile/Profile';
 
 export default function PersonalAccount() {
   return (
-    <Container maxWidth="lg">
+    <Container maxWidth="lg" sx={{ margin: 'auto' }}>
       <Box>
         <Profile />
       </Box>

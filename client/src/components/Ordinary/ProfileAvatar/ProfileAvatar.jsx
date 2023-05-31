@@ -1,33 +1,70 @@
-import { React } from 'react';
-import { Box, Container, Typography } from '@mui/material';
+import { React, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import { Box, Typography } from '@mui/material';
 import ButtonDark from '../../UI/Buttons/ButtonDark/ButtonDark';
 import AvatarUser from '../../UI/Avatar/AvatapUser';
 import { isAuthenticated } from '../../../helpers/authentication/authentication';
+import { customerState } from '../../../redux/slices/customer';
 
-export default function PersonalAccount() {
+export default function ProfileAvatar({ handleClick }) {
+  const { customer } = useSelector(customerState);
+  const [customerData, setCustomerData] = useState();
+
+  useEffect(() => {
+    if (customer) {
+      setCustomerData(customer);
+    }
+  }, [customer]);
+
   return (
-    <Container maxWidth="lg">
+    <>
       <Typography
         sx={{
           fontSize: '25px',
           fontWeight: '600',
-          marginBottom: '40px',
           textAlign: 'center',
         }}
       >
         My Profile
       </Typography>
-      <Box marginBottom="20px">
-        <AvatarUser isAuth={isAuthenticated()} isProfil />
+      <Box sx={{ margin: 'auto' }}>
+        <AvatarUser
+          isAuth={isAuthenticated()}
+          isProfil
+          nameAvatar={customerData && customerData.firstName}
+          onClickLogOut={() => {
+            return null;
+          }}
+        />
       </Box>
       <Box
         sx={{
-          marginBottom: '45px',
-          marginTop: '95px',
+          margin: 'auto',
+          marginTop: '0px',
         }}
       >
-        <ButtonDark label="save Data" />
+        <Typography fontSize="18px" sx={{ marginBottom: '10px' }}>
+          {customerData && customerData.login}
+        </Typography>
       </Box>
-    </Container>
+      <Box
+        sx={{
+          margin: 'auto',
+          marginBottom: '0px',
+          textAlign: 'center',
+        }}
+      >
+        <ButtonDark label="Log Out" onClick={handleClick} />
+      </Box>
+    </>
   );
 }
+
+ProfileAvatar.defaultProps = {
+  handleClick: null,
+};
+
+ProfileAvatar.propTypes = {
+  handleClick: PropTypes.func,
+};

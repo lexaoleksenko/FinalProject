@@ -28,6 +28,7 @@ import {
 } from '../../../redux/slices/cartBackEnd';
 
 import { isAuthenticated } from '../../../helpers/authentication/authentication';
+import { customerState } from '../../../redux/slices/customer';
 
 function Navbar() {
   const location = useLocation();
@@ -38,6 +39,9 @@ function Navbar() {
   const { totalQuantityBack } = useSelector(cartBackState);
   const favProducts = useSelector(stateSelectedProductsFav);
   const navigate = useNavigate();
+
+  const { customer } = useSelector(customerState);
+  const customerName = customer ? customer.firstName : '';
 
   const handleLogOut = () => {
     navigate('/');
@@ -96,7 +100,7 @@ function Navbar() {
             <NavIcon
               favCount={favProducts.length}
               cartCount={isAuth ? totalQuantityBack : totalQuantity}
-              nameAvatar="Artur Tech"
+              nameAvatar={customerName}
               isAuth={isAuth}
               onClickLogOut={handleLogOut}
               onClickOpenDrawer={handleDrawerOpen}
@@ -115,7 +119,7 @@ function Navbar() {
             <NavLinks
               favCount={favProducts.length}
               cartCount={isAuth ? totalQuantityBack : totalQuantity}
-              nameAvatar="Artur Tech"
+              nameAvatar={customerName}
               isAuth={isAuth}
               onClickLogOut={handleLogOut}
               onClickOpenDrawer={handleDrawerOpen}

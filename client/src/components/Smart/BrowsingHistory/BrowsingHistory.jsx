@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
-import { Box, Typography, Grid, Container } from '@mui/material';
+import { Box, Typography, Grid } from '@mui/material';
 import ListCard from '../ListCard/ListCard';
 
 function BrowsingHistory() {
   const [prodArr, setProdArr] = useState(null);
-  const prodQuantity = prodArr <= 0;
 
   const prodBrowsingHistory = JSON.parse(
     localStorage.getItem('prodBrowsingHistory') || null,
@@ -13,31 +12,37 @@ function BrowsingHistory() {
 
   useEffect(() => {
     setProdArr(prodBrowsingHistory);
-  }, [prodBrowsingHistory]);
+  }, []);
+
+  const prodQuantity = prodArr <= 0;
 
   return (
-    <Container maxWidth="lg">
-      <Box
-        sx={{ width: '100%', backgroundColor: '#ffffff', borderRadius: '10px' }}
+    <Box
+      sx={{
+        width: '100%',
+        backgroundColor: '#ffffff',
+        borderRadius: '10px',
+        padding: '10px',
+      }}
+    >
+      <Typography
+        sx={{ fontSize: '25px', fontWeight: '600', marginLeft: '25px' }}
       >
-        <Typography sx={{ fontSize: '25px', fontWeight: '600' }}>
-          BrowsingHistory
-        </Typography>
-        <Box>
-          {prodQuantity ? (
-            <Grid container spacing={1} margin="auto">
-              <Box>
-                <p>Ooops...</p>
-                <p>
-                  There were no products with suitable filter settings, try
-                  changing your search parameters.
-                </p>
-                <SentimentVeryDissatisfiedIcon fontSize="large" />
-              </Box>
-            </Grid>
-          ) : (
-            <Grid container spacing={1} marginTop={0} marginBottom="auto">
-              {prodArr.map((product, index) => (
+        Browsing History
+      </Typography>
+      <Box>
+        {prodQuantity ? (
+          <Grid container spacing={1} margin="auto">
+            <Box sx={{ width: '100%', textAlign: 'center' }}>
+              <p>Ooops...</p>
+              <p>You still haven&apos;t viewed any items! So sad...</p>
+              <SentimentVeryDissatisfiedIcon fontSize="large" />
+            </Box>
+          </Grid>
+        ) : (
+          <Grid container spacing={1} marginTop={0} marginBottom="auto">
+            {prodArr &&
+              prodArr.map((product, index) => (
                 <ListCard
                   product={product}
                   key={index}
@@ -50,11 +55,10 @@ function BrowsingHistory() {
                   sm={6}
                 />
               ))}
-            </Grid>
-          )}
-        </Box>
+          </Grid>
+        )}
       </Box>
-    </Container>
+    </Box>
   );
 }
 
