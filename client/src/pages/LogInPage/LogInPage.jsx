@@ -39,27 +39,46 @@ function LogInPage() {
     }
 
     if (data.payload) {
+      window.localStorage.setItem('token', data.payload);
+
       const localCart = JSON.parse(window.localStorage.getItem('products'));
       if (localCart.length > 0) {
-        // eslint-disable-next-line array-callback-return
-        localCart.map(prod => {
-          dispatch(fetchAddProductsCart({ productId: prod._id }));
-        });
+        const dispatchCalls = index => {
+          return dispatch(
+            fetchAddProductsCart({ productId: localCart[index]._id }),
+          );
+        };
+
+        const executeDispatch = index => {
+          if (index < localCart.length) {
+            return dispatchCalls(index).then(() => executeDispatch(index + 1));
+          }
+          return Promise.resolve();
+        };
+
+        executeDispatch(0)
+          .then(() => {
+            return dispatch(fetchCustomerData());
+          })
+          .then(customer => {
+            const customerData = JSON.stringify(customer.payload._id);
+            window.localStorage.setItem('customer', customerData);
+          })
+          .then(() => {
+            return dispatch(fetchCartProducts());
+          })
+          .then(() => {
+            navigate('/');
+            setStatus(false);
+          })
+          .catch(error => {
+            console.warn('Error fetching customer data:', error);
+          });
+      } else if (!localCart.length > 0) {
+        dispatch(fetchCartProducts());
+        navigate('/');
+        setStatus(false);
       }
-      setStatus(false);
-      window.localStorage.setItem('token', data.payload);
-      dispatch(fetchCustomerData())
-        .then(customer => {
-          dispatch(fetchCartProducts());
-          const customerData = JSON.stringify(customer.payload._id);
-          window.localStorage.setItem('customer', customerData);
-        })
-        .then(() => {
-          navigate('/');
-        })
-        .catch(error => {
-          console.warn('Error fetching customer data:', error);
-        });
     }
   };
 
@@ -116,7 +135,7 @@ function LogInPage() {
             fullWidth
             disabled={!isValid || status}
           >
-            Log In
+            {!status ? 'Log In' : 'Loading...'}
           </Button>
         </form>
         <NavLink to="/signup">

@@ -32,6 +32,7 @@ import { isAuthenticated } from '../../../helpers/authentication/authentication'
 function Navbar() {
   const location = useLocation();
   const dispatch = useDispatch();
+  const authenticated = isAuthenticated();
   const [isAuth, setIsAuth] = useState(false);
   const stateDraw = useSelector(stateDrawer);
   const cartProducts = useSelector(stateSelectedProducts);
@@ -49,14 +50,13 @@ function Navbar() {
   };
 
   useEffect(() => {
-    const authenticated = isAuthenticated();
     if (!authenticated) {
       return setIsAuth(false);
     }
     if (authenticated) {
       setIsAuth(true);
     }
-  }, [location.pathname]);
+  }, [location.pathname, authenticated]);
 
   const handleDrawerOpen = () => {
     dispatch(toggleDrawer(true));
