@@ -18,7 +18,6 @@ const queryCreator = require("../commonHelpers/queryCreator");
 
 // Controller for creating customer and saving to DB
 exports.createCustomer = (req, res, next) => {
-  console.log("req.body>>>>>", req.body);
   // Clone query object, because validator module mutates req.body, adding other fields to object
   const initialQuery = _.cloneDeep(req.body);
   initialQuery.customerNo = rand();

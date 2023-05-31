@@ -164,7 +164,7 @@ function ListCard({
           <NavLink
             to={`/products/${itemNo}`}
             className={style.mainLink}
-            onClick={handleAddBrowsingHistory}
+            onClick={isAuth && handleAddBrowsingHistory}
           >
             <CardMedia
               className={style.cardMedia}
@@ -177,7 +177,7 @@ function ListCard({
             <NavLink
               to={`/products/${itemNo}`}
               className={style.mainLink}
-              onClick={handleAddBrowsingHistory}
+              onClick={isAuth && handleAddBrowsingHistory}
             >
               <div className={style.typography}>
                 <Typography variant="p">{name}</Typography>
