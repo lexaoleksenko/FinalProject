@@ -149,6 +149,7 @@ function PhonesAccordion() {
 
     const category = params.get('categories');
     if (category !== 'phons') {
+      setPageOne();
       return;
     }
     const color = params.get('color');

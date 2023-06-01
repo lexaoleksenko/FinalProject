@@ -124,6 +124,7 @@ function AccessoriesAccordion() {
 
     const category = params.get('categories');
     if (category !== 'accessories') {
+      setPageOne();
       return;
     }
 
