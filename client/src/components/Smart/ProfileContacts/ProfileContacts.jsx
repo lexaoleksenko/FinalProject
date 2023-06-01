@@ -1,10 +1,9 @@
 import { React, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Box, Grid, TextField } from '@mui/material';
-import { Form, Formik, Field, ErrorMessage } from 'formik';
+import { Form, Formik, Field } from 'formik';
 import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateFormStatus } from '../../../redux/slices/checkout';
 import { isAuthenticated } from '../../../helpers/authentication/authentication';
 import {
   customerState,
@@ -15,15 +14,6 @@ import ButtonDark from '../../UI/Buttons/ButtonDark/ButtonDark';
 function ProfileContacts() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [isFormValid, setIsFormValid] = useState(false);
-
-  const handleIsValid = isValid => {
-    const timer = setTimeout(() => {
-      setIsFormValid(isValid);
-      dispatch(updateFormStatus(isValid));
-    }, 50);
-    return () => clearTimeout(timer);
-  };
 
   // Authenticated Logic
   const isAuth = isAuthenticated();
@@ -42,40 +32,20 @@ function ProfileContacts() {
     }
   }, [isAuth]);
 
-  // logic put Data
-
-  const handleNewData = values => {
-    const newDataBool = Boolean(
-      customer.firstName === values.firstName &&
-        customer.lastName === values.lastName &&
-        customer.phoneNumber === values.phoneNumber &&
-        customer.email === values.email,
-    );
-    if (!newDataBool && isFormValid) {
-      dispatch(fetchNewCustomerData(values));
-    }
-
-    return null;
-  };
-
   // logic disabled Button
 
   const [isDisabledButton, setIsDisabledButton] = useState(true);
 
-  useEffect(() => {
-    if (isFormValid) {
-      setIsDisabledButton(false);
-    }
-    if (!isFormValid) {
-      setIsDisabledButton(true);
-    }
-  }, [isFormValid]);
+  // logic put Data
+
+  const handleNewData = values => {
+    setIsDisabledButton(true);
+    return dispatch(fetchNewCustomerData(values));
+  };
 
   return (
     <Formik
-      onSubmit={values => {
-        handleNewData(values);
-      }}
+      onSubmit={handleNewData}
       initialValues={{
         firstName: customerData && customerData.firstName,
         lastName: customerData && customerData.lastName,
@@ -98,96 +68,109 @@ function ProfileContacts() {
         ),
       })}
     >
-      {({ isValid }) => {
-        handleIsValid(isValid);
+      {({ isValid, values }) => {
+        useEffect(() => {
+          const newDataBool = Boolean(
+            customer.firstName === values.firstName &&
+              customer.lastName === values.lastName &&
+              customer.phoneNumber === values.phoneNumber &&
+              customer.email === values.email,
+          );
+          if (newDataBool || !isValid) {
+            setIsDisabledButton(true);
+          }
+          if (!newDataBool && isValid) {
+            setIsDisabledButton(false);
+          }
+        }, [values, isValid]);
         return (
           <Form>
             <Grid container spacing={5} direction="column">
               <Grid item xs={6} display="flex">
                 <Box width="100%" marginRight="10px" position="relative">
                   <Field type="text" id="firstName" name="firstName">
-                    {({ field }) => (
+                    {({ field, meta }) => (
                       <TextField
                         {...field}
                         label="First Name"
                         variant="outlined"
                         fullWidth
+                        error={meta.touched && meta.error}
+                        helperText={meta.touched && meta.error}
+                        FormHelperTextProps={{
+                          style: {
+                            position: 'absolute',
+                            bottom: '-20px',
+                            fontSize: '13px',
+                          },
+                        }}
                       />
                     )}
                   </Field>
-                  <ErrorMessage
-                    name="firstName"
-                    component="div"
-                    style={{
-                      position: 'absolute',
-                      bottom: '-25px',
-                      color: 'red',
-                    }}
-                  />
                 </Box>
                 <Box width="100%" marginLeft="10px" position="relative">
                   <Field type="text" id="lastName" name="lastName">
-                    {({ field }) => (
+                    {({ field, meta }) => (
                       <TextField
                         {...field}
                         label="Last Name"
                         variant="outlined"
                         fullWidth
+                        error={meta.touched && meta.error}
+                        helperText={meta.touched && meta.error}
+                        FormHelperTextProps={{
+                          style: {
+                            position: 'absolute',
+                            bottom: '-20px',
+                            fontSize: '13px',
+                          },
+                        }}
                       />
                     )}
                   </Field>
-                  <ErrorMessage
-                    name="lastName"
-                    component="div"
-                    style={{
-                      position: 'absolute',
-                      bottom: '-25px',
-                      color: 'red',
-                    }}
-                  />
                 </Box>
               </Grid>
               <Grid item xs={12} position="relative">
                 <Field type="text" id="email" name="email">
-                  {({ field }) => (
+                  {({ field, meta }) => (
                     <TextField
                       {...field}
                       label="Email"
                       variant="outlined"
                       fullWidth
+                      error={meta.touched && meta.error}
+                      helperText={meta.touched && meta.error}
+                      FormHelperTextProps={{
+                        style: {
+                          position: 'absolute',
+                          bottom: '-20px',
+                          fontSize: '13px',
+                        },
+                      }}
                     />
                   )}
                 </Field>
-                <ErrorMessage
-                  name="email"
-                  component="div"
-                  style={{
-                    position: 'absolute',
-                    bottom: '-25px',
-                    color: 'red',
-                  }}
-                />
               </Grid>
               <Grid item xs={12} position="relative">
                 <Field type="phone" id="phoneNumber" name="phoneNumber">
-                  {({ field }) => (
+                  {({ field, meta }) => (
                     <TextField
                       {...field}
                       label="Phone Number"
                       variant="outlined"
                       fullWidth
+                      error={meta.touched && meta.error}
+                      helperText={meta.touched && meta.error}
+                      FormHelperTextProps={{
+                        style: {
+                          position: 'absolute',
+                          bottom: '-20px',
+                          fontSize: '13px',
+                        },
+                      }}
                     />
                   )}
                 </Field>
-                <ErrorMessage
-                  name="phoneNumber"
-                  component="div"
-                  style={{
-                    position: 'absolute',
-                    bottom: '-25px',
-                    color: 'red',
-                  }}
-                />
               </Grid>
             </Grid>
             <Box
@@ -197,7 +180,7 @@ function ProfileContacts() {
               }}
             >
               <ButtonDark
-                label="Edit Data"
+                label="Save"
                 type="submit"
                 style={{ width: '250px' }}
                 disabled={isDisabledButton}

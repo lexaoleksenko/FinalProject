@@ -131,6 +131,31 @@ function MainCard({
     product.itemNo,
   ]);
 
+  // Logic added BrowsingHistory
+
+  useEffect(() => {
+    const prodBrowsingHistory = JSON.parse(
+      localStorage.getItem('prodBrowsingHistory') || '[]',
+    );
+
+    const isProductInHistory = prodBrowsingHistory.some(
+      item => item._id === product._id,
+    );
+
+    if (!isProductInHistory) {
+      if (prodBrowsingHistory.length === 4) {
+        prodBrowsingHistory.pop();
+      }
+
+      prodBrowsingHistory.unshift(product);
+
+      localStorage.setItem(
+        'prodBrowsingHistory',
+        JSON.stringify(prodBrowsingHistory),
+      );
+    }
+  }, [product]);
+
   return (
     <Card className={style.card}>
       <MainCardSlider imageUrls={imageUrls} />
