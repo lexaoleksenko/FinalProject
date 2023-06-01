@@ -7,6 +7,49 @@
     overflow: hidden;
   }
 
+  .categoryContainer {
+    font-size: 20px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    background-color: #ffffff;
+    border-radius: 5px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    padding-top: 0px;
+
+    .current {
+      all: unset;
+      width: 100%;
+      height: 40px;
+      cursor: pointer;
+      color: #ffffff;
+      background-color: #000000;
+      border-radius: 5px;
+      text-align: center;
+      transition: width 400ms, color 400ms;
+      margin-top: 10px;
+    }
+
+    .noCurrent {
+      all: unset;
+      width: 100%;
+      height: 40px;
+      cursor: pointer;
+      color: #9a9a9a;
+      background-color: #cdcdcd;
+      border-radius: 5px;
+      text-align: center;
+      transition: width 400ms, color 400ms;
+      margin-top: 10px;
+
+      &:hover {
+        color: #000000;
+      }
+    }
+  }
+
   .viewProdSetting {
     margin-top: 70px;
     display: flex;

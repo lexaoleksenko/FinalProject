@@ -6,15 +6,15 @@ import {
   Drawer,
   useMediaQuery,
 } from '@mui/material';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../../redux/slices/auth';
+import { logout } from '../../../redux/slices/authorization';
 import {
   toggleDrawer,
   stateDrawer,
   stateSelectedProducts,
-} from '../../../redux/slices/shopping-cart';
+} from '../../../redux/slices/cartLocal';
 
 import Logo from '../../UI/Logo/Logo';
 import NavLinks from '../../Ordinary/NavLinks/NavLinks';
@@ -25,32 +25,42 @@ import { stateSelectedProductsFav } from '../../../redux/slices/wishList';
 import {
   cartBackState,
   fetchCartProducts,
-} from '../../../redux/slices/cartBack';
+} from '../../../redux/slices/cartBackEnd';
+
+import { isAuthenticated } from '../../../helpers/authentication/authentication';
+import { customerState } from '../../../redux/slices/customer';
 
 function Navbar() {
   const location = useLocation();
   const dispatch = useDispatch();
+  const authenticated = isAuthenticated();
   const [isAuth, setIsAuth] = useState(false);
-  const bearer = localStorage.getItem('token');
   const stateDraw = useSelector(stateDrawer);
   const cartProducts = useSelector(stateSelectedProducts);
   const { totalQuantityBack } = useSelector(cartBackState);
   const favProducts = useSelector(stateSelectedProductsFav);
+  const navigate = useNavigate();
+
+  const { customer } = useSelector(customerState);
+  const customerName = customer ? customer.firstName : '';
+
   const handleLogOut = () => {
+    navigate('/');
+    window.location.reload();
     window.localStorage.removeItem('token');
+    window.localStorage.removeItem('customer');
     setIsAuth(false);
     return dispatch(logout());
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
+    if (!authenticated) {
       return setIsAuth(false);
     }
-    if (token) {
+    if (authenticated) {
       setIsAuth(true);
     }
-  }, [location.pathname]);
+  }, [location.pathname, authenticated]);
 
   const handleDrawerOpen = () => {
     dispatch(toggleDrawer(true));
@@ -60,7 +70,7 @@ function Navbar() {
     dispatch(toggleDrawer(false));
     setTimeout(() => {
       if (isAuth) {
-        dispatch(fetchCartProducts(bearer));
+        dispatch(fetchCartProducts());
       }
     }, 50);
   };
@@ -90,7 +100,7 @@ function Navbar() {
             <NavIcon
               favCount={favProducts.length}
               cartCount={isAuth ? totalQuantityBack : totalQuantity}
-              nameAvatar="Artur Tech"
+              nameAvatar={customerName}
               isAuth={isAuth}
               onClickLogOut={handleLogOut}
               onClickOpenDrawer={handleDrawerOpen}
@@ -109,7 +119,7 @@ function Navbar() {
             <NavLinks
               favCount={favProducts.length}
               cartCount={isAuth ? totalQuantityBack : totalQuantity}
-              nameAvatar="Artur Tech"
+              nameAvatar={customerName}
               isAuth={isAuth}
               onClickLogOut={handleLogOut}
               onClickOpenDrawer={handleDrawerOpen}

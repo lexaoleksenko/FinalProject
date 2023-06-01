@@ -6,11 +6,13 @@ import * as Yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import InputCheckoutPage from '../../Smart/InputCheckoutPage/InputCheckoutPage';
 import ButtonsCheckoutPage from '../../UI/Buttons/ButtonsCheckoutPage/ButtonsCheckoutPage';
-import { toggleDrawer } from '../../../redux/slices/shopping-cart';
+import { toggleDrawer } from '../../../redux/slices/cartLocal';
 import {
   checkoutState,
   updateFormStatus,
 } from '../../../redux/slices/checkout';
+import { isAuthenticated } from '../../../helpers/authentication/authentication';
+import { customerState } from '../../../redux/slices/customer';
 
 function FormContacts({ handelContinue }) {
   const dispatch = useDispatch();
@@ -43,6 +45,10 @@ function FormContacts({ handelContinue }) {
     dispatch(toggleDrawer(true));
   };
 
+  // Authenticated Logic
+  const isAuth = isAuthenticated();
+  const { customer } = useSelector(customerState);
+
   // Responsive Logic
 
   const handleScreenSize = () => {
@@ -61,10 +67,10 @@ function FormContacts({ handelContinue }) {
     <>
       <Formik
         initialValues={{
-          firstName: contactsForm.firstName,
-          lastName: contactsForm.lastName,
-          email: contactsForm.email,
-          phoneNumber: contactsForm.phoneNumber,
+          firstName: isAuth ? customer.firstName : contactsForm.firstName,
+          lastName: isAuth ? customer.lastName : contactsForm.lastName,
+          email: isAuth ? customer.email : contactsForm.email,
+          phoneNumber: isAuth ? customer.phoneNumber : contactsForm.phoneNumber,
         }}
         validationSchema={Yup.object({
           firstName: Yup.string()

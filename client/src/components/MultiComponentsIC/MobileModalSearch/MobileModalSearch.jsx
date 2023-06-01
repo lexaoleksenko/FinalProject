@@ -5,15 +5,15 @@ import SearchIcon from '@mui/icons-material/Search';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSearchProduct, searchState } from '../../../redux/slices/search';
-import { fetchAddProductsCart } from '../../../redux/slices/cartBack';
+import { fetchAddProductsCart } from '../../../redux/slices/cartBackEnd';
 import ShoppingCartItem from '../../Smart/ShoppingCartItem/ShoppingCartItem';
-import { stateSelectedProducts } from '../../../redux/slices/shopping-cart';
+import { stateSelectedProducts } from '../../../redux/slices/cartLocal';
 
 function MobileModalSearch() {
   const dispatch = useDispatch();
   const [stateDraw, setStateDrawer] = useState(false);
   const [prodArr, setProdArr] = useState([]);
-  const { searchStatus, searchProducts } = useSelector(searchState);
+  const { status, searchProducts } = useSelector(searchState);
   const selectedProducts = useSelector(stateSelectedProducts);
   const prodQuantity = prodArr.length <= 0;
 
@@ -41,16 +41,15 @@ function MobileModalSearch() {
     setStateDrawer(true);
   };
 
-  const bearer = localStorage.getItem('token');
   const handleIncreaseCountBack = prodId => {
-    dispatch(fetchAddProductsCart({ token: bearer, productId: prodId }));
+    dispatch(fetchAddProductsCart({ productId: prodId }));
   };
 
   useEffect(() => {
-    if (searchStatus === 'loaded') {
+    if (status === 'loaded') {
       setProdArr(searchProducts);
     }
-  }, [searchStatus]);
+  }, [status]);
 
   useEffect(() => {
     localStorage.setItem('products', JSON.stringify(selectedProducts));
@@ -91,7 +90,7 @@ function MobileModalSearch() {
               overflow: 'hidden',
             }}
           >
-            {searchStatus === 'loading' || prodQuantity ? (
+            {status === 'loading' || prodQuantity ? (
               <div
                 style={{
                   marginLeft: 'auto',

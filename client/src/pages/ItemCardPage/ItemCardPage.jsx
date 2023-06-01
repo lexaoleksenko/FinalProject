@@ -12,6 +12,7 @@ import {
 import MainCard from '../../components/Smart/MainCard/MainCard';
 import MainCardSkeleton from '../../components/Smart/MainCard/MainCardSkeleton';
 import CardHelpInfo from '../../components/UI/CardHelpInfo/CardHelpInfo';
+import BrowsingHistory from '../../components/Smart/BrowsingHistory/BrowsingHistory';
 
 import style from './ItemCardPage.module.scss';
 
@@ -32,12 +33,19 @@ function ItemCardPage() {
     }
   }, [status, product]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   if (status === 'loading') {
     return (
-      <div className={style.mainCardContainer}>
-        <MainCardSkeleton />
-        <CardHelpInfo />
-      </div>
+      <Container maxWidth="lg">
+        <div className={style.mainCardContainer}>
+          <MainCardSkeleton />
+          <CardHelpInfo />
+          <BrowsingHistory />
+        </div>
+      </Container>
     );
   }
 
@@ -55,6 +63,7 @@ function ItemCardPage() {
             imageUrls={currentProd.imageUrls}
           />
           <CardHelpInfo />
+          <BrowsingHistory />
         </div>
       </Container>
     );

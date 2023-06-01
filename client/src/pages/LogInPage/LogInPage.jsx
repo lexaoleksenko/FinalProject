@@ -7,10 +7,14 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, NavLink } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
-import { fetchUserToken } from '../../redux/slices/auth';
+import { fetchUserToken } from '../../redux/slices/authorization';
 
 import style from './LogInpage.module.scss';
-import { fetchCartProducts } from '../../redux/slices/cartBack';
+import {
+  fetchAddProductsCart,
+  fetchCartProducts,
+} from '../../redux/slices/cartBackEnd';
+import { fetchCustomerData } from '../../redux/slices/customer';
 
 function LogInPage() {
   const dispatch = useDispatch();
@@ -35,10 +39,55 @@ function LogInPage() {
     }
 
     if (data.payload) {
-      dispatch(fetchCartProducts(data.payload));
-      navigate('/');
-      setStatus(false);
-      return window.localStorage.setItem('token', data.payload);
+      window.localStorage.setItem('token', data.payload);
+
+      const localCart = JSON.parse(window.localStorage.getItem('products'));
+      if (localCart.length > 0) {
+        const dispatchCalls = index => {
+          return dispatch(
+            fetchAddProductsCart({ productId: localCart[index]._id }),
+          );
+        };
+
+        const executeDispatch = index => {
+          if (index < localCart.length) {
+            return dispatchCalls(index).then(() => executeDispatch(index + 1));
+          }
+          return Promise.resolve();
+        };
+
+        executeDispatch(0)
+          .then(() => {
+            return dispatch(fetchCustomerData());
+          })
+          .then(customer => {
+            const customerData = JSON.stringify(customer.payload._id);
+            window.localStorage.setItem('customer', customerData);
+          })
+          .then(() => {
+            return dispatch(fetchCartProducts());
+          })
+          .then(() => {
+            navigate('/');
+            setStatus(false);
+          })
+          .catch(error => {
+            console.warn('Error fetching customer data:', error);
+          });
+      } else if (!localCart.length > 0) {
+        dispatch(fetchCustomerData())
+          .then(customer => {
+            const customerData = JSON.stringify(customer.payload._id);
+            window.localStorage.setItem('customer', customerData);
+          })
+          .then(() => {
+            return dispatch(fetchCartProducts());
+          })
+          .then(() => {
+            navigate('/');
+            setStatus(false);
+          });
+      }
     }
   };
 
@@ -95,7 +144,7 @@ function LogInPage() {
             fullWidth
             disabled={!isValid || status}
           >
-            Log In
+            {!status ? 'Log In' : 'Loading...'}
           </Button>
         </form>
         <NavLink to="/signup">

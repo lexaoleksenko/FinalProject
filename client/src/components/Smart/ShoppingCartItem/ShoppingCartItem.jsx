@@ -7,8 +7,10 @@ import { NavLink } from 'react-router-dom';
 import {
   setSelectedProducts,
   stateSelectedProducts,
-} from '../../../redux/slices/shopping-cart';
+} from '../../../redux/slices/cartLocal';
 import style from './ShoppingCartItem.module.scss';
+
+import { isAuthenticated } from '../../../helpers/authentication/authentication';
 
 const itemPropType = PropTypes.shape({
   _id: PropTypes.string,
@@ -16,6 +18,7 @@ const itemPropType = PropTypes.shape({
   currentPrice: PropTypes.number,
   imageUrls: PropTypes.arrayOf(PropTypes.string),
   count: PropTypes.number,
+  itemNo: PropTypes.string,
 });
 
 const itemsPropType = PropTypes.arrayOf(itemPropType);
@@ -36,7 +39,7 @@ function ShoppingCartItem({
   decreaseBack,
   popperClose,
 }) {
-  const isAuth = Boolean(localStorage.getItem('token'));
+  const isAuth = isAuthenticated();
   const dispatch = useDispatch();
   const selectedProducts = useSelector(stateSelectedProducts);
   const handleBuyNow = (e, params) => {
@@ -144,10 +147,22 @@ function ShoppingCartItem({
     return (
       <div className={style.wrapper}>
         <div className={style.items}>
-          <img className={style.image} src={itemBack.imageUrls[0]} alt="img" />
+          <NavLink to={`/products/${itemBack.itemNo}`} onClick={popperClose}>
+            <img
+              className={style.image}
+              src={itemBack.imageUrls[0]}
+              alt="img"
+            />
+          </NavLink>
           <div className={style.position}>
             <Box className={style.info}>
-              <Typography className={style.name}>{itemBack.name}</Typography>
+              <NavLink
+                to={`/products/${itemBack.itemNo}`}
+                onClick={popperClose}
+                style={{ color: '#000000', textDecoration: 'none' }}
+              >
+                <Typography className={style.name}>{itemBack.name}</Typography>
+              </NavLink>
               <Typography className={style.price}>
                 Price: ${itemBack.currentPrice}
               </Typography>

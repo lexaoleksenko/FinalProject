@@ -1,24 +1,28 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { fetchData } from '../../helpers/toolkit/fetches';
+import { createAsyncReducer } from '../../helpers/toolkit/extraReducers';
 
-export const fetchFilterProducts = createAsyncThunk(
+export const fetchFilterPhones = createAsyncThunk(
   'filterProducts/fetchFilterProducts',
   async params => {
-    const filterParams = `${params}` ?? '';
-    try {
-      const { data } = await axios.get(`/api/products/filter?${filterParams}`);
-      return data;
-    } catch (error) {
-      console.warn(error);
-    }
+    const filterParams = `filter?categories=phons&${params}` ?? '';
+    return fetchData(`/api/products/${filterParams}`, 'get');
+  },
+);
+
+export const fetchFilterAccessories = createAsyncThunk(
+  'filterProducts/fetchFilterAccessories',
+  async params => {
+    const filterParams = `filter?categories=accessories&${params}` ?? '';
+    return fetchData(`/api/products/${filterParams}`, 'get');
   },
 );
 
 const initialState = {
   products: null,
   status: 'loading',
-  filterMinPrice: 600,
-  filterMaxPrice: 2000,
+  filterMinPrice: null,
+  filterMaxPrice: null,
   selectPage: 1,
   viewCount: '9',
   sortPrice: null,
@@ -73,30 +77,30 @@ export const getFilterProd = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(fetchFilterProducts.pending, state => {
-        const newState = {
-          ...state,
-          status: 'loading',
-          products: null,
-        };
-        return newState;
-      })
-      .addCase(fetchFilterProducts.fulfilled, (state, action) => {
-        const newState = {
-          ...state,
-          status: 'loaded',
-          products: action.payload,
-        };
-        return newState;
-      })
-      .addCase(fetchFilterProducts.rejected, state => {
-        const newState = {
-          ...state,
-          status: 'error',
-          products: null,
-        };
-        return newState;
-      });
+      .addCase(
+        fetchFilterPhones.pending,
+        createAsyncReducer('products').pending,
+      )
+      .addCase(
+        fetchFilterPhones.fulfilled,
+        createAsyncReducer('products').fulfilled,
+      )
+      .addCase(
+        fetchFilterPhones.rejected,
+        createAsyncReducer('products').rejected,
+      )
+      .addCase(
+        fetchFilterAccessories.pending,
+        createAsyncReducer('products').pending,
+      )
+      .addCase(
+        fetchFilterAccessories.fulfilled,
+        createAsyncReducer('products').fulfilled,
+      )
+      .addCase(
+        fetchFilterAccessories.rejected,
+        createAsyncReducer('products').rejected,
+      );
   },
 });
 

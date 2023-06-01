@@ -10,17 +10,18 @@ import style from './MainCard.module.scss';
 import {
   setSelectedProducts,
   stateSelectedProducts,
-} from '../../../redux/slices/shopping-cart';
+} from '../../../redux/slices/cartLocal';
 import {
   setSelectedProductsFav,
   stateSelectedProductsFav,
 } from '../../../redux/slices/wishList';
 import {
-  // eslint-disable-next-line no-unused-vars
   cartBackState,
   fetchAddProductsCart,
   increaseTotalQuantity,
-} from '../../../redux/slices/cartBack';
+} from '../../../redux/slices/cartBackEnd';
+
+import { isAuthenticated } from '../../../helpers/authentication/authentication';
 
 function MainCard({
   product,
@@ -94,12 +95,14 @@ function MainCard({
 
   // *** AUTHORIZED logic ***
 
-  const isAuth = Boolean(localStorage.getItem('token'));
-  const bearer = localStorage.getItem('token');
+  const isAuth = isAuthenticated();
   const location = useLocation();
 
   const handleBuyCartBack = () => {
-    dispatch(fetchAddProductsCart({ token: bearer, productId: product._id }));
+    if (isDisabled) {
+      return;
+    }
+    dispatch(fetchAddProductsCart({ productId: product._id }));
     dispatch(increaseTotalQuantity());
     setIsDisabled(true);
   };
@@ -120,7 +123,38 @@ function MainCard({
         selectedProducts.some(item => item.itemNo === product.itemNo),
       );
     }
-  }, [selectedProducts, isAuth, productsCartBack, location.pathname]);
+  }, [
+    selectedProducts,
+    isAuth,
+    productsCartBack,
+    location.pathname,
+    product.itemNo,
+  ]);
+
+  // Logic added BrowsingHistory
+
+  useEffect(() => {
+    const prodBrowsingHistory = JSON.parse(
+      localStorage.getItem('prodBrowsingHistory') || '[]',
+    );
+
+    const isProductInHistory = prodBrowsingHistory.some(
+      item => item._id === product._id,
+    );
+
+    if (!isProductInHistory) {
+      if (prodBrowsingHistory.length === 4) {
+        prodBrowsingHistory.pop();
+      }
+
+      prodBrowsingHistory.unshift(product);
+
+      localStorage.setItem(
+        'prodBrowsingHistory',
+        JSON.stringify(prodBrowsingHistory),
+      );
+    }
+  }, [product]);
 
   return (
     <Card className={style.card}>

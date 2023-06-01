@@ -6,15 +6,17 @@ import ShoppingCartItem from '../../Smart/ShoppingCartItem/ShoppingCartItem';
 import {
   stateSelectedProducts,
   toggleDrawer,
-} from '../../../redux/slices/shopping-cart';
+} from '../../../redux/slices/cartLocal';
 import FooterShoppingCart from '../../Simple/FooterShoppingCart/FooterShoppingCart';
 import style from './ProductOrderInfo.module.scss';
 import ButtonsCheckoutPage from '../../UI/Buttons/ButtonsCheckoutPage/ButtonsCheckoutPage';
 import { checkoutState, fetchNewOrder } from '../../../redux/slices/checkout';
-import { cartBackState } from '../../../redux/slices/cartBack';
+import { cartBackState } from '../../../redux/slices/cartBackEnd';
+
+import { isAuthenticated } from '../../../helpers/authentication/authentication';
 
 function ProductOrderInfo() {
-  const isAuth = Boolean(localStorage.getItem('token'));
+  const isAuth = isAuthenticated();
   const { productsCartBack } = useSelector(cartBackState);
   const selectedProducts = useSelector(stateSelectedProducts);
 
@@ -58,7 +60,6 @@ function ProductOrderInfo() {
   const [paymentMethod, setPaymentMethod] = useState(null);
 
   const countryBool = Boolean(deliveryAddress.country.length > 0);
-  const cityBool = Boolean(deliveryAddress.city.length > 0);
   const addressBool = Boolean(deliveryAddress.address.length > 0);
   const postalBool = Boolean(deliveryAddress.postal.length > 0);
 
@@ -238,16 +239,6 @@ function ProductOrderInfo() {
             variant="p"
           >
             Country: {countryBool ? deliveryAddress.country : ' Not entered'}
-          </Typography>
-          <Typography
-            className={style.section__delivery__info}
-            style={!cityBool ? { color: 'red' } : {}}
-            variant="p"
-          >
-            City:{' '}
-            {cityBool
-              ? deliveryAddress.city.split(' ').shift()
-              : ' Not entered'}
           </Typography>
           <Typography
             className={style.section__delivery__info}

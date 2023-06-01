@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Grid, Container, useMediaQuery } from '@mui/material';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
@@ -17,14 +18,16 @@ import {
 import style from './ItemsList.module.scss';
 import ListCard from '../../components/Smart/ListCard/ListCard';
 import ListCardSkeleton from '../../components/Smart/ListCard/ListCardSkeleton';
-import SimpleAccordion from '../../components/MultiComponentsIC/ProductAccordion/ProductAccordion';
+import PhonesAccordion from '../../components/MultiComponentsIC/ProductAccordion/PhonesAccordion';
+import AccessoriesAccordion from '../../components/MultiComponentsIC/ProductAccordion/AccessoriesAccordion';
 import PaginationRounded from '../../components/Smart/Pagination/Pagination';
-import { stateSelectedProducts } from '../../redux/slices/shopping-cart';
+import { stateSelectedProducts } from '../../redux/slices/cartLocal';
 import { stateSelectedProductsFav } from '../../redux/slices/wishList';
-import { fetchCartProducts } from '../../redux/slices/cartBack';
+import { fetchCartProducts } from '../../redux/slices/cartBackEnd';
 
 function ItemsListPage() {
   const dispatch = useDispatch();
+  const location = useLocation();
   // ALL FILTER LOGIC IS IN THE ACCORDION COMPONENT
 
   const [prodArr, setProdArr] = useState([]);
@@ -51,7 +54,6 @@ function ItemsListPage() {
   // Set View Setting
   const { viewCount } = useSelector(filterProdState);
   const [currentView, setCurrentView] = React.useState('9');
-  const bearer = localStorage.getItem('token');
 
   React.useEffect(() => {
     if (viewCount) {
@@ -67,21 +69,38 @@ function ItemsListPage() {
 
   const handleMostPrice = () => {
     dispatch(setMostPrice());
-    if (bearer) {
-      setTimeout(() => {
-        dispatch(fetchCartProducts(bearer));
-      }, 400);
-    }
+    setTimeout(() => {
+      dispatch(fetchCartProducts());
+    }, 400);
   };
 
   const handleLeastPrice = () => {
     dispatch(setLeastPrice());
-    if (bearer) {
-      setTimeout(() => {
-        dispatch(fetchCartProducts(bearer));
-      }, 400);
-    }
+
+    setTimeout(() => {
+      dispatch(fetchCartProducts());
+    }, 400);
   };
+
+  // logic current categor
+  const queryParams = location.search.substring(1);
+  const categoryParams = new URLSearchParams(queryParams);
+  const category = categoryParams.get('categories');
+
+  const [isPhonesCategory, setIsPhonesCategory] = useState(true);
+
+  const handleIsPhones = () => {
+    setIsPhonesCategory(!isPhonesCategory);
+  };
+
+  React.useEffect(() => {
+    if (category === 'phons') {
+      setIsPhonesCategory(true);
+    }
+    if (category === 'accessories') {
+      setIsPhonesCategory(false);
+    }
+  }, []);
 
   const isMobile = useMediaQuery('(max-width:1170px)');
 
@@ -96,7 +115,7 @@ function ItemsListPage() {
             justifyContent: 'space-between',
           }}
         >
-          <h2 className={style.title}>All categories</h2>
+          <h2 className={style.title}>All Category</h2>
           <div className={style.viewProdSetting}>
             <div>
               <span>View:</span>
@@ -127,15 +146,6 @@ function ItemsListPage() {
               >
                 21
               </button>
-              <button
-                type="button"
-                onClick={setViewProducts}
-                style={{
-                  textDecoration: currentView === 'all' ? 'underline' : '',
-                }}
-              >
-                all
-              </button>
             </div>
             <div>
               <KeyboardDoubleArrowUpIcon onClick={handleMostPrice} />
@@ -146,7 +156,23 @@ function ItemsListPage() {
         </div>
         <Grid display="flex" flexDirection={isMobile ? 'column' : 'row'}>
           <Grid marginRight={isMobile ? '' : 1} marginTop={1}>
-            <SimpleAccordion />
+            <div className={style.categoryContainer}>
+              <button
+                type="button"
+                className={isPhonesCategory ? style.current : style.noCurrent}
+                onClick={isPhonesCategory ? null : handleIsPhones}
+              >
+                phones
+              </button>
+              <button
+                type="button"
+                className={isPhonesCategory ? style.noCurrent : style.current}
+                onClick={isPhonesCategory ? handleIsPhones : null}
+              >
+                accessories
+              </button>
+            </div>
+            {isPhonesCategory ? <PhonesAccordion /> : <AccessoriesAccordion />}
           </Grid>
           {status === 'loading' ? (
             <Grid container spacing={1} marginTop={0} marginBottom={5}>
