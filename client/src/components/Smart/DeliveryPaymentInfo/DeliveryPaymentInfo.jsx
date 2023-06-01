@@ -14,6 +14,7 @@ import {
   TextField,
   Divider,
   Stack,
+  useMediaQuery,
 } from '@mui/material';
 import { toggleDrawer } from '../../../redux/slices/cartLocal';
 import {
@@ -216,18 +217,9 @@ function DeliveryPaymentInfo({ handelContinue }) {
   }, [mainStatus]);
 
   // Responsive Logic
-  const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const handleScreenSize = () => {
-    setIsSmallScreen(window.innerWidth <= 768);
-  };
+  const isSmallScreen = useMediaQuery('(max-width:500px)');
+  const isMediumScreen = useMediaQuery('(max-width:900px)');
 
-  useEffect(() => {
-    handleScreenSize();
-    window.addEventListener('resize', handleScreenSize);
-    return () => {
-      window.removeEventListener('resize', handleScreenSize);
-    };
-  }, []);
   return (
     <>
       <Formik
@@ -253,8 +245,8 @@ function DeliveryPaymentInfo({ handelContinue }) {
             <Box
               sx={{
                 display: 'flex',
-                flexDirection: isSmallScreen ? 'column' : 'row',
-                alignItems: isSmallScreen ? 'stretch' : 'center',
+                flexDirection: isMediumScreen ? 'column' : 'row',
+                alignItems: isMediumScreen ? 'stretch' : 'center',
                 pb: 3,
               }}
             >
@@ -265,12 +257,12 @@ function DeliveryPaymentInfo({ handelContinue }) {
               />
               <Box
                 sx={{
-                  pl: 2,
                   display: 'flex',
-                  flexDirection: isSmallScreen ? 'column' : 'row',
-                  justifyContent: isSmallScreen
+                  flexDirection: isMediumScreen ? 'column' : 'row',
+                  justifyContent: isMediumScreen
                     ? 'space-between'
                     : 'space-around',
+                  alignItems: 'center',
                   width: '100%',
                 }}
               >
@@ -279,7 +271,11 @@ function DeliveryPaymentInfo({ handelContinue }) {
                   value={deliveryTypeStatus ? '' : deliveryAddress.city}
                   onChange={handleDeliveryAddress}
                   displayEmpty
-                  sx={{ minWidth: '120px', margin: '10px 0' }}
+                  sx={{
+                    width: isMediumScreen ? '100%' : '120px',
+                    maxWidth: isSmallScreen ? '320px' : '380px',
+                    margin: '10px 0',
+                  }}
                   disabled={deliveryTypeStatus}
                 >
                   <MenuItem value="" disabled>
@@ -300,7 +296,7 @@ function DeliveryPaymentInfo({ handelContinue }) {
                   displayEmpty
                   sx={{
                     minWidth: '200px',
-                    maxWidth: '480px',
+                    maxWidth: isSmallScreen ? '320px' : '380px',
                     width: '100%',
                     margin: '10px 0',
                   }}
@@ -320,7 +316,7 @@ function DeliveryPaymentInfo({ handelContinue }) {
                       return (
                         <MenuItem
                           value={office.ShortAddress}
-                          style={{ maxWidth: '460px', fontSize: '13px' }}
+                          style={{ maxWidth: '300px', fontSize: '13px' }}
                           key={index}
                         >
                           {office.Description}
@@ -348,8 +344,8 @@ function DeliveryPaymentInfo({ handelContinue }) {
             <Box
               sx={{
                 display: 'flex',
-                flexDirection: isSmallScreen ? 'column' : 'row',
-                alignItems: isSmallScreen ? 'stretch' : 'center',
+                flexDirection: isMediumScreen ? 'column' : 'row',
+                alignItems: isMediumScreen ? 'stretch' : 'center',
                 pb: 3,
               }}
             >
@@ -360,10 +356,9 @@ function DeliveryPaymentInfo({ handelContinue }) {
               />
               <Box
                 sx={{
-                  pl: 2,
                   display: 'flex',
-                  flexDirection: isSmallScreen ? 'column' : 'row',
-                  justifyContent: isSmallScreen
+                  flexDirection: isMediumScreen ? 'column' : 'row',
+                  justifyContent: isMediumScreen
                     ? 'space-between'
                     : 'space-around',
                   alignItems: 'center',
@@ -374,6 +369,12 @@ function DeliveryPaymentInfo({ handelContinue }) {
                   *Delivery only available in Kiev
                 </Typography>
                 <TextField
+                  sx={{
+                    minWidth: '200px',
+                    maxWidth: isSmallScreen ? '320px' : '380px',
+                    width: '100%',
+                    margin: '10px 0',
+                  }}
                   name="inputAddress"
                   label="Address"
                   variant="outlined"
@@ -441,7 +442,7 @@ function DeliveryPaymentInfo({ handelContinue }) {
       </Formik>
       <Stack
         sx={{
-          padding: isSmallScreen ? '30px 20px' : '50px 20px',
+          padding: isMediumScreen ? '30px 20px' : '50px 20px',
         }}
         direction="column"
         spacing={3}
