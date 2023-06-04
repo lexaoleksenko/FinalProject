@@ -10,6 +10,7 @@ import { checkoutReducer } from './slices/checkout';
 import { cartBackReducer } from './slices/cartBackEnd';
 import { customerReducer } from './slices/customer';
 import { novaPostReducer } from './slices/novaPost';
+import { commentingReducer } from './slices/commenting';
 
 export const store = configureStore({
   reducer: {
@@ -24,5 +25,6 @@ export const store = configureStore({
     checkout: checkoutReducer,
     customer: customerReducer,
     novaPost: novaPostReducer,
+    commenting: commentingReducer,
   },
 });

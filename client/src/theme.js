@@ -73,6 +73,10 @@ const theme = createTheme({
       fontSize: '20px',
       fontWeight: 400,
     },
+    span: {
+      fontSize: '14px',
+      fontWeight: 400,
+    },
   },
 });
 
