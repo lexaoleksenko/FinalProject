@@ -10,8 +10,12 @@ import {
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import EditNoteIcon from '@mui/icons-material/EditNote';
+import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import { useDispatch } from 'react-redux';
-import { toogleEditModal } from '../../../redux/slices/commenting';
+import {
+  deleteCommentProduct,
+  toogleEditModal,
+} from '../../../redux/slices/commenting';
 import { isAuthenticated } from '../../../helpers/authentication/authentication';
 
 const CommentsItem = styled(ListItem)`
@@ -54,8 +58,11 @@ function CommentsCardItem({ commentsArray, full }) {
     }
   }, [commentsArray]);
 
-  const handleToggleModal = id => {
-    dispatch(toogleEditModal(id));
+  const handleToggleModal = values => {
+    dispatch(toogleEditModal(values));
+  };
+  const handleDeleteComment = id => {
+    dispatch(deleteCommentProduct(id));
   };
 
   return (
@@ -123,20 +130,33 @@ function CommentsCardItem({ commentsArray, full }) {
                     readOnly
                   />
                   {isCustomerComment && (
-                    <IconButton
-                      style={{
-                        color: '#000000',
-                        fontSize: '20px',
-                      }}
-                      onClick={() => {
-                        handleToggleModal({
-                          id: comments._id,
-                          data: commentsObj,
-                        });
-                      }}
-                    >
-                      <EditNoteIcon />
-                    </IconButton>
+                    <>
+                      <IconButton
+                        style={{
+                          color: '#000000',
+                          fontSize: '20px',
+                        }}
+                        onClick={() => {
+                          handleToggleModal({
+                            id: comments._id,
+                            data: commentsObj,
+                          });
+                        }}
+                      >
+                        <EditNoteIcon />
+                      </IconButton>
+                      <IconButton
+                        style={{
+                          color: '#000000',
+                          fontSize: '20px',
+                        }}
+                        onClick={() => {
+                          handleDeleteComment(comments._id);
+                        }}
+                      >
+                        <DeleteSweepIcon />
+                      </IconButton>
+                    </>
                   )}
                 </AuthorNameRating>
                 <CommentsText variant="div">

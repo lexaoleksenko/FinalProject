@@ -46,6 +46,20 @@ export const editCommentProduct = createAsyncThunk(
   },
 );
 
+export const deleteCommentProduct = createAsyncThunk(
+  'commenting/deleteCommentProduct',
+  async commentId => {
+    console.log('commentId_RED', commentId);
+    try {
+      const { data } = await axios.delete(`/api/comments/${commentId}`);
+      console.log('data', data);
+      return data;
+    } catch (error) {
+      console.warn('axiosErr', error);
+    }
+  },
+);
+
 const initialState = {
   productComments: null,
   newComment: null,
@@ -112,6 +126,18 @@ const commentingSlice = createSlice({
       )
       .addCase(
         editCommentProduct.rejected,
+        createAsyncReducer('newComment').rejected,
+      )
+      .addCase(
+        deleteCommentProduct.pending,
+        createAsyncReducer('newComment').pending,
+      )
+      .addCase(
+        deleteCommentProduct.fulfilled,
+        createAsyncReducer('newComment').fulfilled,
+      )
+      .addCase(
+        deleteCommentProduct.rejected,
         createAsyncReducer('newComment').rejected,
       );
   },
