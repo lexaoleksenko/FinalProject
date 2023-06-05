@@ -15,6 +15,7 @@ import CardHelpInfo from '../../components/UI/CardHelpInfo/CardHelpInfo';
 import BrowsingHistory from '../../components/Smart/BrowsingHistory/BrowsingHistory';
 
 import style from './ItemCardPage.module.scss';
+import CardComments from '../../components/Smart/CardComments/CardComments';
 
 function ItemCardPage() {
   const dispatch = useDispatch();
@@ -22,6 +23,10 @@ function ItemCardPage() {
   const { status, product } = useSelector(cardProductState);
   const match = useMatch('/products/:itemNo');
   const { itemNo } = match.params;
+
+  useEffect(() => {
+    setCurrentProd(null);
+  }, []);
 
   useEffect(() => {
     dispatch(fetchCardProduct(itemNo));
@@ -42,6 +47,7 @@ function ItemCardPage() {
       <Container maxWidth="lg">
         <div className={style.mainCardContainer}>
           <MainCardSkeleton />
+          <CardComments skeleton />
           <CardHelpInfo />
           <BrowsingHistory />
         </div>
@@ -49,7 +55,7 @@ function ItemCardPage() {
     );
   }
 
-  if (currentProd && status === 'loaded') {
+  if (currentProd === product && status === 'loaded') {
     return (
       <Container maxWidth="lg">
         {' '}
@@ -62,6 +68,7 @@ function ItemCardPage() {
             color={currentProd.color}
             imageUrls={currentProd.imageUrls}
           />
+          <CardComments prodId={currentProd._id} />
           <CardHelpInfo />
           <BrowsingHistory />
         </div>

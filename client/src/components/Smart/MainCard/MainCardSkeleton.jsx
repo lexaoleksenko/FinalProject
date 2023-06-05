@@ -8,10 +8,8 @@ function MainCardSkeleton() {
   return (
     <Card className={style.card}>
       <Skeleton
-        variant="rectangular"
-        width="900px"
-        height="100%"
-        style={{ marginTop: 5, marginBottom: 5 }}
+        variant="rounded"
+        style={{ marginTop: 5, marginBottom: 5, width: '100%', height: '100%' }}
       />
       <div className={style.cardContent}>
         <Skeleton variant="text" width="70%" height="70px" />

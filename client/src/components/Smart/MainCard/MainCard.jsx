@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Card, CardContent, Typography } from '@mui/material';
+import {
+  Card,
+  CardContent,
+  Typography,
+  Modal,
+  Box,
+  useMediaQuery,
+} from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -156,48 +163,86 @@ function MainCard({
     }
   }, [product]);
 
+  // logick modalImg
+
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
+  const handleToggleModal = () => {
+    setIsOpenModal(!isOpenModal);
+  };
+
+  // mob display logic
+
+  const isMobile = useMediaQuery('(max-width:760px)');
+
   return (
-    <Card className={style.card}>
-      <MainCardSlider imageUrls={imageUrls} />
-      <CardContent className={style.cardContent}>
-        <div className={style.typography}>
-          <Typography variant="p">{name}</Typography>
-          <Typography variant="p">{currentPrice}$</Typography>
-        </div>
-        <div className={style.cardDescrip}>
-          <Typography variant="p">Color: {color}</Typography>
-          <Typography variant="p">{description}</Typography>
-        </div>
-        <div className={style.cardIcon}>
-          <NavLink onClick={isAuth ? handleBuyCartBack : handleBuyNow}>
-            <ButtonDark
-              label={isDisabled ? 'Added' : 'BUY NOW'}
-              disabled={isDisabled}
-              style={{ fontWeight: 800, fontSize: 25 }}
-            />
-          </NavLink>
-          <button
-            className={style.cardFavButton}
-            type="button"
-            onClick={handleToggleFavorite}
-          >
-            {isFavorite ? (
-              <FavoriteIcon
-                style={{ color: 'red', width: 55, height: 55, borderRadius: 5 }}
+    <>
+      <Card className={style.card}>
+        <Box style={isMobile ? { width: '100%' } : { width: '48%' }}>
+          <MainCardSlider
+            imageUrls={imageUrls}
+            toggleModal={handleToggleModal}
+          />
+        </Box>
+        <CardContent className={style.cardContent}>
+          <div className={style.typography}>
+            <Typography variant="p">{name}</Typography>
+            <Typography variant="p">{currentPrice}$</Typography>
+          </div>
+          <div className={style.cardDescrip}>
+            <Typography variant="p">Color: {color}</Typography>
+            <Typography variant="p">{description}</Typography>
+          </div>
+          <div className={style.cardIcon}>
+            <NavLink onClick={isAuth ? handleBuyCartBack : handleBuyNow}>
+              <ButtonDark
+                label={isDisabled ? 'Added' : 'BUY NOW'}
+                disabled={isDisabled}
+                style={{ fontWeight: 800, fontSize: 25 }}
               />
-            ) : (
-              <FavoriteIcon
-                style={{
-                  width: 55,
-                  height: 55,
-                  borderRadius: 5,
-                }}
-              />
-            )}
-          </button>
-        </div>
-      </CardContent>
-    </Card>
+            </NavLink>
+            <button
+              className={style.cardFavButton}
+              type="button"
+              onClick={handleToggleFavorite}
+            >
+              {isFavorite ? (
+                <FavoriteIcon
+                  style={{
+                    color: 'red',
+                    width: 55,
+                    height: 55,
+                    borderRadius: 5,
+                  }}
+                />
+              ) : (
+                <FavoriteIcon
+                  style={{
+                    width: 55,
+                    height: 55,
+                    borderRadius: 5,
+                  }}
+                />
+              )}
+            </button>
+          </div>
+        </CardContent>
+      </Card>
+      <Modal
+        open={isOpenModal}
+        onClose={handleToggleModal}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: '10px',
+        }}
+      >
+        <Box style={isMobile ? { width: '100%' } : { width: '48%' }}>
+          <MainCardSlider imageUrls={imageUrls} arrows />
+        </Box>
+      </Modal>
+    </>
   );
 }
 
