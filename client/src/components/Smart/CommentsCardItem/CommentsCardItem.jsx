@@ -1,8 +1,18 @@
-/* eslint-disable react/forbid-prop-types */
 import React, { useEffect, useState } from 'react';
-import { Box, ListItem, Typography, Avatar, Rating } from '@mui/material';
+import {
+  Box,
+  ListItem,
+  Typography,
+  Avatar,
+  Rating,
+  IconButton,
+} from '@mui/material';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import { useDispatch } from 'react-redux';
+import { toogleEditModal } from '../../../redux/slices/commenting';
+import { isAuthenticated } from '../../../helpers/authentication/authentication';
 
 const CommentsItem = styled(ListItem)`
   background-color: white;
@@ -31,7 +41,10 @@ const CommentsText = styled(Typography)`
 `;
 
 function CommentsCardItem({ commentsArray, full }) {
+  const dispatch = useDispatch();
   const [commentsState, setCommentsState] = useState(null);
+
+  const isAuth = isAuthenticated();
 
   useEffect(() => {
     if (commentsArray) {
@@ -41,20 +54,42 @@ function CommentsCardItem({ commentsArray, full }) {
     }
   }, [commentsArray]);
 
+  const handleToggleModal = id => {
+    dispatch(toogleEditModal(id));
+  };
+
   return (
     <Box>
       {commentsState && commentsState.length > 0 ? (
         commentsState.map(comments => {
           const commentsObj = comments.content
-            .split(',')
+            .split('`')
             .reduce((acc, entry) => {
               const [key, value] = entry.split(':');
               acc[key] = value;
               return acc;
             }, {});
+
+          const itHaveParagraphs = Boolean(commentsObj.comment.includes('\n'));
+
+          const formattedComment = itHaveParagraphs
+            ? commentsObj.comment
+                .split('\n')
+                .map((line, index) => <p key={index}>{line}</p>)
+            : commentsObj.comment;
+
           const firstLetter = comments.customer.firstName
             .charAt(0)
             .toUpperCase();
+
+          const isCustomerComment = isAuth
+            ? Boolean(
+                String(
+                  window.localStorage.getItem('customer').replace(/"/g, ''),
+                ) === String(comments.customer._id),
+              )
+            : false;
+
           return (
             <CommentsItem key={comments._id}>
               <Avatar
@@ -87,6 +122,22 @@ function CommentsCardItem({ commentsArray, full }) {
                     value={Number(commentsObj.rating)}
                     readOnly
                   />
+                  {isCustomerComment && (
+                    <IconButton
+                      style={{
+                        color: '#000000',
+                        fontSize: '20px',
+                      }}
+                      onClick={() => {
+                        handleToggleModal({
+                          id: comments._id,
+                          data: commentsObj,
+                        });
+                      }}
+                    >
+                      <EditNoteIcon />
+                    </IconButton>
+                  )}
                 </AuthorNameRating>
                 <CommentsText variant="div">
                   <Typography fontSize="14px" marginLeft="15px">
@@ -110,7 +161,7 @@ function CommentsCardItem({ commentsArray, full }) {
                     {commentsObj.flaws}
                   </Typography>
                   <Typography marginLeft="15px" marginTop="10px">
-                    {commentsObj.comment}
+                    {formattedComment}
                   </Typography>
                 </CommentsText>
               </CommentsContent>
@@ -134,6 +185,8 @@ function CommentsCardItem({ commentsArray, full }) {
     </Box>
   );
 }
+
+/* eslint-disable react/forbid-prop-types */
 
 CommentsCardItem.defaultProps = {
   full: false,

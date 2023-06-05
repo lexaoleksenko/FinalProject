@@ -1,33 +1,32 @@
-/* eslint-disable no-unused-vars */
 import { React, useEffect, useState } from 'react';
 import { Box, Grid, TextField, Rating, FormHelperText } from '@mui/material';
 import { Form, Formik, Field } from 'formik';
 import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { isAuthenticated } from '../../../helpers/authentication/authentication';
 
 import ButtonDark from '../../UI/Buttons/ButtonDark/ButtonDark';
 import {
   addNewCommentProduct,
+  commentsProductState,
+  editCommentProduct,
   fetchProductComments,
 } from '../../../redux/slices/commenting';
 
-function CommentsForm({ toggleModal, prodId }) {
+function CommentsForm({ toggleModal, prodId, editForm }) {
   const dispatch = useDispatch();
-
-  // Authenticated Logic
-  const isAuth = isAuthenticated();
 
   // logic disabled Button
   const [isDisabledButton, setIsDisabledButton] = useState(true);
+
+  // logic new comment
 
   const handleNewData = values => {
     setIsDisabledButton(true);
     const commentsDataObj = { ...values };
     const commentsDataStr = Object.entries(commentsDataObj)
       .map(([key, value]) => `${key}:${value}`)
-      .join(',');
+      .join('`');
 
     const fetchNewCommentData = {
       product: prodId,
@@ -40,24 +39,64 @@ function CommentsForm({ toggleModal, prodId }) {
     }
   };
 
+  // logic edit comment
+
+  const { editCommentId, editCommentData } = useSelector(commentsProductState);
+
+  const handleEditData = values => {
+    setIsDisabledButton(true);
+    const commentsDataObj = { ...values };
+    const commentsDataStr = Object.entries(commentsDataObj)
+      .map(([key, value]) => `${key}:${value}`)
+      .join('`');
+
+    const fetchNewCommentData = {
+      content: commentsDataStr,
+    };
+
+    if (fetchNewCommentData) {
+      dispatch(
+        editCommentProduct({
+          newComment: fetchNewCommentData,
+          commentId: editCommentId,
+        }),
+      );
+      dispatch(fetchProductComments);
+      toggleModal();
+    }
+  };
+
   return (
     <Formik
-      onSubmit={handleNewData}
-      initialValues={{
-        advantages: '',
-        flaws: '',
-        comment: '',
-        rating: '',
-      }}
+      onSubmit={editForm ? handleEditData : handleNewData}
+      initialValues={
+        editForm
+          ? {
+              advantages: editCommentData ? editCommentData.advantages : '',
+              flaws: editCommentData ? editCommentData.flaws : '',
+              comment: editCommentData ? editCommentData.comment : '',
+              rating: editCommentData ? editCommentData.rating : '',
+            }
+          : {
+              advantages: '',
+              flaws: '',
+              comment: '',
+              rating: '',
+            }
+      }
       validationSchema={Yup.object({
         advantages: Yup.string()
-          .matches(/^[A-Za-z0-9 ,.!?]*$/, 'Please enter valid advantages')
+          .matches(/^[A-Za-z0-9 ,.!'-?]*$/, 'Please enter valid advantages')
           .required('Advantages is required*'),
         flaws: Yup.string()
-          .matches(/^[A-Za-z0-9 ,.!?]*$/, 'Please enter valid flaws')
+          .matches(/^[A-Za-z0-9 ,.!'-?]*$/, 'Please enter valid flaws')
           .required('Flaws is required*'),
         comment: Yup.string()
-          .matches(/^[A-Za-z0-9 ,.!?]*$/, 'Please enter valid comment')
+          .matches(
+            /^([A-Za-z0-9 ,.'!?()\n-])*$/,
+            'Please enter valid advantages',
+            'Please enter valid comment',
+          )
           .required('Comment is required*'),
         rating: Yup.number().required('Rating is required*'),
       })}
@@ -93,7 +132,7 @@ function CommentsForm({ toggleModal, prodId }) {
                     <>
                       <Rating
                         name={field.name}
-                        value={field.value}
+                        value={Number(field.value)}
                         onChange={field.onChange}
                         onBlur={field.onBlur}
                       />
@@ -176,13 +215,8 @@ function CommentsForm({ toggleModal, prodId }) {
                   {({ field, meta }) => (
                     <TextField
                       {...field}
-                      sx={{
-                        '& input': {
-                          height: '200px',
-                        },
-                      }}
                       multiline
-                      rows={5}
+                      rows={10}
                       label="Comment:"
                       variant="outlined"
                       fullWidth
@@ -233,11 +267,13 @@ function CommentsForm({ toggleModal, prodId }) {
 CommentsForm.defaultProps = {
   toggleModal: null,
   prodId: null,
+  editForm: false,
 };
 
 CommentsForm.propTypes = {
   toggleModal: PropTypes.func,
   prodId: PropTypes.string,
+  editForm: PropTypes.bool,
 };
 
 export default CommentsForm;

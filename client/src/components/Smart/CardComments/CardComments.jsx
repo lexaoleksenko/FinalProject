@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -6,8 +5,6 @@ import {
   List,
   ListItem,
   Typography,
-  Avatar,
-  Rating,
   Modal,
   Skeleton,
   Drawer,
@@ -23,6 +20,7 @@ import {
   clearComments,
   commentsProductState,
   fetchProductComments,
+  toogleEditModal,
 } from '../../../redux/slices/commenting';
 import CommentsForm from '../CommentsForm/CommentsForm';
 import CommentsCardItem from '../CommentsCardItem/CommentsCardItem';
@@ -62,7 +60,7 @@ const DrawerCommentsListWrapp = styled(Box)`
   margin-top: 40px;
 `;
 
-function CardComments({ prodId, full, skeleton }) {
+function CardComments({ prodId, skeleton }) {
   const dispatch = useDispatch();
   const isAuth = isAuthenticated();
   const { productComments, newComment, status } =
@@ -88,15 +86,23 @@ function CardComments({ prodId, full, skeleton }) {
     }
   }, [productComments]);
 
-  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isOpenAddModal, setIsOpenAddModal] = useState(false);
   const [isOpenDrawer, setIsOpenDrawer] = useState(false);
 
   const handleToggleDrawer = () => {
     setIsOpenDrawer(!isOpenDrawer);
   };
 
-  const handleToggleModal = () => {
-    setIsOpenModal(!isOpenModal);
+  const handleToggleAddModal = () => {
+    setIsOpenAddModal(!isOpenAddModal);
+  };
+
+  // edit logic
+
+  const { isEditModalOpen } = useSelector(commentsProductState);
+
+  const handleToggleEditModal = () => {
+    dispatch(toogleEditModal({ id: null, data: null }));
   };
 
   if (status === 'loading' || skeleton) {
@@ -122,7 +128,7 @@ function CardComments({ prodId, full, skeleton }) {
               minWidth: '90px',
               marginLeft: 'auto',
             }}
-            onClick={handleToggleModal}
+            onClick={handleToggleAddModal}
           />
         </TitleWrapper>
         <CommentsList>
@@ -164,7 +170,7 @@ function CardComments({ prodId, full, skeleton }) {
             minWidth: '90px',
             marginLeft: 'auto',
           }}
-          onClick={handleToggleModal}
+          onClick={handleToggleAddModal}
         />
       </TitleWrapper>
       <CommentsList>
@@ -179,9 +185,14 @@ function CardComments({ prodId, full, skeleton }) {
         }}
         onClick={handleToggleDrawer}
       />
-      <ModalForm open={isOpenModal} onClose={handleToggleModal}>
+      <ModalForm open={isOpenAddModal} onClose={handleToggleAddModal}>
         <Box>
-          <CommentsForm toggleModal={handleToggleModal} prodId={prodId} />
+          <CommentsForm toggleModal={handleToggleAddModal} prodId={prodId} />
+        </Box>
+      </ModalForm>
+      <ModalForm open={isEditModalOpen} onClose={handleToggleEditModal}>
+        <Box>
+          <CommentsForm toggleModal={handleToggleEditModal} editForm />
         </Box>
       </ModalForm>
       <CommentsDrawer
@@ -220,13 +231,11 @@ function CardComments({ prodId, full, skeleton }) {
 
 CardComments.defaultProps = {
   prodId: null,
-  full: false,
   skeleton: false,
 };
 
 CardComments.propTypes = {
   prodId: PropTypes.string,
-  full: PropTypes.bool,
   skeleton: PropTypes.bool,
 };
 

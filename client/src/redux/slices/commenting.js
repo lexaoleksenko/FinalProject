@@ -26,10 +26,33 @@ export const addNewCommentProduct = createAsyncThunk(
   },
 );
 
+export const editCommentProduct = createAsyncThunk(
+  'commenting/editCommentProduct',
+  async ({ newComment, commentId }) => {
+    try {
+      const { data } = await axios.put(
+        `/api/comments/${commentId}`,
+        newComment,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      );
+      return data;
+    } catch (error) {
+      console.warn(error);
+    }
+  },
+);
+
 const initialState = {
   productComments: null,
   newComment: null,
   status: 'loading',
+  isEditModalOpen: false,
+  editCommentId: null,
+  editCommentData: null,
 };
 
 const commentingSlice = createSlice({
@@ -40,6 +63,15 @@ const commentingSlice = createSlice({
       const newState = {
         ...state,
         productComments: null,
+      };
+      return newState;
+    },
+    toogleEditModal: (state, action) => {
+      const newState = {
+        ...state,
+        isEditModalOpen: !state.isEditModalOpen,
+        editCommentId: action.payload.id,
+        editCommentData: action.payload.data,
       };
       return newState;
     },
@@ -69,9 +101,21 @@ const commentingSlice = createSlice({
       .addCase(
         addNewCommentProduct.rejected,
         createAsyncReducer('newComment').rejected,
+      )
+      .addCase(
+        editCommentProduct.pending,
+        createAsyncReducer('newComment').pending,
+      )
+      .addCase(
+        editCommentProduct.fulfilled,
+        createAsyncReducer('newComment').fulfilled,
+      )
+      .addCase(
+        editCommentProduct.rejected,
+        createAsyncReducer('newComment').rejected,
       );
   },
 });
-export const { clearComments } = commentingSlice.actions;
+export const { clearComments, toogleEditModal } = commentingSlice.actions;
 export const commentsProductState = state => state.commenting;
 export const commentingReducer = commentingSlice.reducer;
