@@ -42,6 +42,7 @@ click...click...click...
 6. Logic for filtration
 7. Logic for authorized cart
 8. Logic for ordering
+9. Logic for commenting
 
 -Organizational tasks:
 
