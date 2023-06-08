@@ -1,14 +1,30 @@
 import { React, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useMediaQuery, IconButton, Menu, MenuItem } from '@mui/material';
+import { useMediaQuery, IconButton, Menu, MenuItem, Box } from '@mui/material';
 
 import ButtonNav from '../../UI/Buttons/ButtonNav/ButtonNav';
 import NavIcon from '../../Simple/NavIcon/NavIcon';
 import MobileModalSearch from '../../MultiComponentsIC/MobileModalSearch/MobileModalSearch';
 
-import style from './NavLinks.module.scss';
+const NavLinksContainer = styled(Box)`
+  @media (max-width: 768px) {
+    margin-left: auto;
+    margin-right: 0;
+  }
+`;
+
+const NavLinkComponent = styled(NavLink)`
+  text-decoration: none;
+  width: 100%;
+
+  @media (max-width: 1300px) {
+    padding: 0;
+    margin: 0;
+  }
+`;
 
 function NavLinks({
   cartCount,
@@ -31,24 +47,24 @@ function NavLinks({
   };
 
   return (
-    <div className={style.mainRoot}>
+    <NavLinksContainer>
       {!isMobile ? (
-        <div className={style.root}>
-          <NavLink to="/" className={style.link}>
-            <ButtonNav className={style.button} label="Home" />
-          </NavLink>
-          <NavLink to="/products/filter?" className={style.link}>
+        <Box style={{ display: 'flex' }}>
+          <NavLinkComponent to="/">
+            <ButtonNav label="Home" />
+          </NavLinkComponent>
+          <NavLinkComponent to="/products/filter?">
             <ButtonNav label="All goods" />
-          </NavLink>
-          <NavLink to="/about-us">
+          </NavLinkComponent>
+          <NavLinkComponent to="/about-us">
             <ButtonNav label="About us" />
-          </NavLink>
-          <NavLink to="/contact" className={style.link}>
+          </NavLinkComponent>
+          <NavLinkComponent to="/contact">
             <ButtonNav label="Contact" />
-          </NavLink>
-        </div>
+          </NavLinkComponent>
+        </Box>
       ) : (
-        <div className={style.rootMob}>
+        <Box style={{ marginLeft: 'auto', marginRight: '20px' }}>
           <MobileModalSearch />
           <IconButton onClick={handleOpen}>
             <MenuIcon style={{ color: '#ffffff', fontSize: 50 }} />
@@ -72,32 +88,32 @@ function NavLinks({
             }}
           >
             <MenuItem style={{ marginLeft: '25px' }} onClick={handleClose}>
-              <NavLink to="/" className={style.link}>
+              <NavLinkComponent to="/">
                 <ButtonNav
                   label="Home"
                   style={{
                     width: 100,
                   }}
                 />
-              </NavLink>
+              </NavLinkComponent>
             </MenuItem>
             <MenuItem style={{ marginLeft: '25px' }} onClick={handleClose}>
-              <NavLink to="/products" className={style.link}>
+              <NavLinkComponent to="/products">
                 <ButtonNav label="All goods" />
-              </NavLink>
+              </NavLinkComponent>
             </MenuItem>
             <MenuItem style={{ marginLeft: '25px' }} onClick={handleClose}>
-              <NavLink to="/about-us" className={style.link}>
+              <NavLinkComponent to="/about-us">
                 <ButtonNav label="About us" />
-              </NavLink>
+              </NavLinkComponent>
             </MenuItem>
             <MenuItem
               onClick={handleClose}
               style={{ marginBottom: 20, marginLeft: '25px' }}
             >
-              <NavLink to="/contact" className={style.link}>
+              <NavLinkComponent to="/contact">
                 <ButtonNav label="Contact" />
-              </NavLink>
+              </NavLinkComponent>
             </MenuItem>
             <MenuItem onClick={handleClose} style={{ marginBottom: 20 }}>
               <NavIcon
@@ -110,9 +126,9 @@ function NavLinks({
               />
             </MenuItem>
           </Menu>
-        </div>
+        </Box>
       )}
-    </div>
+    </NavLinksContainer>
   );
 }
 

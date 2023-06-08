@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import {
   Card,
   CardContent,
@@ -9,11 +10,11 @@ import {
   Grid,
   Stack,
   useMediaQuery,
+  Box,
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useDispatch, useSelector } from 'react-redux';
 import ButtonDark from '../../UI/Buttons/ButtonDark/ButtonDark';
-import style from './ListCard.module.scss';
 
 import {
   setSelectedProducts,
@@ -32,6 +33,11 @@ import {
 } from '../../../redux/slices/cartBackEnd';
 
 import { isAuthenticated } from '../../../helpers/authentication/authentication';
+
+const Link = styled(NavLink)`
+  text-decoration: none;
+  color: #000000;
+`;
 
 function ListCard({
   product,
@@ -141,23 +147,63 @@ function ListCard({
     >
       {' '}
       <Stack spacing={4}>
-        <Card className={style.card}>
-          <NavLink to={`/products/${itemNo}`} className={style.mainLink}>
+        <Card>
+          <Link to={`/products/${itemNo}`}>
             <CardMedia
-              className={style.cardMedia}
+              style={{ height: '100%' }}
               component="img"
               image={imageUrl}
               alt={name}
             />
-          </NavLink>
-          <CardContent className={style.cardContent}>
-            <NavLink to={`/products/${itemNo}`} className={style.mainLink}>
-              <div className={style.typography}>
-                <Typography variant="p">{name}</Typography>
-                <Typography variant="p">{currentPrice}$</Typography>
-              </div>
-            </NavLink>
-            <div className={style.cardIcon}>
+          </Link>
+          <CardContent>
+            <Link to={`/products/${itemNo}`}>
+              <Box
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontFamily: 'montserrat, sans-serif',
+                  width: '100%',
+                  minHeight: '42px',
+                }}
+              >
+                <Typography
+                  variant="p"
+                  style={{
+                    fontWeight: '600',
+                    fontSize: '13px',
+                    textTransform: 'uppercase',
+                    marginleft: 'auto',
+                    marginRight: '0px',
+                    marginBottom: '3px',
+                  }}
+                >
+                  {name}
+                </Typography>
+                <Typography
+                  variant="p"
+                  style={{
+                    fontWeight: '600',
+                    fontSize: '13px',
+                    textTransform: 'uppercase',
+                    marginLeft: 'auto',
+                    marginRight: '0px',
+                    paddingLeft: '20px',
+                  }}
+                >
+                  {currentPrice}$
+                </Typography>
+              </Box>
+            </Link>
+            <Box
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                marginTop: '20px',
+              }}
+            >
               <ButtonDark
                 label={isDisabled ? 'Added' : 'BUY NOW'}
                 disabled={isDisabled}
@@ -168,17 +214,21 @@ function ListCard({
                 }
               />
               <button
-                className={style.cardFavButton}
+                style={{
+                  marginLeft: 'auto',
+                  marginRight: '0px',
+                  backgroundColor: '#00000000',
+                  border: '0',
+                  cursor: 'pointer',
+                }}
                 type="button"
                 onClick={handleToggleFavorite}
               >
-                {isFavorite ? (
-                  <FavoriteIcon style={{ color: 'red' }} />
-                ) : (
-                  <FavoriteIcon />
-                )}
+                <FavoriteIcon
+                  style={{ color: isFavorite ? 'red' : '#000000' }}
+                />
               </button>
-            </div>
+            </Box>
           </CardContent>
         </Card>
       </Stack>

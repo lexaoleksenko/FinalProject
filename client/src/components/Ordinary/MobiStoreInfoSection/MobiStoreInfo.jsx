@@ -1,9 +1,139 @@
-import { React } from 'react';
-import { Container } from '@mui/material';
-
+import React from 'react';
+import { Box, Container, Typography } from '@mui/material';
+import styled, { keyframes } from 'styled-components';
 import { useInView } from 'react-intersection-observer';
 
-import style from './MobiStoreInfo.module.scss';
+const slideInfoUp = keyframes`
+  0% {
+    transform: translateY(40%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+`;
+
+const slideInLeft = keyframes`
+  0% {
+    transform: translateX(-40%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+`;
+
+const slideInRight = keyframes`
+  0% {
+    transform: translateX(40%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+`;
+
+const MobiStoreContainer = styled(Box)`
+  font-family: 'montserrat', sans-serif;
+  width: 100%;
+  height: 1200px;
+  display: flex;
+  background-color: #ffffff;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    height: 700px;
+  }
+`;
+
+const LeftSide = styled(Box)`
+  width: 360px;
+  height: 1200px;
+  background-image: url('/Bcgr_L.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-right: auto;
+  margin-left: 0;
+  background-color: #ffffff;
+  animation: ${({ inview }) => (inview ? slideInLeft : 'none')} 4s ease-out;
+
+  @media (max-width: 1300px) {
+    background-image: none;
+    background-color: #ffffff;
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const RightSide = styled(Box)`
+  width: 360px;
+  height: 1200px;
+  background-image: url('/Bcgr_R.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-left: auto;
+  margin-right: 0;
+  animation: ${({ inview }) => (inview ? slideInRight : 'none')} 3s ease-out;
+
+  @media (max-width: 1300px) {
+    background-image: none;
+    background-color: #ffffff;
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const Info = styled(Box)`
+  background-image: url('/mainBcgr.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: ${({ inview }) => (inview ? slideInfoUp : 'none')} 3s ease-out;
+
+  @media (max-width: 1300px) {
+    background-image: url('/mainBcgr1300.jpg');
+    display: flex;
+    align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    background-image: url('/mainBcgr768.jpg');
+    display: flex;
+    align-items: center;
+    padding-top: 50px;
+  }
+`;
+
+const InfoText = styled(Typography)`
+  h2 {
+    color: #000000;
+    margin-left: 50px;
+  }
+
+  p {
+    span {
+      font-style: italic;
+      font-weight: bold;
+    }
+  }
+
+  @media (max-width: 1300px) {
+    margin-top: -200px;
+  }
+
+  @media (max-width: 768px) {
+    margin-top: -200px;
+
+    h2 {
+      font-size: 15px;
+      margin-left: 0px;
+    }
+
+    p {
+      font-size: 10px;
+    }
+  }
+`;
 
 function MobiStoreInfo() {
   const { ref, inView } = useInView({
@@ -12,20 +142,19 @@ function MobiStoreInfo() {
   });
 
   return (
-    <div className={style.mobiStoreInfo}>
-      <div
+    <MobiStoreContainer>
+      <LeftSide inview={inView ? 1 : 0} />
+      <Info
         ref={ref}
-        className={`${style.leftSide} ${inView ? style.visibleLeft : ''}`}
+        inview={inView ? 1 : 0}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
       >
-        {' '}
-      </div>
-      <div
-        ref={ref}
-        className={`${style.info} ${inView ? style.visibleInfo : ''}`}
-      >
-        <Container maxWidth="lg">
-          {' '}
-          <div className={style.infoTxt}>
+        <Container maxWidth="lg" style={{ marginBottom: '300px' }}>
+          <InfoText variant="div">
             <h2>MobiStore - dealer of your telephone delight!</h2>
             <p>
               Today, digital technologies continue to develop at an incredible
@@ -60,16 +189,11 @@ function MobiStoreInfo() {
               <span>MobiStore</span> and get not only a great product, but also
               professional support in using technologies!
             </p>
-          </div>
+          </InfoText>
         </Container>
-      </div>
-      <div
-        ref={ref}
-        className={`${style.rightSide} ${inView ? style.visibleRight : ''}`}
-      >
-        {' '}
-      </div>
-    </div>
+      </Info>
+      <RightSide inview={inView ? 1 : 0} />
+    </MobiStoreContainer>
   );
 }
 

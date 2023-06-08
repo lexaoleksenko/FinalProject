@@ -79,11 +79,15 @@ function CommentsCardItem({ commentsArray, full }) {
 
           const itHaveParagraphs = Boolean(commentsObj.comment.includes('\n'));
 
-          const formattedComment = itHaveParagraphs
-            ? commentsObj.comment
-                .split('\n')
-                .map((line, index) => <p key={index}>{line}</p>)
-            : commentsObj.comment;
+          const formattedComment = itHaveParagraphs ? (
+            commentsObj.comment.split('\n').map((line, index) => (
+              <p key={index} style={{ fontFamily: 'montserrat' }}>
+                {line}
+              </p>
+            ))
+          ) : (
+            <p style={{ fontFamily: 'montserrat' }}>{commentsObj.comment}</p>
+          );
 
           const firstLetter = comments.customer.firstName
             .charAt(0)
@@ -180,7 +184,7 @@ function CommentsCardItem({ commentsArray, full }) {
                     </Typography>
                     {commentsObj.flaws}
                   </Typography>
-                  <Typography marginLeft="15px" marginTop="10px">
+                  <Typography marginLeft="15px" marginTop="10px" variant="div">
                     {formattedComment}
                   </Typography>
                 </CommentsText>
