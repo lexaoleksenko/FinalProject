@@ -4,12 +4,11 @@ import { Close } from '@mui/icons-material';
 import { Box, Button, Typography, Divider } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
 import {
   setSelectedProducts,
   stateSelectedProducts,
 } from '../../../redux/slices/cartLocal';
-import style from './ShoppingCartItem.module.scss';
-
 import { isAuthenticated } from '../../../helpers/authentication/authentication';
 
 const itemPropType = PropTypes.shape({
@@ -23,6 +22,97 @@ const itemPropType = PropTypes.shape({
 
 const itemsPropType = PropTypes.arrayOf(itemPropType);
 
+const Wrapper = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 5px;
+  max-width: 410px;
+  margin-right: 15px;
+`;
+const Items = styled(Box)`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px 5px;
+  max-width: 350px;
+`;
+const Img = styled.img`
+  max-width: 150px;
+  object-fit: cover;
+  overflow: hidden;
+`;
+const InfoWrapper = styled(Box)`
+  display: flex;
+  flex-direction: column;
+`;
+const InfoTitle = styled(Box)`
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  margin: 0;
+  padding: 5px 2px;
+`;
+const InfoPrice = styled(Box)`
+  font-weight: 400;
+  font-size: 14px;
+  padding: 5px;
+  margin: 0;
+`;
+const ButtonsWrapper = styled(Box)`
+  display: flex;
+  padding: 5px;
+  justify-content: space-between;
+  align-items: center;
+`;
+const Buttons = styled(Box)`
+  padding: 2px;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+`;
+const ButtonDelete = styled(Button)`
+  && {
+    &.MuiButton-root {
+      padding: 2px;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
+      height: 30px;
+      min-width: 0;
+      width: 30px;
+      background-color: #000000;
+      color: #ffffff;
+    }
+  }
+`;
+
+const ButtonIncrease = styled(Button)`
+  && {
+    &.MuiButton-root {
+      height: 30px;
+      min-width: 0;
+      width: 30px;
+      background-color: #000000;
+      color: #ffffff;
+    }
+  }
+`;
+const ButtonDecrease = styled(Button)`
+  && {
+    &.MuiButton-root {
+      height: 30px;
+      min-width: 0;
+      width: 30px;
+      background-color: black;
+      color: white;
+    }
+  }
+`;
+const Item = styled(Typography)`
+  padding: 0 10px;
+  margin: 0;
+`;
 function ShoppingCartItem({
   buttonDisplay,
   quantityDisplay,
@@ -55,177 +145,144 @@ function ShoppingCartItem({
   };
   if (!isAuth || searchSettings) {
     return (
-      <div className={style.wrapper}>
+      <Wrapper>
         {items?.map(item => (
-          <div className={style.items} key={item.itemNo}>
+          <Items key={item.itemNo}>
             <NavLink to={`/products/${item.itemNo}`} onClick={popperClose}>
-              <img className={style.image} src={item.imageUrls[0]} alt="img" />
+              <Img src={item.imageUrls[0]} alt="img" />
             </NavLink>
-            <div className={style.position}>
-              <Box className={style.info}>
+            <InfoWrapper>
+              <Box sx={{ padding: '5px' }}>
                 <NavLink
                   to={`/products/${item.itemNo}`}
                   style={{ color: '#000000', textDecoration: 'none' }}
                 >
-                  <Typography className={style.name}>{item.name}</Typography>
+                  <InfoTitle>{item.name}</InfoTitle>
                 </NavLink>
-                <Typography className={style.price}>
-                  Price: ${item.currentPrice}
-                </Typography>
+                <InfoPrice>Price: ${item.currentPrice}</InfoPrice>
               </Box>
-              <div>
-                <div className={style.location}>
-                  <div>
-                    <Box className={style.buttons}>
-                      <Button
-                        className={`${
-                          buttonDisplay ? style.buttonsNone : style.button
-                        }`}
-                        style={{ width: searchSettings ? '150px' : '' }}
-                        sx={{
-                          backgroundColor: '#A9A9A9',
-                          fontSize: 20,
-                        }}
-                        size="small"
-                        onClick={
-                          searchSettings
-                            ? e =>
-                                isAuth
-                                  ? addItemBack(item._id)
-                                  : [handleBuyNow(e, item), popperClose()]
-                            : () => decrease(item.itemNo, item.quantityCart)
-                        }
-                      >
-                        {searchSettings ? 'Buy now' : '-'}
-                      </Button>
-                      <p
-                        className={searchSettings ? style.itemNone : style.item}
-                      >
-                        {quantityDisplay
-                          ? `Qty: ${item.quantityCart}`
-                          : item.quantityCart}
-                      </p>
-                      <Button
-                        className={`${
-                          buttonDisplay || searchSettings
-                            ? style.buttonsNone
-                            : style.button
-                        }`}
-                        sx={{
-                          backgroundColor: '#A9A9A9',
-                          fontSize: 25,
-                        }}
-                        onClick={() => increase(item.itemNo)}
-                      >
-                        +
-                      </Button>
-                    </Box>
-                  </div>
-                  <div className={style.delete}>
-                    <Button
-                      className={`${
-                        buttonDisplay || searchSettings
-                          ? style.buttonsNone
-                          : style.button
-                      }`}
-                      sx={{ fontSize: 15 }}
-                      onClick={() => remove(item.itemNo)}
+              <ButtonsWrapper>
+                <Buttons>
+                  {buttonDisplay ? null : (
+                    <ButtonDecrease
+                      style={{ width: searchSettings ? '150px' : '' }}
+                      size="small"
+                      sx={{
+                        backgroundColor: '#A9A9A9',
+                        fontSize: 25,
+                      }}
+                      onClick={
+                        searchSettings
+                          ? e =>
+                              isAuth
+                                ? addItemBack(item._id)
+                                : [handleBuyNow(e, item), popperClose()]
+                          : () => decrease(item.itemNo, item.quantityCart)
+                      }
                     >
-                      <Close />
-                    </Button>
-                  </div>
-                </div>
-              </div>
+                      {searchSettings ? 'Buy now' : '-'}
+                    </ButtonDecrease>
+                  )}
+                  {searchSettings ? null : (
+                    <Item>
+                      {quantityDisplay
+                        ? `Qty: ${item.quantityCart}`
+                        : item.quantityCart}
+                    </Item>
+                  )}
+                  {buttonDisplay || searchSettings ? null : (
+                    <ButtonIncrease
+                      sx={{
+                        backgroundColor: '#A9A9A9',
+                        fontSize: 25,
+                      }}
+                      onClick={() => increase(item.itemNo)}
+                    >
+                      +
+                    </ButtonIncrease>
+                  )}
+                </Buttons>
+                {buttonDisplay || searchSettings ? null : (
+                  <ButtonDelete
+                    sx={{ fontSize: 15 }}
+                    onClick={() => remove(item.itemNo)}
+                  >
+                    <Close />
+                  </ButtonDelete>
+                )}
+              </ButtonsWrapper>
               <Divider />
-            </div>
-          </div>
+            </InfoWrapper>
+          </Items>
         ))}
-      </div>
+      </Wrapper>
     );
   }
   if (isAuth && !searchSettings) {
     return (
-      <div className={style.wrapper}>
-        <div className={style.items}>
+      <Wrapper>
+        <Items>
           <NavLink to={`/products/${itemBack.itemNo}`} onClick={popperClose}>
-            <img
-              className={style.image}
-              src={itemBack.imageUrls[0]}
-              alt="img"
-            />
+            <Img src={itemBack.imageUrls[0]} alt="img" />
           </NavLink>
-          <div className={style.position}>
-            <Box className={style.info}>
+          <InfoWrapper>
+            <Box sx={{ padding: '5px' }}>
               <NavLink
                 to={`/products/${itemBack.itemNo}`}
                 onClick={popperClose}
                 style={{ color: '#000000', textDecoration: 'none' }}
               >
-                <Typography className={style.name}>{itemBack.name}</Typography>
+                <InfoTitle>{itemBack.name}</InfoTitle>
               </NavLink>
-              <Typography className={style.price}>
-                Price: ${itemBack.currentPrice}
-              </Typography>
+              <InfoPrice>Price: ${itemBack.currentPrice}</InfoPrice>
             </Box>
-            <div>
-              <div className={style.location}>
-                <div>
-                  <Box className={style.buttons}>
-                    <Button
-                      className={`${
-                        buttonDisplay ? style.buttonsNone : style.button
-                      }`}
-                      sx={{
-                        backgroundColor: '#A9A9A9',
-                        fontSize: 20,
-                      }}
-                      size="small"
-                      onClick={() =>
-                        decreaseBack(itemBack._id, cartBackQuantity)
-                      }
-                    >
-                      -
-                    </Button>
-                    <p className={searchSettings ? style.itemNone : style.item}>
-                      {quantityDisplay
-                        ? `Qty: ${cartBackQuantity}`
-                        : cartBackQuantity}
-                    </p>
-                    <Button
-                      className={`${
-                        buttonDisplay || searchSettings
-                          ? style.buttonsNone
-                          : style.button
-                      }`}
-                      sx={{
-                        backgroundColor: '#A9A9A9',
-                        fontSize: 25,
-                      }}
-                      onClick={() => increaseBack(itemBack._id)}
-                    >
-                      +
-                    </Button>
-                  </Box>
-                </div>
-                <div className={style.delete}>
-                  <Button
-                    className={`${
-                      buttonDisplay || searchSettings
-                        ? style.buttonsNone
-                        : style.button
-                    }`}
-                    sx={{ fontSize: 15 }}
-                    onClick={() => removeBack(itemBack._id)}
+            <ButtonsWrapper>
+              <Buttons>
+                {buttonDisplay ? null : (
+                  <ButtonDecrease
+                    style={{ width: searchSettings ? '150px' : '' }}
+                    size="small"
+                    sx={{
+                      backgroundColor: '#A9A9A9',
+                      fontSize: 20,
+                    }}
+                    onClick={() => decreaseBack(itemBack._id, cartBackQuantity)}
                   >
-                    <Close />
-                  </Button>
-                </div>
-              </div>
-            </div>
+                    -
+                  </ButtonDecrease>
+                )}
+                {searchSettings ? null : (
+                  <Item>
+                    {quantityDisplay
+                      ? `Qty: ${cartBackQuantity}`
+                      : cartBackQuantity}
+                  </Item>
+                )}
+                {buttonDisplay || searchSettings ? null : (
+                  <ButtonIncrease
+                    sx={{
+                      backgroundColor: '#A9A9A9',
+                      fontSize: 25,
+                    }}
+                    onClick={() => increaseBack(itemBack._id)}
+                  >
+                    +
+                  </ButtonIncrease>
+                )}
+              </Buttons>
+              {buttonDisplay || searchSettings ? null : (
+                <ButtonDelete
+                  sx={{ fontSize: 15 }}
+                  onClick={() => removeBack(itemBack._id)}
+                >
+                  <Close />
+                </ButtonDelete>
+              )}
+            </ButtonsWrapper>
             <Divider />
-          </div>
-        </div>
-      </div>
+          </InfoWrapper>
+        </Items>
+      </Wrapper>
     );
   }
 }
