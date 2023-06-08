@@ -29,6 +29,7 @@ const Wrapper = styled(Box)`
   padding: 20px 5px;
   max-width: 410px;
   margin-right: 15px;
+  font-family: 'montserrat';
 `;
 const Items = styled(Box)`
   display: flex;
@@ -165,7 +166,16 @@ function ShoppingCartItem({
                 <Buttons>
                   {buttonDisplay ? null : (
                     <ButtonDecrease
-                      style={{ width: searchSettings ? '150px' : '' }}
+                      style={
+                        searchSettings
+                          ? {
+                              width: '100px',
+                              fontSize: '15px',
+                              marginLeft: '40px',
+                              marginRight: 'auto',
+                            }
+                          : ''
+                      }
                       size="small"
                       sx={{
                         backgroundColor: '#A9A9A9',
