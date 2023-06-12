@@ -5,13 +5,12 @@ import { Popper, Backdrop } from '@mui/material';
 import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import { fetchSearchProduct, searchState } from '../../../redux/slices/search';
 import { stateSelectedProducts } from '../../../redux/slices/cartLocal';
-import style from './InputNav.module.scss';
-
-import ShoppingCartItem from '../ShoppingCartItem/ShoppingCartItem';
 import {
   fetchAddProductsCart,
   increaseTotalQuantity,
 } from '../../../redux/slices/cartBackEnd';
+
+import ShoppingCartItem from '../ShoppingCartItem/ShoppingCartItem';
 
 function InputNav({ label }) {
   const dispatch = useDispatch();
@@ -48,8 +47,9 @@ function InputNav({ label }) {
   }, 1500);
 
   const handleInputClick = event => {
-    if (!searchStatusLocal) {
+    if (!searchStatusLocal && inputValue === '') {
       setAnchorEl(event.currentTarget);
+      setSearchStatus(true);
     }
   };
 
@@ -89,46 +89,138 @@ function InputNav({ label }) {
     dispatch(increaseTotalQuantity());
   };
 
+  const rootStyle = {
+    margin: 'auto 10px auto auto',
+  };
+
+  const formStyle = {
+    margin: 'auto 10px auto auto',
+  };
+
+  const groupStyle = {
+    position: 'relative',
+  };
+
+  const inputStyle = {
+    fontSize: '16px',
+    padding: '0 0 0 5px',
+    display: 'block',
+    width: '150px',
+    color: '#ffffff',
+    fontFamily: 'montserrat',
+    border: 'none',
+    borderBottom: '1px solid #ccc',
+    backgroundColor: '#00000000',
+  };
+
+  const labelStyle = {
+    color: '#ffffff',
+    fontSize: '14px',
+    position: 'absolute',
+    pointerEvents: 'none',
+    fontFamily: 'montserrat',
+    textTransform: 'uppercase',
+    fontWeight: '500',
+    left: '90px',
+    top: '-5px',
+    transform:
+      searchStatusLocal || inputValue !== '' ? 'translateY(-20px)' : 'none',
+    transition: 'transform 0.3s ease',
+  };
+
+  const barStyle = {
+    position: 'absolute',
+    left: '0px',
+    bottom: '0px',
+    backgroundColor: '#5264AE',
+    height: '1px',
+    width: '150px',
+    transition: '0.5s ease all',
+  };
+
+  const popperStyle = {
+    position: 'absolute',
+    zIndex: '999',
+    width: '450px',
+    maxHeight: ' 600px',
+    overflowY: 'scroll',
+    backgroundColor: '#ffffff',
+    borderRadius: '4px',
+    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
+    padding: '10px',
+    top: '40px',
+    left: 'auto',
+    right: '0',
+  };
+
+  const wrapperStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '20px',
+  };
+
+  const errorMessageStyle = {
+    color: '#333333',
+    fontSize: '16px',
+    fontWeight: 'bold',
+    marginBottom: '10px',
+  };
+
+  const iconStyle = {
+    marginTop: '10px',
+    color: '#888888',
+    fontSize: '48px',
+  };
+
+  const backdropStyle = {
+    zIndex: '1',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    height: '100%',
+    marginTop: '150px',
+    marginBottom: '0px',
+  };
+
   return (
-    <div className={style.root}>
+    <div style={rootStyle}>
       <form
-        className={style.form}
+        style={formStyle}
         onSubmit={e => {
           e.preventDefault();
         }}
       >
-        <div className={style.group}>
+        <div style={groupStyle}>
           <input
-            className={style.input}
+            style={inputStyle}
             id="search"
             type="text"
             required
             onFocus={handleInputClick}
             onChange={event => handleFetchSearch(event)}
           />
-          <span className={style.bar} />
-          <label className={style.label}>
+          <span style={barStyle} />
+          <label style={labelStyle}>
             {searchStatusLocal ? 'Search' : label}
           </label>
         </div>
       </form>
       <Popper
-        className={style.popper}
+        style={popperStyle}
         open={open}
         anchorEl={anchorEl}
         placement="bottom-end"
       >
         {status === 'loaded' && prodArr.length === 0 && inputValue !== '' && (
-          <div className={style.wrapper}>
-            <p>Ooops...</p>
-            <p>Product not found</p>
-            <SentimentVeryDissatisfiedIcon fontSize="large" />
+          <div style={wrapperStyle}>
+            <p style={errorMessageStyle}>Ooops...</p>
+            <p style={errorMessageStyle}>Product not found</p>
+            <SentimentVeryDissatisfiedIcon style={iconStyle} fontSize="large" />
           </div>
         )}
 
         {inputValue === '' && (
-          <div className={style.wrapper}>
-            <p>Enter the desired good</p>
+          <div style={wrapperStyle}>
+            <p style={errorMessageStyle}>Enter the desired good</p>
           </div>
         )}
 
@@ -146,13 +238,7 @@ function InputNav({ label }) {
         <Backdrop
           open={open}
           onClick={handlePopperClose}
-          style={{
-            zIndex: 1,
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            height: '100%',
-            marginTop: '150px',
-            marginBottom: '0px',
-          }}
+          style={backdropStyle}
         />
       )}
     </div>
