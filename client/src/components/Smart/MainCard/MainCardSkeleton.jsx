@@ -1,19 +1,54 @@
 import React from 'react';
+import { Box, Card, CardContent } from '@mui/material';
 import Skeleton from '@mui/material/Skeleton';
-import { Card } from '@mui/material';
+import styled from 'styled-components';
 
-import style from './MainCard.module.scss';
-
+const CardWrapper = styled(Card)`
+  display: flex;
+  width: 100%;
+  height: 600px;
+  background-color: #ffffff;
+  padding: 30px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  @media (max-width: 1300px) {
+    width: 100%;
+    height: 100%;
+  }
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+`;
+const CardInfo = styled(CardContent)`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #ffffff;
+  margin-left: 15px;
+  width: 100%;
+  height: 100%;
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+const CardButtons = styled(Box)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+`;
 function MainCardSkeleton() {
   return (
-    <Card className={style.card}>
+    <CardWrapper>
       <Skeleton
-        variant="rectangular"
-        width="900px"
-        height="100%"
-        style={{ marginTop: 5, marginBottom: 5 }}
+        variant="rounded"
+        style={{ marginTop: 5, marginBottom: 5, width: '100%', height: '100%' }}
       />
-      <div className={style.cardContent}>
+      <CardInfo>
         <Skeleton variant="text" width="70%" height="70px" />
         <Skeleton
           variant="text"
@@ -33,7 +68,7 @@ function MainCardSkeleton() {
           height="250px"
           style={{ marginTop: -15 }}
         />
-        <div className={style.cardIcon}>
+        <CardButtons>
           <Skeleton
             variant="text"
             width="40%"
@@ -46,9 +81,9 @@ function MainCardSkeleton() {
             height="70px"
             style={{ marginLeft: 'auto', marginRight: 15 }}
           />
-        </div>
-      </div>
-    </Card>
+        </CardButtons>
+      </CardInfo>
+    </CardWrapper>
   );
 }
 

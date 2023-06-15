@@ -4,11 +4,61 @@ import PropTypes from 'prop-types';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import IconButton from '@mui/material/IconButton';
-import { Badge } from '@mui/material';
+import { Badge, Box } from '@mui/material';
+import styled from 'styled-components';
 
 import AvatarUser from '../../UI/Avatar/AvatapUser';
 
-import style from './NavIcon.module.scss';
+const NavIconContainer = styled(Box)`
+  margin-right: 20px;
+  margin-left: 20px;
+  display: flex;
+
+  @media (max-width: 940px) {
+    margin-right: 2px;
+    margin-left: 2px;
+  }
+
+  @media (max-width: 768px) {
+    margin-right: auto;
+    margin-left: auto;
+  }
+`;
+
+const IconLink = styled(NavLink)`
+  margin-right: 10px;
+  width: 35px;
+  height: 35px;
+  text-decoration: none;
+`;
+
+const Icon = styled(IconButton)`
+  width: 25px;
+  height: 35px;
+  color: #ffffff;
+`;
+
+const BadgeContainer = styled(Badge)`
+  color: white;
+`;
+
+const AvatarContainer = styled(Box)`
+  margin-top: auto;
+  margin-bottom: auto;
+`;
+
+const IconContainer = styled(Box)`
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 10px;
+  display: flex;
+
+  @media (max-width: 940px) {
+    margin-right: 2px;
+    display: flex;
+    flex-direction: column;
+  }
+`;
 
 function NavIcon({
   cartCount,
@@ -20,40 +70,34 @@ function NavIcon({
   onClickOpenDrawer,
 }) {
   return (
-    <div className={style.root}>
-      <div className={style.containerIcon}>
-        <div className={style.link}>
-          <IconButton onClick={onClickOpenDrawer}>
-            <Badge badgeContent={cartCount} className={style.badge}>
-              <ShoppingCartIcon
-                className={style.icon}
-                onClick={onClickOpenDrawer}
-              />
-            </Badge>
-          </IconButton>
-        </div>
-        <NavLink to="/wishlist" className={style.link}>
-          <IconButton>
-            <Badge badgeContent={favCount} className={style.badge}>
-              <FavoriteIcon className={style.icon} />
-            </Badge>
-          </IconButton>
-        </NavLink>
-      </div>
-      <div className={style.containerAvatar}>
-        <NavLink
-          to={isAuth ? '/personal-account' : '/login'}
-          className={style.link}
-        >
+    <NavIconContainer>
+      <IconContainer>
+        <IconLink>
+          <Icon onClick={onClickOpenDrawer}>
+            <BadgeContainer badgeContent={cartCount}>
+              <ShoppingCartIcon onClick={onClickOpenDrawer} />
+            </BadgeContainer>
+          </Icon>
+        </IconLink>
+        <IconLink to="/wishlist">
+          <Icon>
+            <BadgeContainer badgeContent={favCount}>
+              <FavoriteIcon />
+            </BadgeContainer>
+          </Icon>
+        </IconLink>
+      </IconContainer>
+      <AvatarContainer>
+        <IconLink to={isAuth ? '/personal-account' : '/login'}>
           <AvatarUser
             nameAvatar={nameAvatar}
             avatarSrc={avatarSrc}
             isAuth={isAuth}
             onClickLogOut={onClickLogOut}
           />
-        </NavLink>
-      </div>
-    </div>
+        </IconLink>
+      </AvatarContainer>
+    </NavIconContainer>
   );
 }
 

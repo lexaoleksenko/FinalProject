@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Tab, Container } from '@mui/material';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import FormContacts from '../../components/MultiComponentsIC/FormCheckoutPage/FormContacts';
+import FormContacts from '../../components/MultiComponentsIC/FormContacts/FormContacts';
 import ProductOrderInfo from '../../components/MultiComponentsIC/ProductOrderInfo/ProductOrderInfo';
 import DeliveryPaymentInfo from '../../components/Smart/DeliveryPaymentInfo/DeliveryPaymentInfo';
 

@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Card, CardContent, Typography } from '@mui/material';
+import {
+  Card,
+  CardContent,
+  Typography,
+  Modal,
+  Box,
+  useMediaQuery,
+} from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import styled from 'styled-components';
 import MainCardSlider from '../../Simple/MainCardSlider/MainCardSlider';
 import ButtonDark from '../../UI/Buttons/ButtonDark/ButtonDark';
-import style from './MainCard.module.scss';
 import {
   setSelectedProducts,
   stateSelectedProducts,
@@ -23,6 +30,101 @@ import {
 
 import { isAuthenticated } from '../../../helpers/authentication/authentication';
 
+const CardWrapper = styled(Card)`
+  display: flex;
+  width: 100%;
+  height: 600px;
+  background-color: #ffffff;
+  padding: 30px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  @media (max-width: 1300px) {
+    width: 100%;
+    height: 100%;
+  }
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+`;
+const CardInfo = styled(CardContent)`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #ffffff;
+  margin-left: 15px;
+  width: 100%;
+  height: 100%;
+  @media (max-width: 768px) {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+const CardHeader = styled(Box)`
+  display: flex;
+  flex-direction: column;
+`;
+const CardHeaderName = styled(Typography)`
+  && {
+    &.MuiTypography-root {
+      font-weight: 600;
+      font-size: 25px;
+      color: #000000;
+      padding: 10px;
+      text-transform: uppercase;
+      &:first-child {
+        border-bottom: 1px solid #000000;
+      }
+      @media (max-width: 768px) {
+        padding: 5px;
+        font-size: 20px;
+      }
+    }
+  }
+`;
+const CardHeaderPrice = styled(Typography)`
+  && {
+    &.MuiTypography-root {
+      font-size: 35px;
+      font-weight: 800;
+      padding: 10px;
+      @media (max-width: 768px) {
+        padding: 5px;
+        font-size: 20px;
+      }
+    }
+  }
+`;
+const CardDescription = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  color: #000000;
+`;
+const CardDescriptionInfo = styled(Typography)`
+  && {
+    &.MuiTypography-root {
+      background-color: #ffffff;
+      padding: 10px;
+      border-radius: 4px;
+      font-size: 18px;
+      margin-right: auto;
+    }
+  }
+`;
+const CardButtons = styled(Box)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+`;
+const CardFavButton = styled.button`
+  background-color: #ffffff00;
+  border: 0;
+  cursor: pointer;
+`;
 function MainCard({
   product,
   imageUrls,
@@ -156,48 +258,82 @@ function MainCard({
     }
   }, [product]);
 
+  // logick modalImg
+
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
+  const handleToggleModal = () => {
+    setIsOpenModal(!isOpenModal);
+  };
+
+  // mob display logic
+
+  const isMobile = useMediaQuery('(max-width:760px)');
+
   return (
-    <Card className={style.card}>
-      <MainCardSlider imageUrls={imageUrls} />
-      <CardContent className={style.cardContent}>
-        <div className={style.typography}>
-          <Typography variant="p">{name}</Typography>
-          <Typography variant="p">{currentPrice}$</Typography>
-        </div>
-        <div className={style.cardDescrip}>
-          <Typography variant="p">Color: {color}</Typography>
-          <Typography variant="p">{description}</Typography>
-        </div>
-        <div className={style.cardIcon}>
-          <NavLink onClick={isAuth ? handleBuyCartBack : handleBuyNow}>
-            <ButtonDark
-              label={isDisabled ? 'Added' : 'BUY NOW'}
-              disabled={isDisabled}
-              style={{ fontWeight: 800, fontSize: 25 }}
-            />
-          </NavLink>
-          <button
-            className={style.cardFavButton}
-            type="button"
-            onClick={handleToggleFavorite}
-          >
-            {isFavorite ? (
-              <FavoriteIcon
-                style={{ color: 'red', width: 55, height: 55, borderRadius: 5 }}
+    <>
+      <CardWrapper>
+        <Box style={isMobile ? { width: '100%' } : { width: '48%' }}>
+          <MainCardSlider
+            imageUrls={imageUrls}
+            toggleModal={handleToggleModal}
+          />
+        </Box>
+        <CardInfo>
+          <CardHeader>
+            <CardHeaderName>{name}</CardHeaderName>
+            <CardHeaderPrice>{currentPrice}$</CardHeaderPrice>
+          </CardHeader>
+          <CardDescription>
+            <CardDescriptionInfo>Color: {color}</CardDescriptionInfo>
+            <CardDescriptionInfo>{description}</CardDescriptionInfo>
+          </CardDescription>
+          <CardButtons>
+            <NavLink onClick={isAuth ? handleBuyCartBack : handleBuyNow}>
+              <ButtonDark
+                label={isDisabled ? 'Added' : 'BUY NOW'}
+                disabled={isDisabled}
+                style={{ fontWeight: 800, fontSize: 25 }}
               />
-            ) : (
-              <FavoriteIcon
-                style={{
-                  width: 55,
-                  height: 55,
-                  borderRadius: 5,
-                }}
-              />
-            )}
-          </button>
-        </div>
-      </CardContent>
-    </Card>
+            </NavLink>
+            <CardFavButton onClick={handleToggleFavorite}>
+              {isFavorite ? (
+                <FavoriteIcon
+                  style={{
+                    color: 'red',
+                    width: 55,
+                    height: 55,
+                    borderRadius: 5,
+                  }}
+                />
+              ) : (
+                <FavoriteIcon
+                  style={{
+                    width: 55,
+                    height: 55,
+                    borderRadius: 5,
+                  }}
+                />
+              )}
+            </CardFavButton>
+          </CardButtons>
+        </CardInfo>
+      </CardWrapper>
+      <Modal
+        open={isOpenModal}
+        onClose={handleToggleModal}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderRadius: '10px',
+        }}
+      >
+        <Box style={isMobile ? { width: '100%' } : { width: '48%' }}>
+          <MainCardSlider imageUrls={imageUrls} arrows />
+        </Box>
+      </Modal>
+    </>
   );
 }
 

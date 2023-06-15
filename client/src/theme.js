@@ -62,15 +62,23 @@ const theme = createTheme({
   typography: {
     fontFamily: 'montserrat',
     h1: {
+      fontFamily: 'montserrat',
       fontSize: '45px',
       fontWeight: 700,
     },
     h2: {
+      fontFamily: 'montserrat',
       fontSize: '40px',
       fontWeight: 400,
     },
     p: {
+      fontFamily: 'montserrat',
       fontSize: '20px',
+      fontWeight: 400,
+    },
+    span: {
+      fontFamily: 'montserrat',
+      fontSize: '14px',
       fontWeight: 400,
     },
   },
