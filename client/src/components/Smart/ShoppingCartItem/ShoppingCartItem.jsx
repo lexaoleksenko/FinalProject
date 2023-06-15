@@ -174,7 +174,7 @@ function ShoppingCartItem({
                               marginLeft: '40px',
                               marginRight: 'auto',
                             }
-                          : ''
+                          : null
                       }
                       size="small"
                       sx={{
